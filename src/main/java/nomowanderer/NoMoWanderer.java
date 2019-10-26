@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import nomowanderer.blocks.ExampleTileEntityBlock;
+import nomowanderer.tileentity.ExampleTileEntityTileEntity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +34,7 @@ public class NoMoWanderer {
 
     private static final Logger LOGGER = LogManager.getLogger(NoMoWanderer.MODID + " Mod Event Subscriber");
 
+    public static TileEntityType<ExampleTileEntityTileEntity> EXAMPLE_TILE_ENTITY;
     private static final Block EXAMPLE_BLOCK = new ExampleTileEntityBlock();
     private static Block[] blocks = new Block[]{EXAMPLE_BLOCK};
 

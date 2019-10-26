@@ -6,7 +6,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
-import nomowanderer.init.ModTileEntityTypes;
+import nomowanderer.tileentity.ExampleTileEntityTileEntity;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +28,7 @@ public class ExampleTileEntityBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return ModTileEntityTypes.EXAMPLE_TILE_ENTITY.create();
+        return new ExampleTileEntityTileEntity();
     }
 
 }
