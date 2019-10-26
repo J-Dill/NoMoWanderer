@@ -2,6 +2,8 @@ package nomowanderer.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 import nomowanderer.init.ModTileEntityTypes;
@@ -13,8 +15,9 @@ import javax.annotation.Nullable;
  */
 public class ExampleTileEntityBlock extends Block {
 
-    public ExampleTileEntityBlock(final Properties properties) {
-        super(properties);
+    public ExampleTileEntityBlock() {
+        super(Block.Properties.create(Material.ROCK, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(2.0f, 10.0f));
+        this.setRegistryName("example_tile_entity");
     }
 
     @Override
