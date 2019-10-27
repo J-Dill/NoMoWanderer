@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.items.ItemStackHandler;
-import nomowanderer.NoMoWanderer;
+import nomowanderer.RegistryEvents;
 
 import static nomowanderer.NoMoWanderer.MODID;
 
@@ -15,7 +15,7 @@ public class ExampleTileEntityTileEntity extends TileEntity implements ITickable
     public static ResourceLocation location = new ResourceLocation(MODID, ID);
 
     public ExampleTileEntityTileEntity() {
-        super(NoMoWanderer.EXAMPLE_TILE_ENTITY);
+        super(RegistryEvents.EXAMPLE_TILE_ENTITY);
     }
 
     @Override
