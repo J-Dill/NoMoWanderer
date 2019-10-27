@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model": "nomowanderer:block/example_tile_entity_block"}
+  }
+}
