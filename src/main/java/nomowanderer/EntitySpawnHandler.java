@@ -2,11 +2,17 @@ package nomowanderer;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import nomowanderer.tileentity.ExampleTileEntityTileEntity;
+
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
@@ -15,9 +21,18 @@ public class EntitySpawnHandler {
     public static void onCheckSpecialSpawn(LivingSpawnEvent.SpecialSpawn event) {
         Entity entity = event.getEntity();
         if (entity instanceof WanderingTraderEntity) {
-            // Cancelling the Wandering Trader spawn also cancels the Trader Llama spawns.
-            event.setCanceled( event.isCancelable() );
-            event.setResult(Event.Result.DENY);
+            BlockPos eventPos = event.getEntity().getPosition();
+            IWorld world = event.getWorld();
+            // Currently blocking spawn within 64 blocks around the TileEntity. Is not efficient...at all.
+            Stream<BlockPos> blocks = BlockPos.getAllInBox(eventPos.add(-64.0f, -64.0f, -64.0f), eventPos.add(64.0f, 64.0f, 64.0f));
+            Consumer<BlockPos> consumer = blk -> {
+                TileEntity te = world.getTileEntity(blk);
+                if (te instanceof ExampleTileEntityTileEntity) {
+                    event.setCanceled( event.isCancelable() );
+                    event.setResult(Event.Result.DENY);
+                }
+            };
+            blocks.forEach(consumer);
         }
     }
 
