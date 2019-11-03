@@ -25,14 +25,11 @@ public class EntitySpawnHandler {
             IWorld world = event.getWorld();
             // Currently blocking spawn within 64 blocks around the TileEntity. Is not efficient...at all.
             Stream<BlockPos> blocks = BlockPos.getAllInBox(eventPos.add(-64.0f, -64.0f, -64.0f), eventPos.add(64.0f, 64.0f, 64.0f));
-            Consumer<BlockPos> consumer = blk -> {
-                TileEntity te = world.getTileEntity(blk);
-                if (te instanceof ExampleTileEntityTileEntity) {
-                    event.setCanceled( event.isCancelable() );
-                    event.setResult(Event.Result.DENY);
-                }
-            };
-            blocks.forEach(consumer);
+            boolean foundTileEntity = blocks.anyMatch(blk -> world.getTileEntity(blk) instanceof ExampleTileEntityTileEntity);
+            if (foundTileEntity) {
+                event.setCanceled( event.isCancelable() );
+                event.setResult(Event.Result.DENY);
+            }
         }
     }
 
