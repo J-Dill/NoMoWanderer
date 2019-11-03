@@ -8,19 +8,19 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
 import nomowanderer.NoMoWanderer;
-import nomowanderer.tileentity.ExampleTileEntityTileEntity;
+import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
 import javax.annotation.Nullable;
 
 /**
  * @author Cadiboo
  */
-public class ExampleTileEntityBlock extends Block {
+public class NoSolicitingSignBlock extends Block {
 
-    public static final String ID = "example_tile_entity_block";
+    public static final String ID = "no_soliciting_sign_block";
 
-    public ExampleTileEntityBlock() {
-        super(Block.Properties.create(Material.ROCK, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(2.0f, 10.0f));
+    public NoSolicitingSignBlock() {
+        super(Block.Properties.create(Material.WOOD, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(2.0f, 10.0f));
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }
 
@@ -32,7 +32,7 @@ public class ExampleTileEntityBlock extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return new ExampleTileEntityTileEntity();
+        return new NoSolicitingSignTileEntity();
     }
 
 }

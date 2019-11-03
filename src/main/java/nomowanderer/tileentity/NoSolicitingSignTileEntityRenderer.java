@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.ForgeHooksClient;
 import org.lwjgl.opengl.GL11;
 
-public class ExampleTileEntityTileEntityRenderer extends TileEntityRenderer<ExampleTileEntityTileEntity> {
+public class NoSolicitingSignTileEntityRenderer extends TileEntityRenderer<NoSolicitingSignTileEntity> {
     @Override
-    public void render(ExampleTileEntityTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(NoSolicitingSignTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
         ItemStack stack = tileEntityIn.inventory.getStackInSlot(0);
         GlStateManager.enableRescaleNormal();
         GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1f);

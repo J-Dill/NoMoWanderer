@@ -4,8 +4,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import nomowanderer.tileentity.ExampleTileEntityTileEntity;
-import nomowanderer.tileentity.ExampleTileEntityTileEntityRenderer;
+import nomowanderer.tileentity.NoSolicitingSignTileEntity;
+import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,7 @@ public class NoMoWanderer {
 
     private void clientSetup(FMLClientSetupEvent event) {
 //        ScreenManager.registerFactory(PedestalContainer.TYPE, PedestalScreen::new);
-        ClientRegistry.bindTileEntitySpecialRenderer(ExampleTileEntityTileEntity.class, new ExampleTileEntityTileEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(NoSolicitingSignTileEntity.class, new NoSolicitingSignTileEntityRenderer());
     }
 
 }

@@ -10,12 +10,12 @@ import nomowanderer.RegistryEvents;
 
 import static nomowanderer.NoMoWanderer.MODID;
 
-public class ExampleTileEntityTileEntity extends TileEntity implements ITickableTileEntity {
-    public static final String ID = "example_tile_entity_tile_entity";
+public class NoSolicitingSignTileEntity extends TileEntity implements ITickableTileEntity {
+    public static final String ID = "no_soliciting_sign_tile_entity";
     public static ResourceLocation location = new ResourceLocation(MODID, ID);
 
-    public ExampleTileEntityTileEntity() {
-        super(RegistryEvents.EXAMPLE_TILE_ENTITY);
+    public NoSolicitingSignTileEntity() {
+        super(RegistryEvents.NO_SOLICITING_SIGN_TE);
     }
 
     @Override

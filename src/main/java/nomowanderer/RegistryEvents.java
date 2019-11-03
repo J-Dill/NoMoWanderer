@@ -9,20 +9,20 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
-import nomowanderer.blocks.ExampleTileEntityBlock;
-import nomowanderer.tileentity.ExampleTileEntityTileEntity;
+import nomowanderer.blocks.NoSolicitingSignBlock;
+import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
 import java.util.Arrays;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 
-    @ObjectHolder(NoMoWanderer.MODID + ":" + ExampleTileEntityTileEntity.ID)
-    public static TileEntityType<ExampleTileEntityTileEntity> EXAMPLE_TILE_ENTITY;
+    @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignTileEntity.ID)
+    public static TileEntityType<NoSolicitingSignTileEntity> NO_SOLICITING_SIGN_TE;
 
-    @ObjectHolder(NoMoWanderer.MODID + ":" + ExampleTileEntityBlock.ID)
-    private static Block EXAMPLE_BLOCK = new ExampleTileEntityBlock();
-    private static Block[] blocks = new Block[]{EXAMPLE_BLOCK};
+    @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignBlock.ID)
+    private static Block noSolicitingSignBlock = new NoSolicitingSignBlock();
+    private static Block[] blocks = new Block[]{noSolicitingSignBlock};
 
     @SubscribeEvent
     public static void onRegisterItemBlocks(RegistryEvent.Register<Item> event) {
@@ -33,7 +33,7 @@ public class RegistryEvents {
     public static void onRegisterTEType(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().register(
                 TileEntityType.Builder.create(
-                        ExampleTileEntityTileEntity::new, EXAMPLE_BLOCK).build(null).setRegistryName(ExampleTileEntityTileEntity.location
+                        NoSolicitingSignTileEntity::new, noSolicitingSignBlock).build(null).setRegistryName(NoSolicitingSignTileEntity.location
                 )
         );
     }

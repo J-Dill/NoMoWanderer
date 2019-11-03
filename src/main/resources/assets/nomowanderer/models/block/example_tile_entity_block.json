@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "nomowanderer:block/example_tile_entity_block"
-  }
-}
