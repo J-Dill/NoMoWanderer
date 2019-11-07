@@ -2,6 +2,7 @@ package nomowanderer.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
@@ -15,7 +16,7 @@ import javax.annotation.Nullable;
 /**
  * @author Cadiboo
  */
-public class NoSolicitingSignBlock extends Block {
+public class NoSolicitingSignBlock extends StandingSignBlock {
 
     public static final String ID = "no_soliciting_sign_block";
 

@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "nomowanderer:block/no_soliciting_sign_block"
-  }
-}
