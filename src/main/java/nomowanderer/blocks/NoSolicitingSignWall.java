@@ -1,9 +1,10 @@
 package nomowanderer.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StandingSignBlock;
+import net.minecraft.block.WallSignBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IBlockReader;
@@ -15,12 +16,12 @@ import javax.annotation.Nullable;
 /**
  * @author Cadiboo
  */
-public class NoSolicitingSignBlock extends StandingSignBlock {
+public class NoSolicitingSignWall extends WallSignBlock {
 
-    public static final String ID = "no_soliciting_sign_stand";
+    public static final String ID = "no_soliciting_sign_wall";
 
-    public NoSolicitingSignBlock() {
-        super(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0f, 10.0f));
+    public NoSolicitingSignWall() {
+        super(Properties.create(Material.WOOD, MaterialColor.GRAY_TERRACOTTA).hardnessAndResistance(2.0f, 10.0f));
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }
 

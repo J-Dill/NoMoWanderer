@@ -51,45 +51,10 @@ public class NoSolicitingSignTileEntityRenderer extends TileEntityRenderer<NoSol
         GlStateManager.scalef(0.6666667F, -0.6666667F, -0.6666667F);
         this.model.renderSign();
         GlStateManager.popMatrix();
-        FontRenderer fontrenderer = this.getFontRenderer();
-        float f1 = 0.010416667F;
         GlStateManager.translatef(0.0F, 0.33333334F, 0.046666667F);
         GlStateManager.scalef(0.010416667F, -0.010416667F, 0.010416667F);
         GlStateManager.normal3f(0.0F, 0.0F, -0.010416667F);
         GlStateManager.depthMask(false);
-//        int i = tileEntityIn.getTextColor().func_218388_g();
-//        if (destroyStage < 0) {
-//            for(int j = 0; j < 4; ++j) {
-//                String s = tileEntityIn.getRenderText(j, (p_212491_1_) -> {
-//                    List<ITextComponent> list = RenderComponentsUtil.splitText(p_212491_1_, 90, fontrenderer, false, true);
-//                    return list.isEmpty() ? "" : list.get(0).getFormattedText();
-//                });
-//                if (s != null) {
-//                    fontrenderer.drawString(s, (float)(-fontrenderer.getStringWidth(s) / 2), (float)(j * 10 - tileEntityIn.signText.length * 5), i);
-//                    if (j == tileEntityIn.getLineBeingEdited() && tileEntityIn.func_214065_t() >= 0) {
-//                        int k = fontrenderer.getStringWidth(s.substring(0, Math.max(Math.min(tileEntityIn.func_214065_t(), s.length()), 0)));
-//                        int l = fontrenderer.getBidiFlag() ? -1 : 1;
-//                        int i1 = (k - fontrenderer.getStringWidth(s) / 2) * l;
-//                        int j1 = j * 10 - tileEntityIn.signText.length * 5;
-//                        if (tileEntityIn.func_214069_r()) {
-//                            if (tileEntityIn.func_214065_t() < s.length()) {
-//                                AbstractGui.fill(i1, j1 - 1, i1 + 1, j1 + 9, -16777216 | i);
-//                            } else {
-//                                fontrenderer.drawString("_", (float)i1, (float)j1, i);
-//                            }
-//                        }
-//
-//                        if (tileEntityIn.func_214067_u() != tileEntityIn.func_214065_t()) {
-//                            int k1 = Math.min(tileEntityIn.func_214065_t(), tileEntityIn.func_214067_u());
-//                            int l1 = Math.max(tileEntityIn.func_214065_t(), tileEntityIn.func_214067_u());
-//                            int i2 = (fontrenderer.getStringWidth(s.substring(0, k1)) - fontrenderer.getStringWidth(s) / 2) * l;
-//                            int j2 = (fontrenderer.getStringWidth(s.substring(0, l1)) - fontrenderer.getStringWidth(s) / 2) * l;
-//                            this.func_217657_a(Math.min(i2, j2), j1, Math.max(i2, j2), j1 + 9);
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         GlStateManager.depthMask(true);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
