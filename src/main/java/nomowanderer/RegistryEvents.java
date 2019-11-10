@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 import nomowanderer.blocks.NoSolicitingSignBlock;
 import nomowanderer.blocks.NoSolicitingSignWall;
+import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -22,22 +23,26 @@ public class RegistryEvents {
     public static TileEntityType<NoSolicitingSignTileEntity> NO_SOLICITING_SIGN_TE;
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignBlock.ID)
-    private static Block noSolicitingSignStand = new NoSolicitingSignBlock();
+    public static Block noSolicitingSignStand = new NoSolicitingSignBlock();
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignWall.ID)
-    private static Block noSolicitingSignWall = new NoSolicitingSignWall();
+    public static Block noSolicitingSignWall = new NoSolicitingSignWall();
+
+    @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignItem.ID)
+    private static NoSolicitingSignItem noSolicitingSignItem = new NoSolicitingSignItem();
 
     @SubscribeEvent
     public static void onItemsRegistry(RegistryEvent.Register<Item> event) {
-        event.getRegistry().register(new SignItem((new Item.Properties()).maxStackSize(16).group(ItemGroup.DECORATIONS), noSolicitingSignStand, noSolicitingSignWall).setRegistryName(
-                new ResourceLocation(NoMoWanderer.MODID, "no_soliciting_sign")
-        ));
+        event.getRegistry().register(noSolicitingSignItem);
     }
 
     @SubscribeEvent
     public static void onRegisterTEType(RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().register(
-                TileEntityType.Builder.create(NoSolicitingSignTileEntity::new, noSolicitingSignStand, noSolicitingSignWall).build(null).setRegistryName(NoSolicitingSignTileEntity.location)
+                TileEntityType.Builder
+                        .create(NoSolicitingSignTileEntity::new, noSolicitingSignStand, noSolicitingSignWall)
+                        .build(null)
+                        .setRegistryName(NoSolicitingSignTileEntity.location)
         );
     }
 

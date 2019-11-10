@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
  */
 public class NoSolicitingSignBlock extends StandingSignBlock {
 
-    public static final String ID = "no_soliciting_sign_stand";
+    public static final String ID = "no_soliciting_sign";
 
     public NoSolicitingSignBlock() {
         super(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0f, 10.0f));
