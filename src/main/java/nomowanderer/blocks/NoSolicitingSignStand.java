@@ -15,11 +15,11 @@ import javax.annotation.Nullable;
 /**
  * @author Cadiboo
  */
-public class NoSolicitingSignBlock extends StandingSignBlock {
+public class NoSolicitingSignStand extends StandingSignBlock {
 
     public static final String ID = "no_soliciting_sign";
 
-    public NoSolicitingSignBlock() {
+    public NoSolicitingSignStand() {
         super(Block.Properties.create(Material.WOOD).hardnessAndResistance(2.0f, 10.0f));
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }

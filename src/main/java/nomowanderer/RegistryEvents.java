@@ -11,7 +11,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
-import nomowanderer.blocks.NoSolicitingSignBlock;
+import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
@@ -22,8 +22,8 @@ public class RegistryEvents {
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignTileEntity.ID)
     public static TileEntityType<NoSolicitingSignTileEntity> NO_SOLICITING_SIGN_TE;
 
-    @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignBlock.ID)
-    public static Block noSolicitingSignStand = new NoSolicitingSignBlock();
+    @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignStand.ID)
+    public static Block noSolicitingSignStand = new NoSolicitingSignStand();
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignWall.ID)
     public static Block noSolicitingSignWall = new NoSolicitingSignWall();
