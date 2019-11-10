@@ -1,12 +1,8 @@
 package nomowanderer;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SignItem;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -51,14 +47,4 @@ public class RegistryEvents {
         event.getRegistry().register(noSolicitingSignStand);
         event.getRegistry().register(noSolicitingSignWall);
     }
-
-//    @SubscribeEvent
-//    public static void onRegisterContainers(RegistryEvent.Register<ContainerType<?>> event) {
-//        event.getRegistry().register(IForgeContainerType.create(((windowId, inv, data) -> new PedestalContainer(windowId, inv, data.readBlockPos()))).setRegistryName(MODID, "pedestal"));
-//    }
-
-//    @SubscribeEvent
-//    public static void registerRecipeSerializers(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-//        CraftingHelper.register(BlockConditions.Serializer.INSTANCE);
-//    }
 }

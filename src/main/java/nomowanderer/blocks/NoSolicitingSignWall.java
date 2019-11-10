@@ -1,7 +1,6 @@
 package nomowanderer.blocks;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.WallSignBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;

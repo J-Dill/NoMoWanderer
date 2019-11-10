@@ -1,6 +1,5 @@
 package nomowanderer.items;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.WallOrFloorItem;
