@@ -5,18 +5,13 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.WallSignBlock;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.RenderComponentsUtil;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.model.SignModel;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-
-import java.util.List;
+import nomowanderer.NoMoWanderer;
 
 public class NoSolicitingSignTileEntityRenderer extends TileEntityRenderer<NoSolicitingSignTileEntity> {
-    private static final ResourceLocation signTexture = new ResourceLocation("textures/entity/signs/oak.png");
+    private static final ResourceLocation signTexture = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
     private final SignModel model = new SignModel();
 
     @Override
