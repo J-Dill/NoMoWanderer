@@ -12,9 +12,7 @@ import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
 import javax.annotation.Nullable;
 
-/**
- * @author Cadiboo
- */
+
 public class NoSolicitingSignWall extends WallSignBlock {
 
     public static final String ID = "no_soliciting_sign_wall";

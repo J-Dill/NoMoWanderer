@@ -12,9 +12,7 @@ import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
 import javax.annotation.Nullable;
 
-/**
- * @author Cadiboo
- */
+
 public class NoSolicitingSignStand extends StandingSignBlock {
 
     public static final String ID = "no_soliciting_sign";
