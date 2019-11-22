@@ -1,7 +1,7 @@
 package nomowanderer.blocks;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.StandingSignBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -18,7 +18,7 @@ public class NoSolicitingSignStand extends StandingSignBlock {
     public static final String ID = "no_soliciting_sign";
 
     public NoSolicitingSignStand() {
-        super(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.0F).doesNotBlockMovement());
+        super(Properties.create(Material.WOOD).hardnessAndResistance(1.0F).doesNotBlockMovement().sound(SoundType.WOOD));
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }
 
