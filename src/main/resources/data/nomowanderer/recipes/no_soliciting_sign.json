@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "aXb"
+  ],
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "X": {
+      "tag": "forge:rods/wooden"
+    },
+    "a": {
+      "item": "minecraft:emerald"
+    },
+    "b": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "nomowanderer:no_soliciting_sign",
+    "count": 3
+  }
+}
