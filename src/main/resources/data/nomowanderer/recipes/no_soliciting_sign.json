@@ -13,10 +13,10 @@
       "tag": "forge:rods/wooden"
     },
     "a": {
-      "item": "minecraft:emerald"
+      "tag": "forge:dyes/green"
     },
     "b": {
-      "item": "minecraft:emerald"
+      "tag": "forge:dyes/red"
     }
   },
   "result": {
