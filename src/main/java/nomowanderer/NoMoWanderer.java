@@ -1,7 +1,9 @@
 package nomowanderer;
 
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
@@ -19,6 +21,7 @@ public class NoMoWanderer {
 
     public NoMoWanderer() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+//        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.spec);
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
