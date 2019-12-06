@@ -27,7 +27,7 @@ public class EntitySpawnHandler {
             BlockPos eventPos = event.getEntity().getPosition();
             IWorld world = event.getWorld();
             IChunk eventChunk = world.getChunk(eventPos);
-            ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), 6);
+            ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
             ArrayList<TileEntity> signs = getSignsFromChunks(chunks);
             boolean foundSign = signs.size() > 0; // If we found any signs, stop the Trader spawn.
             if (foundSign) {
@@ -69,8 +69,8 @@ public class EntitySpawnHandler {
      */
     private static ArrayList<IChunk> getChunksInRadius(IWorld w, ChunkPos chunkPos, int radius) {
         /*
-        Remember:   North = -Z
-                    East  = +X
+            Remember:   North = -Z
+                        East  = +X
          */
         int curX = chunkPos.x - radius;
         int curZ = chunkPos.z - radius;

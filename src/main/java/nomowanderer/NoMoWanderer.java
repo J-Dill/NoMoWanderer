@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
 import org.apache.logging.log4j.LogManager;
@@ -21,11 +22,12 @@ public class NoMoWanderer {
 
     public NoMoWanderer() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-//        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.spec);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);
+        Config.loadConfig(Config.COMMON_CONFIG, FMLPaths.CONFIGDIR.get().resolve("nomowanderer-common.toml"));
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
-//        ScreenManager.registerFactory(PedestalContainer.TYPE, PedestalScreen::new);
         ClientRegistry.bindTileEntitySpecialRenderer(NoSolicitingSignTileEntity.class, new NoSolicitingSignTileEntityRenderer());
     }
 
