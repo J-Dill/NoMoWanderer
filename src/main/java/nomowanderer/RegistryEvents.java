@@ -3,16 +3,21 @@ package nomowanderer;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ObjectHolder;
 import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
+import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = NoMoWanderer.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignTileEntity.ID)
@@ -46,5 +51,11 @@ public class RegistryEvents {
     public static void onRegisterBlocks(RegistryEvent.Register<Block> event) {
         event.getRegistry().register(noSolicitingSignStand);
         event.getRegistry().register(noSolicitingSignWall);
+    }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public static void clientSetup(FMLClientSetupEvent event) {
+        ClientRegistry.bindTileEntitySpecialRenderer(NoSolicitingSignTileEntity.class, new NoSolicitingSignTileEntityRenderer());
     }
 }

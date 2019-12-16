@@ -8,8 +8,11 @@ import net.minecraft.block.WallSignBlock;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.model.SignModel;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import nomowanderer.NoMoWanderer;
 
+@OnlyIn(Dist.CLIENT)
 public class NoSolicitingSignTileEntityRenderer extends TileEntityRenderer<NoSolicitingSignTileEntity> {
     private static final ResourceLocation signTexture = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
     private final SignModel model = new SignModel();
