@@ -14,7 +14,7 @@ public class Config {
     public static ForgeConfigSpec.IntValue SIGN_SPAWN_PREV_RANGE;
 
     static {
-        SIGN_SPAWN_PREV_RANGE = COMMON_BUILDER.comment("No Soliciting Sign Spawn Prevention Range")
+        SIGN_SPAWN_PREV_RANGE = COMMON_BUILDER.comment("No Soliciting Sign Spawn Prevention Chunk Radius")
                 .defineInRange("range", 4, 1, 8);
 
         COMMON_CONFIG = COMMON_BUILDER.build();
