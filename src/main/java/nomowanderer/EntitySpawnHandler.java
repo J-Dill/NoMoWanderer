@@ -28,9 +28,9 @@ public class EntitySpawnHandler {
             IWorld world = event.getWorld();
             IChunk eventChunk = world.getChunk(eventPos);
             ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
-            ArrayList<TileEntity> signs = getSignsFromChunks(chunks);
-            boolean foundSign = signs.size() > 0; // If we found any signs, stop the Trader spawn.
+            boolean foundSign = lookForSignsInChunks(chunks);
             if (foundSign) {
+                // If we found any signs, stop the Trader spawn.
                 event.setCanceled(event.isCancelable());
                 event.setResult(Event.Result.DENY);
             }
@@ -38,12 +38,11 @@ public class EntitySpawnHandler {
     }
 
     /**
-     * Search for all NoSolicitingSignTileEntities within the given chunks.
+     * Search for a NoSolicitingSignTileEntity within the given chunks.
      * @param chunks Chunks to search for signs in.
-     * @return List of found signs.
+     * @return True if we found a sign within the chunks, false otherwise.
      */
-    private static ArrayList<TileEntity> getSignsFromChunks(ArrayList<IChunk> chunks) {
-        ArrayList<TileEntity> signs = new ArrayList<>();
+    private static boolean lookForSignsInChunks(ArrayList<IChunk> chunks) {
         for (IChunk chunk : chunks) {
             if (chunk instanceof Chunk) {
                 Chunk newChunk = (Chunk) chunk;
@@ -51,12 +50,12 @@ public class EntitySpawnHandler {
                 for (BlockPos pos : tileEntities.keySet()) {
                     TileEntity te = tileEntities.get(pos);
                     if (te instanceof NoSolicitingSignTileEntity) {
-                        signs.add(te);
+                        return true;
                     }
                 }
             }
         }
-        return signs;
+        return false;
     }
 
     /**
