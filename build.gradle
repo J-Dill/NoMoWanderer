@@ -107,7 +107,8 @@ dependencies {
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     // compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
 
-    testCompile "junit:junit:4.11"
+    testImplementation "junit:junit:4.11"
+    testImplementation "org.mockito:mockito-core:2.7.22"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
