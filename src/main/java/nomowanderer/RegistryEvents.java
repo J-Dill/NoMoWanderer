@@ -14,27 +14,42 @@ import net.minecraftforge.registries.ObjectHolder;
 import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.items.NoSolicitingSignItem;
+import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
 
+    //===============
+    // Tile Entities
+    //===============
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignTileEntity.ID)
     public static TileEntityType<NoSolicitingSignTileEntity> NO_SOLICITING_SIGN_TE;
 
+    //===============
+    // Blocks
+    //===============
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignStand.ID)
     public static Block noSolicitingSignStand = new NoSolicitingSignStand();
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignWall.ID)
     public static Block noSolicitingSignWall = new NoSolicitingSignWall();
 
+    //===============
+    // Items
+    //===============
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoSolicitingSignItem.ID)
     private static NoSolicitingSignItem noSolicitingSignItem = new NoSolicitingSignItem();
+
+    @ObjectHolder(NoMoWanderer.MODID + ":" + NoMoWandererTotemItem.ID)
+    private static NoMoWandererTotemItem noMoWandererTotemItem = new NoMoWandererTotemItem();
+
 
     @SubscribeEvent
     public static void onItemsRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(noSolicitingSignItem);
+        event.getRegistry().register(noMoWandererTotemItem);
     }
 
     @SubscribeEvent
