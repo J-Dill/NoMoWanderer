@@ -56,6 +56,6 @@ public class RegistryEvents {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void clientSetup(FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntitySpecialRenderer(NoSolicitingSignTileEntity.class, new NoSolicitingSignTileEntityRenderer());
+        ClientRegistry.bindTileEntityRenderer(NO_SOLICITING_SIGN_TE, NoSolicitingSignTileEntityRenderer::new);
     }
 }

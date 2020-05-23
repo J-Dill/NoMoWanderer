@@ -1,6 +1,5 @@
 package nomowanderer.tileentity;
 
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import nomowanderer.RegistryEvents;
