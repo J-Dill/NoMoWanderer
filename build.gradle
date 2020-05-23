@@ -21,10 +21,6 @@ apply plugin: 'maven-publish'
 version = modMinecraftVersion + "_" + modVersion
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
-repositories {
-    // Put remote maven repositories here
-}
-
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   Snapshot are built nightly.
@@ -112,6 +108,8 @@ dependencies {
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${modMinecraftVersion}:${jeiVersion}")
 
+    compile fg.deobf('com.github.lazyMods:Baubles:1.15.2-SNAPSHOT')
+
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
@@ -122,6 +120,9 @@ repositories {
     maven { // Mantle, TCon, JEI
         name 'DVS1 Maven FS'
         url 'http://dvs1.progwml6.com/files/maven/'
+    }
+    maven { // Baubles
+        url 'https://jitpack.io'
     }
 }
 

@@ -26,3 +26,9 @@ description='''Adds a block that prevents Wandering Trader spawn.'''
     versionRange="[6,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.nomowanderer]]
+    modId="baubles"
+    mandatory=true
+    versionRange="[1.7,)"
+    ordering="NONE"
+    side="BOTH"
