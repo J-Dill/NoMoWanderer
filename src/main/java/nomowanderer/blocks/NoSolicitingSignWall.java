@@ -19,7 +19,7 @@ public class NoSolicitingSignWall extends WallSignBlock {
     public static final String ID = "no_soliciting_sign_wall";
 
     public NoSolicitingSignWall() {
-        super(Properties.create(Material.WOOD).hardnessAndResistance(1.0F).sound(SoundType.WOOD), WoodType.OAK);
+        super(Properties.create(Material.WOOD).hardnessAndResistance(1.0F).doesNotBlockMovement().sound(SoundType.WOOD), WoodType.OAK);
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }
 
