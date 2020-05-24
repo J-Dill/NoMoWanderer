@@ -3,11 +3,11 @@ loaderVersion="[28,)" #mandatory
 #issueTrackerURL="http://github.com/strikerrocker/VanillaTweaks/issues/" #optional
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
-version="1.0" #mandatory
+version="1.1" #mandatory
 displayName="NoMoWanderer" #mandatory
 credits="Big shoutout to computers, without you I would have no job." #optional
 authors="djmanly" #optional
-description='''Adds a block that prevents Wandering Trader spawn.'''
+description='''Adds a block and an item that prevents Wandering Trader spawn.'''
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
