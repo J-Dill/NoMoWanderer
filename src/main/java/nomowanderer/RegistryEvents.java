@@ -43,7 +43,7 @@ public class RegistryEvents {
     private static NoSolicitingSignItem noSolicitingSignItem = new NoSolicitingSignItem();
 
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoMoWandererTotemItem.ID)
-    private static NoMoWandererTotemItem noMoWandererTotemItem = new NoMoWandererTotemItem();
+    public static NoMoWandererTotemItem noMoWandererTotemItem = new NoMoWandererTotemItem();
 
 
     @SubscribeEvent

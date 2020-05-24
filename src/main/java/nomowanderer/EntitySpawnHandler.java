@@ -1,8 +1,12 @@
 package nomowanderer;
 
+import com.lazy.baubles.api.BaublesApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.IWorld;
@@ -14,8 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
@@ -23,13 +26,25 @@ public class EntitySpawnHandler {
     @SubscribeEvent
     public static void maybeBlockTraderSpawn(LivingSpawnEvent.SpecialSpawn event) {
         Entity entity = event.getEntity();
+        AxisAlignedBB aabb = new AxisAlignedBB(event.getX() - 50, event.getY() - 50, event.getZ() - 50, event.getX() + 50, event.getY() + 50, event.getZ() + 50);
+        List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
         if (entity instanceof WanderingTraderEntity) {
             BlockPos eventPos = event.getEntity().getPosition();
             IWorld world = event.getWorld();
             IChunk eventChunk = world.getChunk(eventPos);
             ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
-            boolean foundSign = lookForSignsInChunks(chunks);
-            if (foundSign) {
+            boolean cancelSpawn = lookForSignsInChunks(chunks);
+
+            for(PlayerEntity player : entities) {
+                Set<Item> totemSet = new HashSet<>();
+                totemSet.add(RegistryEvents.noMoWandererTotemItem);
+               if (-1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem) || player.inventory.hasAny(totemSet)) {
+                   cancelSpawn = true;
+                   break;
+               }
+            }
+
+            if (cancelSpawn) {
                 // If we found any signs, stop the Trader spawn.
                 event.setCanceled(event.isCancelable());
                 event.setResult(Event.Result.DENY);
