@@ -26,26 +26,10 @@ public class EntitySpawnHandler {
     @SubscribeEvent
     public static void maybeBlockTraderSpawn(LivingSpawnEvent.SpecialSpawn event) {
         Entity entity = event.getEntity();
-        AxisAlignedBB aabb = new AxisAlignedBB(event.getX() - 50, event.getY() - 50, event.getZ() - 50, event.getX() + 50, event.getY() + 50, event.getZ() + 50);
-        List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
         if (entity instanceof WanderingTraderEntity) {
-            BlockPos eventPos = event.getEntity().getPosition();
-            IWorld world = event.getWorld();
-            IChunk eventChunk = world.getChunk(eventPos);
-            ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
-            boolean cancelSpawn = lookForSignsInChunks(chunks);
-
-            for(PlayerEntity player : entities) {
-                Set<Item> totemSet = new HashSet<>();
-                totemSet.add(RegistryEvents.noMoWandererTotemItem);
-               if (-1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem) || player.inventory.hasAny(totemSet)) {
-                   cancelSpawn = true;
-                   break;
-               }
-            }
-
+            boolean cancelSpawn = canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
-                // If we found any signs, stop the Trader spawn.
+                // If we found any signs or totems, stop the Wandering Trader spawn.
                 event.setCanceled(event.isCancelable());
                 event.setResult(Event.Result.DENY);
             }
@@ -53,7 +37,50 @@ public class EntitySpawnHandler {
     }
 
     /**
+     * Searches for a player with a totem in either a Baubles slot or their inventory.
+     * Looks in a 50 block radius square around the event for the player.
+     *
+     * @param event The Wandering Trader SpecialSpawn event.
+     * @return true if totem is found, false otherwise.
+     */
+    private static boolean canFindTotem(LivingSpawnEvent.SpecialSpawn event) {
+        final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
+        AxisAlignedBB aabb = new AxisAlignedBB(
+                event.getX() - TRADER_SPAWN_DIST,
+                event.getY() - TRADER_SPAWN_DIST,
+                event.getZ() - TRADER_SPAWN_DIST,
+                event.getX() + TRADER_SPAWN_DIST,
+                event.getY() + TRADER_SPAWN_DIST,
+                event.getZ() + TRADER_SPAWN_DIST
+        );
+        Set<Item> totemSet = new HashSet<>();
+        totemSet.add(RegistryEvents.noMoWandererTotemItem);
+        List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
+        for(PlayerEntity player : entities) {
+            if (-1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem) || player.inventory.hasAny(totemSet)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Looks for a No Soliciting Sign within the configured distance of the event.
+     *
+     * @param event The Wandering Trader SpecialSpawn event.
+     * @return true if sign is found, false otherwise.
+     */
+    private static boolean canFindSign(LivingSpawnEvent.SpecialSpawn event) {
+        BlockPos eventPos = event.getEntity().getPosition();
+        IWorld world = event.getWorld();
+        IChunk eventChunk = world.getChunk(eventPos);
+        ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
+        return lookForSignsInChunks(chunks);
+    }
+
+    /**
      * Search for a NoSolicitingSignTileEntity within the given chunks.
+     *
      * @param chunks Chunks to search for signs in.
      * @return True if we found a sign within the chunks, false otherwise.
      */
@@ -75,6 +102,7 @@ public class EntitySpawnHandler {
 
     /**
      * Get all chunks within the given radius of the ChunkPos.
+     *
      * @param w The chunk's world.
      * @param chunkPos The ChunkPos of the event's chunk.
      * @param radius The radius around the ChunkPos to grab chunks from. For example, a radius of 2 would
