@@ -23,7 +23,7 @@ public class NoMoWandererTotemItem extends Item implements IBauble {
     public static final String ID = "no_mo_wanderer_totem";
 
     public NoMoWandererTotemItem() {
-        super(new Item.Properties().group(ItemGroup.MISC));
+        super(new Item.Properties().group(ItemGroup.MISC).maxStackSize(1));
         this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
     }
 
