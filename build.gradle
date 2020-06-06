@@ -110,6 +110,9 @@ dependencies {
 
     compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}")
 
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}:api")
+
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
@@ -123,6 +126,9 @@ repositories {
     }
     maven { // Baubles
         url 'https://jitpack.io'
+    }
+    maven { // Curios API
+        url 'https://maven.theillusivec4.top/'
     }
 }
 
