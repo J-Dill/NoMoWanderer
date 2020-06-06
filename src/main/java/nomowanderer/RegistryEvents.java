@@ -7,9 +7,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.registries.ObjectHolder;
 import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
@@ -17,6 +19,8 @@ import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
+import top.theillusivec4.curios.api.CuriosAPI;
+import top.theillusivec4.curios.api.imc.CurioIMCMessage;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
@@ -72,5 +76,10 @@ public class RegistryEvents {
     @OnlyIn(Dist.CLIENT)
     public static void clientSetup(FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntityRenderer(NO_SOLICITING_SIGN_TE, NoSolicitingSignTileEntityRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerAsCurio(InterModEnqueueEvent event) {
+        InterModComms.sendTo("curios", CuriosAPI.IMC.REGISTER_TYPE, () -> new CurioIMCMessage("charm"));
     }
 }
