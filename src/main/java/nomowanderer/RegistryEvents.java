@@ -15,8 +15,9 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.registries.ObjectHolder;
 import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
-import nomowanderer.items.NoSolicitingSignItem;
+import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.NoMoWandererTotemItem;
+import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
 import top.theillusivec4.curios.api.CuriosAPI;
@@ -49,7 +50,6 @@ public class RegistryEvents {
     @ObjectHolder(NoMoWanderer.MODID + ":" + NoMoWandererTotemItem.ID)
     public static NoMoWandererTotemItem noMoWandererTotemItem = new NoMoWandererTotemItem();
 
-
     @SubscribeEvent
     public static void onItemsRegistry(RegistryEvent.Register<Item> event) {
         event.getRegistry().register(noSolicitingSignItem);
@@ -80,6 +80,8 @@ public class RegistryEvents {
 
     @SubscribeEvent
     public static void registerAsCurio(InterModEnqueueEvent event) {
-        InterModComms.sendTo("curios", CuriosAPI.IMC.REGISTER_TYPE, () -> new CurioIMCMessage("charm"));
+        if(ExternalMods.CURIOS.isLoaded()) {
+            InterModComms.sendTo("curios", CuriosAPI.IMC.REGISTER_TYPE, () -> new CurioIMCMessage("charm"));
+        }
     }
 }

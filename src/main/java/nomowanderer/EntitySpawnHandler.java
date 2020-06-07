@@ -16,7 +16,9 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
+import top.theillusivec4.curios.api.CuriosAPI;
 
 import java.util.*;
 
@@ -45,6 +47,8 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindTotem(LivingSpawnEvent.SpecialSpawn event) {
         final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
+        boolean baubles = ExternalMods.BAUBLES.isLoaded();
+        boolean curios = ExternalMods.CURIOS.isLoaded();
         AxisAlignedBB aabb = new AxisAlignedBB(
                 event.getX() - TRADER_SPAWN_DIST,
                 event.getY() - TRADER_SPAWN_DIST,
@@ -57,7 +61,10 @@ public class EntitySpawnHandler {
         totemSet.add(RegistryEvents.noMoWandererTotemItem);
         List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
         for(PlayerEntity player : entities) {
-            if (-1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem) || player.inventory.hasAny(totemSet)) {
+            if (player.inventory.hasAny(totemSet) ||
+                    (baubles && -1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem)) ||
+                    (curios && CuriosAPI.getCurioEquipped(RegistryEvents.noMoWandererTotemItem, player).isPresent())
+            ) {
                 return true;
             }
         }

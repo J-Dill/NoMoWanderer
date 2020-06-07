@@ -28,7 +28,13 @@ description='''Adds a block and an item that prevents Wandering Trader spawn.'''
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="baubles"
-    mandatory=true
+    mandatory=false
     versionRange="[1.7,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.nomowanderer]]
+    modId="curios"
+    mandatory=false
+    versionRange="[FORGE-1.15.2-2,)"
     ordering="NONE"
     side="BOTH"
