@@ -81,7 +81,7 @@ public class EntitySpawnHandler {
         BlockPos eventPos = event.getEntity().getPosition();
         IWorld world = event.getWorld();
         IChunk eventChunk = world.getChunk(eventPos);
-        ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_SPAWN_PREV_RANGE.get());
+        ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());
         return lookForSignsInChunks(chunks);
     }
 

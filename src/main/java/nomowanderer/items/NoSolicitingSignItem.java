@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,7 +31,7 @@ public class NoSolicitingSignItem extends WallOrFloorItem {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        int chunks = Config.SIGN_SPAWN_PREV_RANGE.get();
+        int chunks = Config.SPAWN_PREV_RANGE.get();
         String msg = String.format("Prevents Wandering Trader spawn within %d chunk%s of the sign.",
                 chunks,
                 chunks == 1 ? "" : "s"

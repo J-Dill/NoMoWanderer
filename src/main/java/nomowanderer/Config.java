@@ -11,11 +11,11 @@ public class Config {
     private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
     public static ForgeConfigSpec COMMON_CONFIG;
 
-    public static ForgeConfigSpec.IntValue SIGN_SPAWN_PREV_RANGE;
+    public static ForgeConfigSpec.IntValue SPAWN_PREV_RANGE;
 
     static {
-        SIGN_SPAWN_PREV_RANGE = COMMON_BUILDER.comment("No Soliciting Sign Spawn Prevention Chunk Radius")
-                .defineInRange("range", 4, 1, 8);
+        SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Wandering Trader spawn prevention radius (in chunks)")
+                .defineInRange("radius", 8, 4, 12);
 
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
