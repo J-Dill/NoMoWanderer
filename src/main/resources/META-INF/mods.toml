@@ -3,7 +3,7 @@ loaderVersion="[28,)" #mandatory
 #issueTrackerURL="http://github.com/strikerrocker/VanillaTweaks/issues/" #optional
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
-version="1.15.2_1.1" #mandatory
+version="1.15.2_1.2" #mandatory
 displayName="NoMoWanderer" #mandatory
 credits="Big shoutout to computers, without you I would have no job." #optional
 authors="djmanly" #optional
