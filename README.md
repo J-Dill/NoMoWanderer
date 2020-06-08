@@ -12,10 +12,7 @@ The current recipe follows that of a normal sign, except you need to put green d
 ![Sign Recipe](https://i.imgur.com/S5NxqWn.png)
 
 ## Totem of Unexchange
-Item that, when in either a Baubles slot or your inventory, will prevent Wandering Trader spawns around the player.
+Item that, when in either a Baubles slot or your inventory, will prevent Wandering Trader spawns around the player. The distance is the same used for the No Soliciting Sign.
 
 ### Recipe
 ![Totem Recipe](https://i.imgur.com/GqPWimM.png)
-
-## Future Plans
-Next up for the mod will be to add an item that you carry to prevent the spawn. More than likely it will integrate with Baubles so that it will not have to use up an inventory slot.
