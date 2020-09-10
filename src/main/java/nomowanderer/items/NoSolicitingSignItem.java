@@ -36,7 +36,7 @@ public class NoSolicitingSignItem extends WallOrFloorItem {
                 chunks,
                 chunks == 1 ? "" : "s"
         );
-        tooltip.add(new StringTextComponent(msg).applyTextStyle(TextFormatting.GRAY));
+//        tooltip.add(new StringTextComponent(msg).applyTextStyle(TextFormatting.GRAY));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

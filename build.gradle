@@ -108,10 +108,10 @@ dependencies {
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${modMinecraftVersion}:${jeiVersion}")
 
-    compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}")
+//    compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}")
 
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}:api")
+//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}")
+//    compileOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}:api")
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

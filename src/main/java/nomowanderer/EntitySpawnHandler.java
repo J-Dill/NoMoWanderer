@@ -1,6 +1,6 @@
 package nomowanderer;
 
-import com.lazy.baubles.api.BaublesApi;
+//import com.lazy.baubles.api.BaublesApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
-import top.theillusivec4.curios.api.CuriosAPI;
+//import top.theillusivec4.curios.api.CuriosAPI;
 
 import java.util.*;
 
@@ -61,9 +61,10 @@ public class EntitySpawnHandler {
         totemSet.add(RegistryEvents.noMoWandererTotemItem);
         List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
         for(PlayerEntity player : entities) {
-            if (player.inventory.hasAny(totemSet) ||
-                    (baubles && -1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem)) ||
-                    (curios && CuriosAPI.getCurioEquipped(RegistryEvents.noMoWandererTotemItem, player).isPresent())
+            if (player.inventory.hasAny(totemSet)
+//                    ||
+//                    (baubles && -1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem)) ||
+//                    (curios && CuriosAPI.getCurioEquipped(RegistryEvents.noMoWandererTotemItem, player).isPresent())
             ) {
                 return true;
             }
@@ -78,7 +79,7 @@ public class EntitySpawnHandler {
      * @return true if sign is found, false otherwise.
      */
     private static boolean canFindSign(LivingSpawnEvent.SpecialSpawn event) {
-        BlockPos eventPos = event.getEntity().getPosition();
+        BlockPos eventPos = event.getEntity().func_233580_cy_(); // Get position of Wandering Trader.
         IWorld world = event.getWorld();
         IChunk eventChunk = world.getChunk(eventPos);
         ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());

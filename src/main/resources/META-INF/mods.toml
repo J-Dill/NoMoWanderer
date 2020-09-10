@@ -1,6 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[28,)" #mandatory
 #issueTrackerURL="http://github.com/strikerrocker/VanillaTweaks/issues/" #optional
+license="MIT License"
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
 version="1.15.2_1.2" #mandatory
@@ -11,19 +12,19 @@ description='''Adds a block and an item that prevents Wandering Trader spawn.'''
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)"
+    versionRange="[33,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16.2]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="jei"
     mandatory=false
-    versionRange="[6,)"
+    versionRange="[7,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
