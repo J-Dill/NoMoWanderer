@@ -8,8 +8,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,6 +24,7 @@ import nomowanderer.compat.ExternalMods;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.List;
 
 public class NoMoWandererTotemItem extends Item {
@@ -37,7 +40,7 @@ public class NoMoWandererTotemItem extends Item {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         String msg = "Blocks Wandering Trader spawns around the player when in your inventory or a Baubles slot.";
-//        tooltip.add(new StringTextComponent(msg).applyTextStyle(TextFormatting.GRAY));
+        tooltip.add(new StringTextComponent(msg).func_240701_a_(TextFormatting.ITALIC, TextFormatting.GRAY));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
