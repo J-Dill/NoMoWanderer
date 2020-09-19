@@ -1,6 +1,6 @@
 package nomowanderer.items;
 
-//import com.lazy.baubles.api.cap.BaublesCapabilities;
+import com.lazy.baubles.api.cap.BaublesCapabilities;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -8,10 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.Color;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,7 +22,6 @@ import nomowanderer.compat.ExternalMods;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.awt.*;
 import java.util.List;
 
 public class NoMoWandererTotemItem extends Item {
@@ -45,20 +42,20 @@ public class NoMoWandererTotemItem extends Item {
     }
 
     // Doing this instead of directly implementing IBauble so that Baubles can be an optional mod.
-//    @Nullable
-//    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
-//        if (ExternalMods.BAUBLES.isLoaded()) {
-//            com.lazy.baubles.api.IBauble iBauble = () -> com.lazy.baubles.api.BaubleType.TRINKET;
-//            return new ICapabilityProvider() {
-//                private final LazyOptional<com.lazy.baubles.api.IBauble> opt = LazyOptional.of(() -> iBauble);
-//
-//                @Nonnull
-//                @Override
-//                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-//                    return BaublesCapabilities.ITEM_BAUBLE.orEmpty(cap, opt);
-//                }
-//            };
-//        }
-//        return null;
-//    }
+    @Nullable
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        if (ExternalMods.BAUBLES.isLoaded()) {
+            com.lazy.baubles.api.IBauble iBauble = () -> com.lazy.baubles.api.BaubleType.TRINKET;
+            return new ICapabilityProvider() {
+                private final LazyOptional<com.lazy.baubles.api.IBauble> opt = LazyOptional.of(() -> iBauble);
+
+                @Nonnull
+                @Override
+                public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+                    return BaublesCapabilities.ITEM_BAUBLE.orEmpty(cap, opt);
+                }
+            };
+        }
+        return null;
+    }
 }
