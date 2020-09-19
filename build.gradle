@@ -110,8 +110,8 @@ dependencies {
 
 //    compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}")
 
-//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}")
-//    compileOnly fg.deobf("top.theillusivec4.curios:curios:${curiosVersion}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api")
 
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html

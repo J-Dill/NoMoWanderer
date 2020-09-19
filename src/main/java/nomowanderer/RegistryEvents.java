@@ -20,8 +20,7 @@ import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
-//import top.theillusivec4.curios.api.CuriosAPI;
-//import top.theillusivec4.curios.api.imc.CurioIMCMessage;
+import top.theillusivec4.curios.api.SlotTypeMessage;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegistryEvents {
@@ -78,10 +77,12 @@ public class RegistryEvents {
         ClientRegistry.bindTileEntityRenderer(NO_SOLICITING_SIGN_TE, NoSolicitingSignTileEntityRenderer::new);
     }
 
-//    @SubscribeEvent
-//    public static void registerAsCurio(InterModEnqueueEvent event) {
-//        if(ExternalMods.CURIOS.isLoaded()) {
-//            InterModComms.sendTo("curios", CuriosAPI.IMC.REGISTER_TYPE, () -> new CurioIMCMessage("charm"));
-//        }
-//    }
+    @SubscribeEvent
+    public static void registerAsCurio(InterModEnqueueEvent event) {
+        if(ExternalMods.CURIOS.isLoaded()) {
+            InterModComms.sendTo(
+                    "curios", SlotTypeMessage.REGISTER_TYPE, () -> new SlotTypeMessage.Builder("charm").build()
+            );
+        }
+    }
 }

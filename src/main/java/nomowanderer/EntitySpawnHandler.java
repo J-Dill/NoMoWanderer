@@ -18,7 +18,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
-//import top.theillusivec4.curios.api.CuriosAPI;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -61,10 +61,9 @@ public class EntitySpawnHandler {
         totemSet.add(RegistryEvents.noMoWandererTotemItem);
         List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
         for(PlayerEntity player : entities) {
-            if (player.inventory.hasAny(totemSet)
-//                    ||
+            if (player.inventory.hasAny(totemSet) ||
+                    (curios && CuriosApi.getCuriosHelper().findEquippedCurio(RegistryEvents.noMoWandererTotemItem, player).isPresent())
 //                    (baubles && -1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem)) ||
-//                    (curios && CuriosAPI.getCurioEquipped(RegistryEvents.noMoWandererTotemItem, player).isPresent())
             ) {
                 return true;
             }
