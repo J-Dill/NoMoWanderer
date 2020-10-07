@@ -29,7 +29,7 @@ public class EntitySpawnHandler {
     public static void maybeBlockTraderSpawn(LivingSpawnEvent.SpecialSpawn event) {
         Entity entity = event.getEntity();
         if (entity instanceof WanderingTraderEntity) {
-            boolean cancelSpawn = canFindTotem(event) || canFindSign(event);
+            boolean cancelSpawn = Config.DISABLE_TRADER_SPAWN.get() || canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
                 // If we found any signs or totems, stop the Wandering Trader spawn.
                 event.setCanceled(event.isCancelable());
@@ -78,7 +78,7 @@ public class EntitySpawnHandler {
      * @return true if sign is found, false otherwise.
      */
     private static boolean canFindSign(LivingSpawnEvent.SpecialSpawn event) {
-        BlockPos eventPos = event.getEntity().func_233580_cy_(); // Get position of Wandering Trader.
+        BlockPos eventPos = event.getEntity().getPosition(); // Get position of Wandering Trader.
         IWorld world = event.getWorld();
         IChunk eventChunk = world.getChunk(eventPos);
         ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());

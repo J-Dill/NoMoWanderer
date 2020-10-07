@@ -13,9 +13,14 @@ public class Config {
 
     public static ForgeConfigSpec.IntValue SPAWN_PREV_RANGE;
 
+    public static ForgeConfigSpec.BooleanValue DISABLE_TRADER_SPAWN;
+
     static {
         SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Wandering Trader spawn prevention radius (in chunks)")
                 .defineInRange("radius", 8, 4, 12);
+
+        DISABLE_TRADER_SPAWN = COMMON_BUILDER.comment("Disable all Wandering Trader spawns?")
+                .define("disableSpawns", false);
 
         COMMON_CONFIG = COMMON_BUILDER.build();
     }

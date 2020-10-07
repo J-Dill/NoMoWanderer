@@ -32,11 +32,11 @@ public class NoSolicitingSignItem extends WallOrFloorItem {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         int chunks = Config.SPAWN_PREV_RANGE.get();
-        String msg = String.format("Prevents Wandering Trader spawn within %d chunk%s of the sign.",
+        String msg = String.format("Prevents Wandering Trader spawns within %d chunk%s of the sign.",
                 chunks,
                 chunks == 1 ? "" : "s"
         );
-        tooltip.add(new StringTextComponent(msg).func_240701_a_(TextFormatting.ITALIC, TextFormatting.GRAY));
+        tooltip.add(new StringTextComponent(msg).mergeStyle(TextFormatting.GRAY));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 

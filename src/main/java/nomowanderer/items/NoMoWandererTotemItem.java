@@ -36,8 +36,10 @@ public class NoMoWandererTotemItem extends Item {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        String msg = "Blocks Wandering Trader spawns around the player when in your inventory or a Baubles slot.";
-        tooltip.add(new StringTextComponent(msg).func_240701_a_(TextFormatting.ITALIC, TextFormatting.GRAY));
+        String msg1 = "Blocks Wandering Trader spawns around the player.";
+        String msg2 = "Can be in your inventory, a Baubles or Curios slot.";
+        tooltip.add(new StringTextComponent(msg1).mergeStyle(TextFormatting.GRAY));
+        tooltip.add(new StringTextComponent(msg2).mergeStyle(TextFormatting.GRAY));
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 
