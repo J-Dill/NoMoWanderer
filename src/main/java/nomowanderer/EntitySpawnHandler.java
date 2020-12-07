@@ -1,6 +1,6 @@
 package nomowanderer;
 
-import com.lazy.baubles.api.BaublesApi;
+import com.lazy.baubles.api.BaublesAPI;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -63,7 +63,7 @@ public class EntitySpawnHandler {
         for(PlayerEntity player : entities) {
             if (player.inventory.hasAny(totemSet) ||
                     (curios && CuriosApi.getCuriosHelper().findEquippedCurio(RegistryEvents.noMoWandererTotemItem, player).isPresent()) ||
-                    (baubles && -1 != BaublesApi.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem))
+                    (baubles && -1 != BaublesAPI.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem))
             ) {
                 return true;
             }
