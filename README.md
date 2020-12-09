@@ -4,8 +4,6 @@ Minecraft mod that adds various blocks and items that prevent Wandering Trader s
 ## No Soliciting Sign
 Block that prevents Wandering Trader spawns within a configurable distance (in chunks) of the block.
 
-Min=1, Max=8, Default=4
-
 ### Recipe
 The current recipe follows that of a normal sign, except you need to put green dye in the bottom left corner and red dye in the bottom right corner of the crafting grid. You get 3 signs from the craft.
 
