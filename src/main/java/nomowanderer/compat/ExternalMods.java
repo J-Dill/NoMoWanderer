@@ -1,11 +1,12 @@
 package nomowanderer.compat;
 
+import com.lazy.baubles.api.BaublesAPI;
 import net.minecraftforge.fml.ModList;
 
 public enum ExternalMods {
 
     CURIOS("curios"),
-    BAUBLES("baubles");
+    BAUBLES(BaublesAPI.MOD_ID);
 
     private final boolean loaded;
 

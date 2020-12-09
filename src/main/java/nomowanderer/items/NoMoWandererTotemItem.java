@@ -1,5 +1,7 @@
 package nomowanderer.items;
 
+import com.lazy.baubles.api.bauble.BaubleType;
+import com.lazy.baubles.api.bauble.IBauble;
 import com.lazy.baubles.api.cap.BaublesCapabilities;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
@@ -47,9 +49,9 @@ public class NoMoWandererTotemItem extends Item {
     @Nullable
     public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
         if (ExternalMods.BAUBLES.isLoaded()) {
-            com.lazy.baubles.api.IBauble iBauble = () -> com.lazy.baubles.api.BaubleType.TRINKET;
+            IBauble iBauble = (stack1) -> BaubleType.TRINKET;
             return new ICapabilityProvider() {
-                private final LazyOptional<com.lazy.baubles.api.IBauble> opt = LazyOptional.of(() -> iBauble);
+                private final LazyOptional<IBauble> opt = LazyOptional.of(() -> iBauble);
 
                 @Nonnull
                 @Override
