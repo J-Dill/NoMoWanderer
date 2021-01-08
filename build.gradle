@@ -114,6 +114,10 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curiosVersion}:api")
 
+    implementation fg.deobf("curse.maven:citadel-331936:${citadelFileVersion}")
+
+    implementation fg.deobf("curse.maven:rats-323596:${ratsFileVersion}")
+
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
@@ -130,6 +134,9 @@ repositories {
     }
     maven { // Curios API
         url 'https://maven.theillusivec4.top/'
+    }
+    maven { // CurseMaven
+        url "https://www.cursemaven.com"
     }
 }
 

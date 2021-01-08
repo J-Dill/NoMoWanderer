@@ -1,5 +1,6 @@
 package nomowanderer;
 
+import com.github.alexthe666.rats.server.entity.EntityPlagueDoctor;
 import com.lazy.baubles.api.BaublesAPI;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
@@ -26,12 +27,12 @@ import java.util.*;
 public class EntitySpawnHandler {
 
     @SubscribeEvent
-    public static void maybeBlockTraderSpawn(LivingSpawnEvent.SpecialSpawn event) {
+    public static void maybeBlockWandererSpawn(LivingSpawnEvent.SpecialSpawn event) {
         Entity entity = event.getEntity();
-        if (entity instanceof WanderingTraderEntity) {
+        if (entity instanceof WanderingTraderEntity || (ExternalMods.RATS.isLoaded() && entity instanceof EntityPlagueDoctor)) {
             boolean cancelSpawn = Config.DISABLE_TRADER_SPAWN.get() || canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
-                // If we found any signs or totems, stop the Wandering Trader spawn.
+                // If we found any signs or totems, stop the Wandering Trader/Plague Doctor spawn.
                 event.setCanceled(event.isCancelable());
                 event.setResult(Event.Result.DENY);
             }
