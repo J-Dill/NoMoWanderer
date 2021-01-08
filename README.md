@@ -1,5 +1,7 @@
 # NoMoWanderer
-Minecraft mod that adds various blocks and items that prevent Wandering Trader spawns.
+Minecraft mod that adds various blocks and items to prevent Wandering Trader spawns.
+
+The Plague Doctor from the [Rats](https://www.curseforge.com/minecraft/mc-mods/rats) mod will also be prevented from spawning if it spawns in place of the Wandering Trader.
 
 ## No Soliciting Sign
 Block that prevents Wandering Trader spawns within a configurable distance (in chunks) of the block.
