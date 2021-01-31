@@ -104,9 +104,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:" + modMinecraftVersion + "-" + modForgeVersion
 
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${modMinecraftVersion}:${jeiVersion}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mcJeiVersion}:${jeiVersion}")
     // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${modMinecraftVersion}:${jeiVersion}:api")
+    compileOnly fg.deobf("mezz.jei:jei-${mcJeiVersion}:${jeiVersion}:api")
 
     compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}")
     compile fg.deobf("com.github.lazyMods:Baubles:${baublesVersion}:api")

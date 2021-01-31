@@ -1,10 +1,10 @@
 modLoader="javafml" #mandatory
-loaderVersion="[35,)" #mandatory
+loaderVersion="[36,)" #mandatory
 issueTrackerURL="https://github.com/J-Dill/NoMoWanderer/issues" #optional
 license="MIT License"
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
-version="1.16.4_1.1" #mandatory
+version="1.16.5_1.0" #mandatory
 displayName="NoMoWanderer" #mandatory
 credits="Big shoutout to computers, without you I would have no job." #optional
 authors="djmanly" #optional
@@ -12,13 +12,13 @@ description='''Adds a block and an item that prevents Wandering Trader spawns.''
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
-    versionRange="[35,)"
+    versionRange="[36,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.4]"
+    versionRange="[1.16.5]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
@@ -36,6 +36,6 @@ description='''Adds a block and an item that prevents Wandering Trader spawns.''
 [[dependencies.nomowanderer]]
     modId="curios"
     mandatory=false
-    versionRange="[1.16.4-4,)"
+    versionRange="[1.16.5-4,)"
     ordering="NONE"
     side="BOTH"
