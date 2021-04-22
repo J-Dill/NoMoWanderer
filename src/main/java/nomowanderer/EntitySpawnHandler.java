@@ -1,9 +1,7 @@
 package nomowanderer;
 
-import com.github.alexthe666.rats.server.entity.EntityPlagueDoctor;
 import com.lazy.baubles.api.BaublesAPI;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.merchant.villager.WanderingTraderEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -27,12 +25,14 @@ import java.util.*;
 public class EntitySpawnHandler {
 
     @SubscribeEvent
-    public static void maybeBlockWandererSpawn(LivingSpawnEvent.SpecialSpawn event) {
+    public static void maybeBlockEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
+        List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
         Entity entity = event.getEntity();
-        if (entity instanceof WanderingTraderEntity || (ExternalMods.RATS.isLoaded() && entity instanceof EntityPlagueDoctor)) {
-            boolean cancelSpawn = Config.DISABLE_TRADER_SPAWN.get() || canFindTotem(event) || canFindSign(event);
+        String registryName = Objects.requireNonNull(entity.getType().getRegistryName()).toString();
+        if (blockedEntities.contains(registryName)) {
+            boolean cancelSpawn = Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
-                // If we found any signs or totems, stop the Wandering Trader/Plague Doctor spawn.
+                // If we found any signs or totems, stop the blocked entity's spawn.
                 event.setCanceled(event.isCancelable());
                 event.setResult(Event.Result.DENY);
             }
@@ -43,7 +43,7 @@ public class EntitySpawnHandler {
      * Searches for a player with a totem in either a Baubles slot or their inventory.
      * Looks in a 50 block radius square around the event for the player.
      *
-     * @param event The Wandering Trader SpecialSpawn event.
+     * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
     private static boolean canFindTotem(LivingSpawnEvent.SpecialSpawn event) {
@@ -75,11 +75,11 @@ public class EntitySpawnHandler {
     /**
      * Looks for a No Soliciting Sign within the configured distance of the event.
      *
-     * @param event The Wandering Trader SpecialSpawn event.
+     * @param event The SpecialSpawn event.
      * @return true if sign is found, false otherwise.
      */
     private static boolean canFindSign(LivingSpawnEvent.SpecialSpawn event) {
-        BlockPos eventPos = event.getEntity().getPosition(); // Get position of Wandering Trader.
+        BlockPos eventPos = event.getEntity().getPosition();
         IWorld world = event.getWorld();
         IChunk eventChunk = world.getChunk(eventPos);
         ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());

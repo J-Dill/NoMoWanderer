@@ -2,6 +2,9 @@ package nomowanderer;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import java.util.Arrays;
+import java.util.List;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.nio.file.Path;
@@ -12,24 +15,27 @@ public class Config {
     public static ForgeConfigSpec COMMON_CONFIG;
 
     public static ForgeConfigSpec.IntValue SPAWN_PREV_RANGE;
-
-    public static ForgeConfigSpec.BooleanValue DISABLE_TRADER_SPAWN;
+    public static ForgeConfigSpec.BooleanValue DISABLE_ENTITY_SPAWNS;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> ENTITY_BLOCK_LIST;
 
     static {
-        // not actually working right now
-        SPAWN_PREV_RANGE = COMMON_BUILDER.comment(
-                "NOTE: \"Trader\" refers to both the Wandering Trader and the Plague Doctor from the Rats mod.\n\n" +
-                "Trader spawn prevention radius (in chunks)")
-                .defineInRange("radius", 8, 4, 12);
+        ENTITY_BLOCK_LIST = COMMON_BUILDER
+            .comment("A list of modid:entity_name entries that will be blocked from spawning.")
+            .defineList("entityBlockList", Arrays
+                .asList("minecraft:wandering_trader", "rats:plague_doctor"), it ->
+                it instanceof String && ResourceLocation.tryCreate((String) it) != null
+            );
 
-        DISABLE_TRADER_SPAWN = COMMON_BUILDER.comment("Disable all natural Trader spawns?")
-                .define("disableSpawns", false);
+        SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Entity spawn prevention radius (in chunks)")
+            .defineInRange("radius", 8, 4, 12);
+
+        DISABLE_ENTITY_SPAWNS = COMMON_BUILDER.comment("Disable all spawns of entities in entityBlockList?")
+            .define("disableSpawns", false);
 
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, Path path) {
-
         final CommentedFileConfig configData = CommentedFileConfig.builder(path)
                 .sync()
                 .autosave()

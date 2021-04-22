@@ -4,11 +4,14 @@ issueTrackerURL="https://github.com/J-Dill/NoMoWanderer/issues" #optional
 license="MIT License"
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
-version="1.16.5_1.0" #mandatory
+version="1.16.5_1.1" #mandatory
 displayName="NoMoWanderer" #mandatory
 credits="Big shoutout to computers, without you I would have no job." #optional
 authors="djmanly" #optional
-description='''Adds a block and an item that prevents Wandering Trader spawns.'''
+description='''
+Adds a block and an item that prevents configurable entity spawns.
+Default entities are the Wandering Trader and the Plague Doctor from the Rats mod.
+'''
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
