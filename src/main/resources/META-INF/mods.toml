@@ -4,7 +4,7 @@ issueTrackerURL="https://github.com/J-Dill/NoMoWanderer/issues" #optional
 license="MIT License"
 [[mods]] #mandatory
 modId="nomowanderer" #mandatory
-version="1.16.5_1.1" #mandatory
+version="1.16.5_1.2" #mandatory
 displayName="NoMoWanderer" #mandatory
 credits="Big shoutout to computers, without you I would have no job." #optional
 authors="djmanly" #optional
