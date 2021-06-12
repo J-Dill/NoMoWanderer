@@ -26,6 +26,15 @@ public class EntitySpawnHandler {
 
     @SubscribeEvent
     public static void maybeBlockEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
+        checkSpawn(event);
+    }
+
+    @SubscribeEvent
+    public static void maybeBlockEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
+        checkSpawn(event);
+    }
+
+    private static void checkSpawn(LivingSpawnEvent event) {
         List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
         Entity entity = event.getEntity();
         String registryName = Objects.requireNonNull(entity.getType().getRegistryName()).toString();
@@ -33,7 +42,9 @@ public class EntitySpawnHandler {
             boolean cancelSpawn = Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
                 // If we found any signs or totems, stop the blocked entity's spawn.
-                event.setCanceled(event.isCancelable());
+                if (event.isCancelable()) {
+                    event.setCanceled(true);
+                }
                 event.setResult(Event.Result.DENY);
             }
         }
@@ -46,7 +57,7 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
-    private static boolean canFindTotem(LivingSpawnEvent.SpecialSpawn event) {
+    private static boolean canFindTotem(LivingSpawnEvent event) {
         final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
         boolean baubles = ExternalMods.BAUBLES.isLoaded();
         boolean curios = ExternalMods.CURIOS.isLoaded();
@@ -78,7 +89,7 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      * @return true if sign is found, false otherwise.
      */
-    private static boolean canFindSign(LivingSpawnEvent.SpecialSpawn event) {
+    private static boolean canFindSign(LivingSpawnEvent event) {
         BlockPos eventPos = event.getEntity().getPosition();
         IWorld world = event.getWorld();
         IChunk eventChunk = world.getChunk(eventPos);
