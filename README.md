@@ -1,4 +1,8 @@
 # NoMoWanderer
+
+![Mod Download Total](http://cf.way2muchnoise.eu/full_nomowanderer_downloads.svg)
+![MC Versions](http://cf.way2muchnoise.eu/versions/nomowanderer.svg)
+
 Minecraft mod that adds a block and an item to prevent configured entity spawns.
 
 ## Config
