@@ -1,37 +1,26 @@
 package nomowanderer.blocks;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.StandingSignBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.IBlockReader;
-import nomowanderer.NoMoWanderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Material;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
 
-import javax.annotation.Nullable;
 
-
-public class NoSolicitingSignStand extends StandingSignBlock {
+public class NoSolicitingSignStand extends StandingSignBlock implements EntityBlock {
 
     public static final String ID = "no_soliciting_sign";
 
     public NoSolicitingSignStand() {
-        super(Properties.create(Material.WOOD).hardnessAndResistance(1.0F).doesNotBlockMovement().sound(SoundType.WOOD), WoodType.OAK);
-        this.setRegistryName(new ResourceLocation(NoMoWanderer.MODID, ID));
+        super(Properties.of(Material.WOOD).noCollission().sound(SoundType.WOOD), WoodType.OAK);
     }
 
     @Override
-    public boolean hasTileEntity(final BlockState state) {
-        return true;
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new NoSolicitingSignTileEntity(blockPos, blockState);
     }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(final BlockState state, final IBlockReader world) {
-        return new NoSolicitingSignTileEntity();
-    }
-
 }

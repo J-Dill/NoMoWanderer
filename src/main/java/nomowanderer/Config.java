@@ -4,7 +4,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import java.util.Arrays;
 import java.util.List;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.nio.file.Path;
@@ -23,7 +23,7 @@ public class Config {
             .comment("A list of modid:entity_name entries that will be blocked from spawning.")
             .defineList("entityBlockList", Arrays
                 .asList("minecraft:wandering_trader", "rats:plague_doctor"), it ->
-                it instanceof String && ResourceLocation.tryCreate((String) it) != null
+                it instanceof String && ResourceLocation.isValidResourceLocation((String) it)
             );
 
         SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Entity spawn prevention radius (in chunks)")

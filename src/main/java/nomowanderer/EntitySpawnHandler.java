@@ -1,23 +1,22 @@
 package nomowanderer;
 
-import com.lazy.baubles.api.BaublesAPI;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.IChunk;
+//import com.lazy.baubles.api.BaublesAPI;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignTileEntity;
-import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -59,9 +58,9 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
         final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
-        boolean baubles = ExternalMods.BAUBLES.isLoaded();
-        boolean curios = ExternalMods.CURIOS.isLoaded();
-        AxisAlignedBB aabb = new AxisAlignedBB(
+//        boolean baubles = ExternalMods.BAUBLES.isLoaded();
+//        boolean curios = ExternalMods.CURIOS.isLoaded();
+        AABB aabb = new AABB(
                 event.getX() - TRADER_SPAWN_DIST,
                 event.getY() - TRADER_SPAWN_DIST,
                 event.getZ() - TRADER_SPAWN_DIST,
@@ -70,12 +69,12 @@ public class EntitySpawnHandler {
                 event.getZ() + TRADER_SPAWN_DIST
         );
         Set<Item> totemSet = new HashSet<>();
-        totemSet.add(RegistryEvents.noMoWandererTotemItem);
-        List<PlayerEntity> entities = event.getWorld().getEntitiesWithinAABB(PlayerEntity.class, aabb);
-        for(PlayerEntity player : entities) {
-            if (player.inventory.hasAny(totemSet) ||
-                    (curios && CuriosApi.getCuriosHelper().findEquippedCurio(RegistryEvents.noMoWandererTotemItem, player).isPresent()) ||
-                    (baubles && -1 != BaublesAPI.isBaubleEquipped(player, RegistryEvents.noMoWandererTotemItem))
+        totemSet.add(Registry.NO_MO_WANDERER_TOTEM_ITEM.get());
+        List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
+        for(Player player : entities) {
+            if (player.getInventory().hasAnyOf(totemSet)
+//                || (curios && CuriosApi.getCuriosHelper().findEquippedCurio(Registry.noMoWandererTotemItem, player).isPresent()) ||
+//                    (baubles && -1 != BaublesAPI.isBaubleEquipped(player, Registry.noMoWandererTotemItem))
             ) {
                 return true;
             }
@@ -90,10 +89,10 @@ public class EntitySpawnHandler {
      * @return true if sign is found, false otherwise.
      */
     private static boolean canFindSign(LivingSpawnEvent event) {
-        BlockPos eventPos = event.getEntity().getPosition();
-        IWorld world = event.getWorld();
-        IChunk eventChunk = world.getChunk(eventPos);
-        ArrayList<IChunk> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());
+        BlockPos eventPos = event.getEntity().getOnPos();
+        LevelAccessor world = event.getWorld();
+        ChunkAccess eventChunk = world.getChunk(eventPos);
+        ArrayList<ChunkAccess> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());
         return lookForSignsInChunks(chunks);
     }
 
@@ -103,13 +102,13 @@ public class EntitySpawnHandler {
      * @param chunks Chunks to search for signs in.
      * @return True if we found a sign within the chunks, false otherwise.
      */
-    private static boolean lookForSignsInChunks(ArrayList<IChunk> chunks) {
-        for (IChunk chunk : chunks) {
-            if (chunk instanceof Chunk) {
-                Chunk newChunk = (Chunk) chunk;
-                Map<BlockPos, TileEntity> tileEntities = newChunk.getTileEntityMap();
+    private static boolean lookForSignsInChunks(ArrayList<ChunkAccess> chunks) {
+        for (ChunkAccess chunk : chunks) {
+            if (chunk instanceof LevelChunk) {
+                LevelChunk newChunk = (LevelChunk) chunk;
+                Map<BlockPos, BlockEntity> tileEntities = newChunk.getBlockEntities();
                 for (BlockPos pos : tileEntities.keySet()) {
-                    TileEntity te = tileEntities.get(pos);
+                    BlockEntity te = tileEntities.get(pos);
                     if (te instanceof NoSolicitingSignTileEntity) {
                         return true;
                     }
@@ -128,7 +127,7 @@ public class EntitySpawnHandler {
      *               end up returning 25 chunks.
      * @return Array of chunks within given radius surrounding the provided ChunkPos.
      */
-    private static ArrayList<IChunk> getChunksInRadius(IWorld w, ChunkPos chunkPos, int radius) {
+    private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor w, ChunkPos chunkPos, int radius) {
         /*
             Remember:   North = -Z
                         East  = +X
@@ -138,10 +137,10 @@ public class EntitySpawnHandler {
         int startX = curX;
         int endX = chunkPos.x + radius;
         int endZ = chunkPos.z + radius;
-        ArrayList<IChunk> chunks = new ArrayList<>();
+        ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {
-                IChunk chunk = w.getChunk(curX, curZ);
+                ChunkAccess chunk = w.getChunk(curX, curZ);
                 chunks.add(chunk);
             }
             curX = startX; // Resetting current X back to start position.

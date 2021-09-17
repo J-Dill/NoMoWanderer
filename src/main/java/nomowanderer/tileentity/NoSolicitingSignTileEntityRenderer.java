@@ -1,55 +1,74 @@
 package nomowanderer.tileentity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.StandingSignBlock;
-import net.minecraft.block.WallSignBlock;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.vector.Vector3f;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import nomowanderer.NoMoWanderer;
 
 @OnlyIn(Dist.CLIENT)
-public class NoSolicitingSignTileEntityRenderer extends TileEntityRenderer<NoSolicitingSignTileEntity> {
-    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
-    private final SignTileEntityRenderer.SignModel model = new SignTileEntityRenderer.SignModel();
+public class NoSolicitingSignTileEntityRenderer implements
+    BlockEntityRenderer<NoSolicitingSignTileEntity> {
+    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign");
+    private final SignRenderer.SignModel model;
 
-    public NoSolicitingSignTileEntityRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
-        super(rendererDispatcherIn);
+    public NoSolicitingSignTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+        model = new SignRenderer.SignModel(context.bakeLayer(new ModelLayerLocation(SIGN_TEXTURE, "")));
     }
 
     @Override
-    public void render(NoSolicitingSignTileEntity tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(NoSolicitingSignTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn,
+        MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         BlockState blockstate = tileEntityIn.getBlockState();
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         if (blockstate.getBlock() instanceof StandingSignBlock) {
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
-            float f1 = -((float)(blockstate.get(StandingSignBlock.ROTATION) * 360) / 16.0F);
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f1));
-            this.model.signStick.showModel = true;
+            float f1 = -((float)(blockstate.getValue(StandingSignBlock.ROTATION) * 360) / 16.0F);
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f1));
+            this.model.stick.visible = true;
         } else {
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
-            float f4 = -blockstate.get(WallSignBlock.FACING).getHorizontalAngle();
-            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(f4));
+            float f4 = -blockstate.getValue(WallSignBlock.FACING).toYRot();
+            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f4));
             matrixStackIn.translate(0.0D, -0.3125D, -0.4375D);
-            this.model.signStick.showModel = false;
+            this.model.stick.visible = false;
         }
 
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         matrixStackIn.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        IVertexBuilder iVertexBuilder = bufferIn.getBuffer(this.model.getRenderType(SIGN_TEXTURE));
-        this.model.signBoard.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
-        this.model.signStick.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
-        matrixStackIn.pop();
+        VertexConsumer iVertexBuilder = bufferIn.getBuffer(this.model.renderType(SIGN_TEXTURE));
+        this.model.root.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
+        this.model.stick.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
+        matrixStackIn.popPose();
         matrixStackIn.translate(0.0D, 0.33333334F, 0.046666667F);
         matrixStackIn.scale(0.010416667F, -0.010416667F, 0.010416667F);
 
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(NoSolicitingSignTileEntity p_112306_) {
+        return false;
+    }
+
+    @Override
+    public int getViewDistance() {
+        return 0;
+    }
+
+    @Override
+    public boolean shouldRender(NoSolicitingSignTileEntity p_173568_, Vec3 p_173569_) {
+        return false;
     }
 }
