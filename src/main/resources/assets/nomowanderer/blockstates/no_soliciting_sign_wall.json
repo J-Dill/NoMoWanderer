@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "nomowanderer:block/no_soliciting_sign" }
+    "": {
+      "model": "nomowanderer:block/no_soliciting_sign"
+    }
   }
 }

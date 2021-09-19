@@ -20,11 +20,12 @@ import nomowanderer.NoMoWanderer;
 @OnlyIn(Dist.CLIENT)
 public class NoSolicitingSignTileEntityRenderer implements
     BlockEntityRenderer<NoSolicitingSignTileEntity> {
-    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign");
+    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
+    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(NoMoWanderer.MODID, "no_soliciting_sign"), "main");
     private final SignRenderer.SignModel model;
 
     public NoSolicitingSignTileEntityRenderer(BlockEntityRendererProvider.Context context) {
-        model = new SignRenderer.SignModel(context.bakeLayer(new ModelLayerLocation(SIGN_TEXTURE, "")));
+        model = new SignRenderer.SignModel(context.bakeLayer(MODEL_LAYER));
     }
 
     @Override
@@ -55,20 +56,5 @@ public class NoSolicitingSignTileEntityRenderer implements
         matrixStackIn.scale(0.010416667F, -0.010416667F, 0.010416667F);
 
         matrixStackIn.popPose();
-    }
-
-    @Override
-    public boolean shouldRenderOffScreen(NoSolicitingSignTileEntity p_112306_) {
-        return false;
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 0;
-    }
-
-    @Override
-    public boolean shouldRender(NoSolicitingSignTileEntity p_173568_, Vec3 p_173569_) {
-        return false;
     }
 }
