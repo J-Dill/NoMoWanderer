@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
-import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
+import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +34,7 @@ public class NoMoWanderer {
 
     @SubscribeEvent
     public void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
-        definitions.registerLayerDefinition(NoSolicitingSignTileEntityRenderer.MODEL_LAYER, SignRenderer::createSignLayer);
+        definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER, SignRenderer::createSignLayer);
     }
 
 }

@@ -15,7 +15,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import nomowanderer.tileentity.NoSolicitingSignTileEntity;
+import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 //import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
@@ -97,7 +97,7 @@ public class EntitySpawnHandler {
     }
 
     /**
-     * Search for a NoSolicitingSignTileEntity within the given chunks.
+     * Search for a NoSolicitingSignBlockEntity within the given chunks.
      *
      * @param chunks Chunks to search for signs in.
      * @return True if we found a sign within the chunks, false otherwise.
@@ -109,7 +109,7 @@ public class EntitySpawnHandler {
                 Map<BlockPos, BlockEntity> tileEntities = newChunk.getBlockEntities();
                 for (BlockPos pos : tileEntities.keySet()) {
                     BlockEntity te = tileEntities.get(pos);
-                    if (te instanceof NoSolicitingSignTileEntity) {
+                    if (te instanceof NoSolicitingSignBlockEntity) {
                         return true;
                     }
                 }

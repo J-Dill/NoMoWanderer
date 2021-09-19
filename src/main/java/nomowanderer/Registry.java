@@ -15,8 +15,8 @@ import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.items.NoSolicitingSignItem;
-import nomowanderer.tileentity.NoSolicitingSignTileEntity;
-import nomowanderer.tileentity.NoSolicitingSignTileEntityRenderer;
+import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
+import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
 //import top.theillusivec4.curios.api.SlotTypeMessage;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -37,9 +37,9 @@ public class Registry {
     //===============
     // Tile Entities
     //===============
-    public static final RegistryObject<BlockEntityType<NoSolicitingSignTileEntity>> NO_SOLICITING_SIGN_TE = BLOCK_ENTITIES.register(
-        NoSolicitingSignTileEntity.ID, () -> BlockEntityType.Builder.of(
-            NoSolicitingSignTileEntity::new, NO_SOLICITING_SIGN_STAND.get(), NO_SOLICITING_SIGN_WALL.get()
+    public static final RegistryObject<BlockEntityType<NoSolicitingSignBlockEntity>> NO_SOLICITING_SIGN_TE = BLOCK_ENTITIES.register(
+        NoSolicitingSignBlockEntity.ID, () -> BlockEntityType.Builder.of(
+            NoSolicitingSignBlockEntity::new, NO_SOLICITING_SIGN_STAND.get(), NO_SOLICITING_SIGN_WALL.get()
         ).build(null)
     );
 
@@ -53,9 +53,9 @@ public class Registry {
 //    public static void onRegisterTEType(RegistryEvent.Register<BlockEntityType<?>> event) {
 //        event.getRegistry().register(
 //                BlockEntityType.Builder
-//                        .create(NoSolicitingSignTileEntity::new, noSolicitingSignStand, noSolicitingSignWall)
+//                        .create(NoSolicitingSignBlockEntity::new, noSolicitingSignStand, noSolicitingSignWall)
 //                        .build(null)
-//                        .setRegistryName(NoSolicitingSignTileEntity.location)
+//                        .setRegistryName(NoSolicitingSignBlockEntity.location)
 //        );
 //    }
 
@@ -68,7 +68,7 @@ public class Registry {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void registerBlockEntityRenderer(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(Registry.NO_SOLICITING_SIGN_TE.get(), NoSolicitingSignTileEntityRenderer::new);
+        event.registerBlockEntityRenderer(Registry.NO_SOLICITING_SIGN_TE.get(), NoSolicitingSignBlockEntityRenderer::new);
     }
 
 //    @SubscribeEvent

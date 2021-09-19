@@ -17,18 +17,18 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import nomowanderer.NoMoWanderer;
 
 @OnlyIn(Dist.CLIENT)
-public class NoSolicitingSignTileEntityRenderer implements
-    BlockEntityRenderer<NoSolicitingSignTileEntity> {
+public class NoSolicitingSignBlockEntityRenderer implements
+    BlockEntityRenderer<NoSolicitingSignBlockEntity> {
     private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
     public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(NoMoWanderer.MODID, "no_soliciting_sign"), "main");
     private final SignRenderer.SignModel model;
 
-    public NoSolicitingSignTileEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public NoSolicitingSignBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         model = new SignRenderer.SignModel(context.bakeLayer(MODEL_LAYER));
     }
 
     @Override
-    public void render(NoSolicitingSignTileEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn,
+    public void render(NoSolicitingSignBlockEntity tileEntityIn, float partialTicks, PoseStack matrixStackIn,
         MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         BlockState blockstate = tileEntityIn.getBlockState();
         matrixStackIn.pushPose();
