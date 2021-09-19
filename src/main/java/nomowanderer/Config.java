@@ -21,13 +21,13 @@ public class Config {
     static {
         ENTITY_BLOCK_LIST = COMMON_BUILDER
             .comment("A list of modid:entity_name entries that will be blocked from spawning.")
-            .defineList("entityBlockList", Arrays
-                .asList("minecraft:wandering_trader", "rats:plague_doctor"), it ->
+            .defineList("entityBlockList",
+                Arrays.asList("minecraft:wandering_trader", "rats:plague_doctor"), it ->
                 it instanceof String && ResourceLocation.isValidResourceLocation((String) it)
             );
 
         SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Entity spawn prevention radius (in chunks)")
-            .defineInRange("radius", 8, 4, 12);
+            .defineInRange("radius", 6, 1, 12);
 
         DISABLE_ENTITY_SPAWNS = COMMON_BUILDER.comment("Disable all spawns of entities in entityBlockList?")
             .define("disableSpawns", false);

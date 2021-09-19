@@ -7,7 +7,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,13 +15,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import nomowanderer.Config;
 import nomowanderer.Registry;
 
-public class NoSolicitingSignItem extends SignItem {
+public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
     public static final String ID = "no_soliciting_sign";
 
     public NoSolicitingSignItem() {
-        super(new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(16),
-            Registry.NO_SOLICITING_SIGN_STAND.get(), Registry.NO_SOLICITING_SIGN_WALL.get());
+        super(Registry.NO_SOLICITING_SIGN_STAND.get(), Registry.NO_SOLICITING_SIGN_WALL.get(),
+            new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(16));
     }
 
     @Override
