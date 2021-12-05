@@ -1,7 +1,9 @@
 buildscript {
     repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://files.minecraftforge.net/maven' }
         maven { url = 'https://plugins.gradle.org/m2/' }
+        mavenLocal()
         jcenter()
         mavenCentral()
     }
@@ -17,7 +19,7 @@ version = "${mod_version}"
 group = "${mod_group}"
 archivesBaseName = "${mod_id}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: 'official', version: version_mc
@@ -73,7 +75,7 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${version_forge}"
+    minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
 }
 
 sourceSets {

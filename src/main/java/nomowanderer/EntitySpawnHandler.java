@@ -33,6 +33,11 @@ public class EntitySpawnHandler {
         checkSpawn(event);
     }
 
+//    @SubscribeEvent
+//    public static void maybeBlockEntitySpawn(LivingSpawnEvent) {
+//        checkSpawn(event);
+//    }
+
     private static void checkSpawn(LivingSpawnEvent event) {
         List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
         Entity entity = event.getEntity();
