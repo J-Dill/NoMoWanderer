@@ -2,6 +2,8 @@ package nomowanderer.items;
 
 import java.util.List;
 import javax.annotation.Nullable;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.CreativeModeTab;
@@ -30,7 +32,7 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
         List<Component> toolTips, TooltipFlag flag) {
         int chunks = Config.SPAWN_PREV_RANGE.get();
         String msg = String.format("Prevents configured entity spawns within %d chunks of the sign.", chunks);
-        toolTips.add(new TextComponent(msg));
+        toolTips.add(new TextComponent(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         super.appendHoverText(stack, level, toolTips, flag);
     }
 

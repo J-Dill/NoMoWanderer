@@ -29,7 +29,7 @@ public class Config {
         SPAWN_PREV_RANGE = COMMON_BUILDER.comment("Entity spawn prevention radius (in chunks)")
             .defineInRange("radius", 6, 1, 12);
 
-        DISABLE_ENTITY_SPAWNS = COMMON_BUILDER.comment("Disable all spawns of entities in entityBlockList?")
+        DISABLE_ENTITY_SPAWNS = COMMON_BUILDER.comment("Disable all spawns of entities in entityBlockList? Ignores radius.")
             .define("disableSpawns", false);
 
         COMMON_CONFIG = COMMON_BUILDER.build();

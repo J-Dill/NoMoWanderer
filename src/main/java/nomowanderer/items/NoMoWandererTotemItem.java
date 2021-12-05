@@ -6,6 +6,8 @@ package nomowanderer.items;
 
 import java.util.List;
 import javax.annotation.Nullable;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.CreativeModeTab;
@@ -29,8 +31,14 @@ public class NoMoWandererTotemItem extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level level,
         List<Component> toolTips, TooltipFlag flag) {
-        toolTips.add(new TextComponent("Blocks configurable entity spawns around the player."));
-        toolTips.add(new TextComponent("Can be in your inventory, a Baubles or Curios slot."));
+        toolTips.add(
+                new TextComponent("Blocks configurable entity spawns around the player.")
+                        .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+        );
+        toolTips.add(
+                new TextComponent("Can be in: your inventory, a Baubles, or Curios slot.")
+                        .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+        );
         super.appendHoverText(stack, level, toolTips, flag);
     }
 
