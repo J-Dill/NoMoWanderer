@@ -30,6 +30,8 @@ minecraft {
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 nomowanderer {
@@ -43,6 +45,8 @@ minecraft {
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             mods {
                 nomowanderer {
@@ -56,6 +60,8 @@ minecraft {
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
             args '--mod', 'nomowanderer', '--all', '--output', file('src/generated/resources/')
 
@@ -70,12 +76,18 @@ minecraft {
 
 repositories {
     maven {
-        url = "https://www.cursemaven.com"
+        url "https://www.cursemaven.com"
+    }
+    maven { // Curios API
+        url 'https://maven.theillusivec4.top/'
     }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
+
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
 }
 
 sourceSets {

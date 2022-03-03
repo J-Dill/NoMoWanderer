@@ -1,6 +1,5 @@
 package nomowanderer;
 
-//import com.lazy.baubles.api.BaublesAPI;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -15,8 +14,9 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
-//import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -32,11 +32,6 @@ public class EntitySpawnHandler {
     public static void maybeBlockEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
         checkSpawn(event);
     }
-
-//    @SubscribeEvent
-//    public static void maybeBlockEntitySpawn(LivingSpawnEvent) {
-//        checkSpawn(event);
-//    }
 
     private static void checkSpawn(LivingSpawnEvent event) {
         List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
@@ -55,7 +50,7 @@ public class EntitySpawnHandler {
     }
 
     /**
-     * Searches for a player with a totem in either a Baubles slot or their inventory.
+     * Searches for a player with a totem in their inventory, or other modded slots.
      * Looks in a 50 block radius square around the event for the player.
      *
      * @param event The SpecialSpawn event.
@@ -63,8 +58,7 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
         final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
-//        boolean baubles = ExternalMods.BAUBLES.isLoaded();
-//        boolean curios = ExternalMods.CURIOS.isLoaded();
+        boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
                 event.getX() - TRADER_SPAWN_DIST,
                 event.getY() - TRADER_SPAWN_DIST,
@@ -78,8 +72,7 @@ public class EntitySpawnHandler {
         List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
             if (player.getInventory().hasAnyOf(totemSet)
-//                || (curios && CuriosApi.getCuriosHelper().findEquippedCurio(Registry.noMoWandererTotemItem, player).isPresent()) ||
-//                    (baubles && -1 != BaublesAPI.isBaubleEquipped(player, Registry.noMoWandererTotemItem))
+                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
             ) {
                 return true;
             }
@@ -109,8 +102,7 @@ public class EntitySpawnHandler {
      */
     private static boolean lookForSignsInChunks(ArrayList<ChunkAccess> chunks) {
         for (ChunkAccess chunk : chunks) {
-            if (chunk instanceof LevelChunk) {
-                LevelChunk newChunk = (LevelChunk) chunk;
+            if (chunk instanceof LevelChunk newChunk) {
                 Map<BlockPos, BlockEntity> tileEntities = newChunk.getBlockEntities();
                 for (BlockPos pos : tileEntities.keySet()) {
                     BlockEntity te = tileEntities.get(pos);
