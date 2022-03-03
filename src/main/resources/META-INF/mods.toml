@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[39,)"
+loaderVersion="[40,)"
 issueTrackerURL="https://github.com/J-Dill/NoMoWanderer/issues"
 license="MIT License"
 [[mods]]
@@ -15,18 +15,18 @@ Default entities are the Wandering Trader and the Plague Doctor from the Rats mo
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
-    versionRange="[38,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.1]"
+    versionRange="[1.18.2]"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="curios"
     mandatory=false
-    versionRange="[1.18.1-5,)"
+    versionRange="[1.18.2-5,)"
     ordering="NONE"
     side="BOTH"
