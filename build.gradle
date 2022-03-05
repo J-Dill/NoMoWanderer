@@ -9,11 +9,9 @@ buildscript {
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.4.0'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'com.matthewprenger.cursegradle'
 
 version = "${version_mc}_${mod_version}"
 group = "${mod_group}"
@@ -26,7 +24,7 @@ minecraft {
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory file('run')
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
@@ -41,7 +39,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory file('run')
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
@@ -56,7 +54,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory file('run')
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
@@ -90,12 +88,25 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs += '../docs'
-        }
+def replaceResources = tasks.register("replaceResources", Copy) {
+    it.outputs.upToDateWhen { false }
+    //Copy it into the build dir
+    it.from(sourceSets.main.resources) {
+        include "META-INF/mods.toml"
+        expand 'version': version, 'mc_version': version_range_mc, 'forge_version': version_range_forge,
+                'curios_version': version_range_curios, 'mod_id': mod_id, 'mod_name': mod_name, 'mod_author': mod_author
     }
+    it.into "$buildDir/resources/main/"
+}
+
+processResources {
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
+    exclude('META-INF/mods.toml')
+    configure { finalizedBy(replaceResources) }
+}
+
+classes.configure {
+    dependsOn(replaceResources)
 }
 
 jar {
@@ -120,18 +131,3 @@ artifacts {
 }
 
 jar.finalizedBy('reobfJar')
-
-//curseforge {
-//    apiKey = findProperty('curseKey') ?: 0
-//
-//    project {
-//        id = "${curse_id}"
-//        releaseType = "${curse_release}"
-//        changelogType = 'markdown'
-//        changelog = file('CHANGELOG.md')
-//        addArtifact(sourcesJar)
-//        "${curse_versions}".split(',').each {
-//            addGameVersion "${it}"
-//        }
-//    }
-//}

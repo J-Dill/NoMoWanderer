@@ -1,32 +1,33 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="${forge_version}"
 issueTrackerURL="https://github.com/J-Dill/NoMoWanderer/issues"
 license="MIT License"
 [[mods]]
-modId="nomowanderer"
-version="${file.jarVersion}"
-displayName="NoMoWanderer"
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
 credits="Big shoutout to computers, without you I would have no job."
-authors="JDill"
+authors="${mod_author}"
 description='''
 Adds a block and an item that prevents configurable entity spawns.
 Default entities are the Wandering Trader and the Plague Doctor from the Rats mod.
 '''
+
 [[dependencies.nomowanderer]]
     modId="forge"
     mandatory=true
-    versionRange="[40,)"
+    versionRange="${forge_version}"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2]"
+    versionRange="${mc_version}"
     ordering="NONE"
     side="BOTH"
 [[dependencies.nomowanderer]]
     modId="curios"
     mandatory=false
-    versionRange="[1.18.2-5,)"
+    versionRange="${curios_version}"
     ordering="NONE"
     side="BOTH"
