@@ -57,15 +57,15 @@ public class EntitySpawnHandler {
      * @return true if totem is found, false otherwise.
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
-        final int TRADER_SPAWN_DIST = 50; // It seems MC tries to spawn Traders 48 blocks away, so we're doing 50.
+        int spawnCheckDist = Config.SPAWN_PREV_RANGE.get() * 16;
         boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
-                event.getX() - TRADER_SPAWN_DIST,
-                event.getY() - TRADER_SPAWN_DIST,
-                event.getZ() - TRADER_SPAWN_DIST,
-                event.getX() + TRADER_SPAWN_DIST,
-                event.getY() + TRADER_SPAWN_DIST,
-                event.getZ() + TRADER_SPAWN_DIST
+                event.getX() - spawnCheckDist,
+                event.getY() - spawnCheckDist,
+                event.getZ() - spawnCheckDist,
+                event.getX() + spawnCheckDist,
+                event.getY() + spawnCheckDist,
+                event.getZ() + spawnCheckDist
         );
         Set<Item> totemSet = new HashSet<>();
         totemSet.add(Registry.NO_MO_WANDERER_TOTEM_ITEM.get());
