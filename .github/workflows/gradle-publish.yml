@@ -62,6 +62,6 @@ jobs:
           release_type: release
           game_versions: "${{ steps.load-props.outputs.curse_versions_forge }}"
           project_id: "${{ steps.load-props.outputs.curse_id }}"
-          changelog: "${{ steps.get-release-changes.output.body }}"
+          changelog: ${{ steps.get-release-changes.output.body }}
           changelog_type: "markdown"
           token: "${{ secrets.CURSEFORGE_API_KEY }}"
