@@ -2,6 +2,7 @@ package nomowanderer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ChunkPos;
@@ -16,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
-import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -36,7 +37,7 @@ public class EntitySpawnHandler {
     private static void checkSpawn(LivingSpawnEvent event) {
         List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
         Entity entity = event.getEntity();
-        String registryName = Objects.requireNonNull(entity.getType().getRegistryName()).toString();
+        String registryName = Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
         if (blockedEntities.contains(registryName)) {
             boolean cancelSpawn = Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event) || canFindSign(event);
             if (cancelSpawn) {
@@ -58,7 +59,7 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
         int spawnCheckDist = Config.SPAWN_PREV_RANGE.get() * 16;
-        boolean curios = ExternalMods.CURIOS.isLoaded();
+//        boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
                 event.getX() - spawnCheckDist,
                 event.getY() - spawnCheckDist,
@@ -72,7 +73,7 @@ public class EntitySpawnHandler {
         List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
             if (player.getInventory().hasAnyOf(totemSet)
-                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
+//                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
             ) {
                 return true;
             }

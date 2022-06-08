@@ -25,9 +25,3 @@ Default entities are the Wandering Trader and the Plague Doctor from the Rats mo
     versionRange="${mc_version}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.nomowanderer]]
-    modId="curios"
-    mandatory=false
-    versionRange="${curios_version}"
-    ordering="NONE"
-    side="BOTH"

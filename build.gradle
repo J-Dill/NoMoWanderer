@@ -84,8 +84,8 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
 
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
+//    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
 }
 
 def replaceResources = tasks.register("replaceResources", Copy) {
@@ -93,8 +93,9 @@ def replaceResources = tasks.register("replaceResources", Copy) {
     //Copy it into the build dir
     it.from(sourceSets.main.resources) {
         include "META-INF/mods.toml"
+//        'curios_version': version_range_curios
         expand 'version': version, 'mc_version': version_range_mc, 'forge_version': version_range_forge,
-                'curios_version': version_range_curios, 'mod_id': mod_id, 'mod_name': mod_name, 'mod_author': mod_author
+                'mod_id': mod_id, 'mod_name': mod_name, 'mod_author': mod_author
     }
     it.into "$buildDir/resources/main/"
 }

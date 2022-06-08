@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,8 +30,8 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
     public void appendHoverText(ItemStack stack, @Nullable Level level,
         List<Component> toolTips, TooltipFlag flag) {
         int chunks = Config.SPAWN_PREV_RANGE.get();
-        String msg = String.format("Prevents configured entity spawns within %d chunks of the sign.", chunks);
-        toolTips.add(new TextComponent(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+        String msg = String.format("Prevents Wandering Trader spawns within %d chunks of the sign. Other entities can be blocked via config.", chunks);
+        toolTips.add(Component.literal(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         super.appendHoverText(stack, level, toolTips, flag);
     }
 
