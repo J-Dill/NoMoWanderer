@@ -1,12 +1,15 @@
-package nomowanderer;
+package nomowanderer.world;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
@@ -14,8 +17,12 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import nomowanderer.Config;
+import nomowanderer.NoMoWanderer;
+import nomowanderer.Registry;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
+import nomowanderer.tileentity.TraderRugBlockEntity;
 import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
@@ -24,40 +31,65 @@ import java.util.*;
 public class EntitySpawnHandler {
 
     @SubscribeEvent
-    public static void maybeBlockEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
+    public static void maybeChangeEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
         checkSpawn(event);
     }
 
     @SubscribeEvent
-    public static void maybeBlockEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
+    public static void maybeChangeEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
         checkSpawn(event);
     }
 
+    /**
+     * If the entity from the spawn event is one of our watched entities, block its spawn if there
+     * is a NoSolicitingSign in range or move its spawn if there is a TraderRug in range.
+     */
     private static void checkSpawn(LivingSpawnEvent event) {
-        List<? extends String> blockedEntities = Config.ENTITY_BLOCK_LIST.get();
+        List<? extends String> blockedEntities = Config.ENTITY_WATCH_LIST.get();
         Entity entity = event.getEntity();
-        String registryName = Objects.requireNonNull(entity.getType().getRegistryName()).toString();
+        String registryName = Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
         if (blockedEntities.contains(registryName)) {
-            boolean cancelSpawn = Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event) || canFindSign(event);
-            if (cancelSpawn) {
-                // If we found any signs or totems, stop the blocked entity's spawn.
-                if (event.isCancelable()) {
-                    event.setCanceled(true);
+            if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event)) {
+                cancelSpawn(event);
+                return;
+            }
+            List<BlockEntity> foundBEs = getBlockEntities(event);
+            for (BlockEntity be : foundBEs) {
+                if (be instanceof NoSolicitingSignBlockEntity) {
+                    cancelSpawn(event);
+                    return;
+                } else if (be instanceof TraderRugBlockEntity) {
+                    // If spawn isn't cancelled, then look for Trader Rug and spawn in center of it.
+                    BlockPos bePos = be.getBlockPos();
+                    BlockState blockState = event.getWorld().getBlockState(bePos.above());
+                    boolean validSpawn = !blockState.isSuffocating(event.getWorld(), bePos.above());
+                    if (validSpawn) {
+                        double x = bePos.getX() + 0.5;
+                        double z = bePos.getZ() + 0.5;
+                        entity.setPos(x, bePos.getY(), z);
+                        return;
+                    }
                 }
-                event.setResult(Event.Result.DENY);
             }
         }
     }
 
+    private static void cancelSpawn(LivingSpawnEvent event) {
+        if (event.isCancelable()) {
+            event.setCanceled(true);
+        }
+        event.setResult(Event.Result.DENY);
+    }
+
     /**
      * Searches for a player with a totem in their inventory, or other modded slots.
-     * Looks in a 50 block radius square around the event for the player.
+     * Looks in a radius = (16 * SPAWN_PREV_RANGE) around the event for a player.
      *
      * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
-        int spawnCheckDist = Config.SPAWN_PREV_RANGE.get() * 16;
+        int spawnCheckDist = Config.SPAWN_WATCH_RANGE.get() * 16;
         boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
                 event.getX() - spawnCheckDist,
@@ -86,12 +118,12 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      * @return true if sign is found, false otherwise.
      */
-    private static boolean canFindSign(LivingSpawnEvent event) {
+    private static List<BlockEntity> getBlockEntities(LivingSpawnEvent event) {
         BlockPos eventPos = event.getEntity().getOnPos();
         LevelAccessor world = event.getWorld();
         ChunkAccess eventChunk = world.getChunk(eventPos);
-        ArrayList<ChunkAccess> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());
-        return lookForSignsInChunks(chunks);
+        ArrayList<ChunkAccess> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_WATCH_RANGE.get());
+        return lookForBEInChunks(chunks);
     }
 
     /**
@@ -100,19 +132,20 @@ public class EntitySpawnHandler {
      * @param chunks Chunks to search for signs in.
      * @return True if we found a sign within the chunks, false otherwise.
      */
-    private static boolean lookForSignsInChunks(ArrayList<ChunkAccess> chunks) {
+    private static List<BlockEntity> lookForBEInChunks(ArrayList<ChunkAccess> chunks) {
+        List<BlockEntity> matches = new ArrayList<>();
         for (ChunkAccess chunk : chunks) {
             if (chunk instanceof LevelChunk newChunk) {
-                Map<BlockPos, BlockEntity> tileEntities = newChunk.getBlockEntities();
-                for (BlockPos pos : tileEntities.keySet()) {
-                    BlockEntity te = tileEntities.get(pos);
-                    if (te instanceof NoSolicitingSignBlockEntity) {
-                        return true;
+                Map<BlockPos, BlockEntity> blockEntities = newChunk.getBlockEntities();
+                for (BlockPos pos : blockEntities.keySet()) {
+                    BlockEntity be = blockEntities.get(pos);
+                    if (be instanceof NoSolicitingSignBlockEntity || be instanceof TraderRugBlockEntity) {
+                        matches.add(be);
                     }
                 }
             }
         }
-        return false;
+        return matches;
     }
 
     /**

@@ -19,7 +19,8 @@ import nomowanderer.NoMoWanderer;
 @OnlyIn(Dist.CLIENT)
 public class NoSolicitingSignBlockEntityRenderer implements
     BlockEntityRenderer<NoSolicitingSignBlockEntity> {
-    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign.png");
+    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation("textures/entity/signs/oak.png");
+    private static final ResourceLocation SIGN_EMERALD_TEXTURE = new ResourceLocation(NoMoWanderer.MODID, "textures/block/no_soliciting_sign_overlay.png");
     public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(NoMoWanderer.MODID, "no_soliciting_sign"), "main");
     private final SignRenderer.SignModel model;
 
@@ -45,15 +46,23 @@ public class NoSolicitingSignBlockEntityRenderer implements
             this.model.stick.visible = false;
         }
 
+        // Render sign base, i.e. vanilla/resource pack texture.
         matrixStackIn.pushPose();
         matrixStackIn.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        VertexConsumer iVertexBuilder = bufferIn.getBuffer(this.model.renderType(SIGN_TEXTURE));
-        this.model.root.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
-        this.model.stick.render(matrixStackIn, iVertexBuilder, combinedLightIn, combinedOverlayIn);
+        VertexConsumer consumerBase = bufferIn.getBuffer(this.model.renderType(SIGN_TEXTURE));
+        this.model.root.render(matrixStackIn, consumerBase, combinedLightIn, combinedOverlayIn);
+        this.model.stick.render(matrixStackIn, consumerBase, combinedLightIn, combinedOverlayIn);
         matrixStackIn.popPose();
-        matrixStackIn.translate(0.0D, 0.33333334F, 0.046666667F);
-        matrixStackIn.scale(0.010416667F, -0.010416667F, 0.010416667F);
 
+        // Render the overlay over the base.
+        matrixStackIn.pushPose();
+        matrixStackIn.scale(.6F, -.6F, -1F);
+        matrixStackIn.translate(0F, -0.072F, .02F);
+        VertexConsumer consumerEmerald = bufferIn.getBuffer(this.model.renderType(SIGN_EMERALD_TEXTURE));
+        this.model.root.render(matrixStackIn, consumerEmerald, combinedLightIn, combinedOverlayIn);
+        matrixStackIn.popPose();
+
+        // Finish up.
         matrixStackIn.popPose();
     }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    }
+  ],
+  "result": {
+    "item": "nomowanderer:trader_rug",
+    "count": 1
+  }
+}

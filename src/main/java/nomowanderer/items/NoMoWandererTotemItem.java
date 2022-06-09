@@ -13,6 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import nomowanderer.Config;
 import nomowanderer.compat.ExternalMods;
 
 public class NoMoWandererTotemItem extends Item {
@@ -27,10 +28,10 @@ public class NoMoWandererTotemItem extends Item {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level level,
         List<Component> toolTips, TooltipFlag flag) {
-        toolTips.add(
-                new TextComponent("Blocks configurable entity spawns around the player.")
-                        .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-        );
+        int chunks = Config.SPAWN_WATCH_RANGE.get();
+        String msg = String.format("Prevents Wandering Trader spawns within %d chunks of the player. " +
+                "Other entities can be blocked via config.", chunks);
+        toolTips.add(new TextComponent(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         String totemMessage = String.format(
                 "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
         );
