@@ -17,7 +17,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
-//import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
@@ -59,7 +59,7 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindTotem(LivingSpawnEvent event) {
         int spawnCheckDist = Config.SPAWN_PREV_RANGE.get() * 16;
-//        boolean curios = ExternalMods.CURIOS.isLoaded();
+        boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
                 event.getX() - spawnCheckDist,
                 event.getY() - spawnCheckDist,
@@ -73,7 +73,7 @@ public class EntitySpawnHandler {
         List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
             if (player.getInventory().hasAnyOf(totemSet)
-//                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
+                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
             ) {
                 return true;
             }

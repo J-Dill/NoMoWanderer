@@ -31,10 +31,9 @@ public class NoMoWandererTotemItem extends Item {
         String msg = String.format("Prevents Wandering Trader spawns within %d chunks of the player. " +
                 "Other entities can be blocked via config.", chunks);
         toolTips.add(Component.literal(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
-        String totemMessage = "Can be anywhere in your inventory.";
-//                String.format(
-//                "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
-//        );
+        String totemMessage = String.format(
+                "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
+        );
         toolTips.add(
                 Component.literal(totemMessage)
                         .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
