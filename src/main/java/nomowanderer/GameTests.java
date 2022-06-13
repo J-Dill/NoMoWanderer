@@ -1,6 +1,7 @@
 package nomowanderer;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.BeforeBatch;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -16,8 +17,16 @@ public class GameTests {
     private static final BlockPos TRADER_RELATIVE_IN = new BlockPos(1, 2, 46);
     private static final BlockPos TRADER_RELATIVE_OUT = new BlockPos(46, 2, 1);
 
+    @BeforeBatch(batch = "sign")
+    public static void before(ServerLevel level) {
+        if (Config.SPAWN_PREV_RANGE.get() > 1) {
+            Config.SPAWN_PREV_RANGE.set(1);
+            Config.SPAWN_PREV_RANGE.save();
+        }
+    }
+
     @PrefixGameTestTemplate(value = false)
-    @GameTest(template = "trader_platform")
+    @GameTest(batch = "sign", template = "trader_platform")
     public static void spawnTraderInRange(GameTestHelper helper) {
         trySpawnTrader(helper, TRADER_RELATIVE_IN);
         helper.assertEntityNotPresent(EntityType.WANDERING_TRADER);
@@ -25,7 +34,7 @@ public class GameTests {
     }
 
     @PrefixGameTestTemplate(value = false)
-    @GameTest(template = "trader_platform")
+    @GameTest(batch = "sign", template = "trader_platform")
     public static void spawnTraderOutOfRange(GameTestHelper helper) {
         trySpawnTrader(helper, TRADER_RELATIVE_OUT);
         helper.assertEntityPresent(EntityType.WANDERING_TRADER);
