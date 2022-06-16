@@ -43,6 +43,9 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      changelog: ${{ steps.get-release-changelog.outputs.body }}
+
     steps:
       - name: Download JAR
         uses: actions/download-artifact@v3
@@ -57,6 +60,14 @@ jobs:
           repo_token: ${{ secrets.TOKEN }}
           prerelease: false
           files: /*.jar
+          
+      - name: Get Release Changelog
+        id: get-release-changelog
+        uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        with:
+          tag: ${{ steps.create-release.outputs.automatic_releases_tag }}
 
   release-curseforge:
     runs-on: ubuntu-latest
@@ -90,4 +101,6 @@ jobs:
           release_type: release
           game_versions: "${{ steps.load-props.outputs.curse_versions_forge }}"
           project_id: "${{ steps.load-props.outputs.curse_id }}"
+          changelog: ${{ jobs.release-github.outputs.changelog }}
+          changelog_type: "markdown"
           token: "${{ secrets.CURSEFORGE_API_KEY }}"
