@@ -59,7 +59,7 @@ jobs:
         with:
           repo_token: ${{ secrets.TOKEN }}
           prerelease: false
-          files: /*.jar
+          files: ./build/libs/*.jar
           
       - name: Get Release Changelog
         id: get-release-changelog
