@@ -70,7 +70,7 @@ public class EntitySpawnHandler {
         );
         Set<Item> totemSet = new HashSet<>();
         totemSet.add(Registry.NO_MO_WANDERER_TOTEM_ITEM.get());
-        List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
+        List<Player> entities = event.getLevel().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
             if (player.getInventory().hasAnyOf(totemSet)
                 || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
@@ -89,7 +89,7 @@ public class EntitySpawnHandler {
      */
     private static boolean canFindSign(LivingSpawnEvent event) {
         BlockPos eventPos = event.getEntity().getOnPos();
-        LevelAccessor world = event.getWorld();
+        LevelAccessor world = event.getLevel();
         ChunkAccess eventChunk = world.getChunk(eventPos);
         ArrayList<ChunkAccess> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_PREV_RANGE.get());
         return lookForSignsInChunks(chunks);

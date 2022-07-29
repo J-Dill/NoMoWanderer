@@ -26,7 +26,7 @@ import top.theillusivec4.curios.api.SlotTypeMessage;
 public class Registry {
 
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
-        DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, NoMoWanderer.MODID);
+        DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, NoMoWanderer.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(
         ForgeRegistries.BLOCKS, NoMoWanderer.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, NoMoWanderer.MODID);
