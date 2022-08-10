@@ -1,6 +1,5 @@
 package nomowanderer.compat;
 
-//import com.github.alexthe666.rats.RatsMod;
 import net.minecraftforge.fml.ModList;
 import top.theillusivec4.curios.api.CuriosApi;
 
