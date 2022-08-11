@@ -18,6 +18,15 @@ archivesBaseName = "${mod_id}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
+sourceSets {
+    gametest {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+        compileClasspath += main.output
+        runtimeClasspath += main.output
+    }
+}
+
 minecraft {
     mappings channel: 'official', version: version_mc
 
@@ -30,9 +39,12 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
+            ideaModule project.name + ".gametest"
+
             mods {
                 nomowanderer {
                     source sourceSets.main
+                    source sourceSets.gametest
                 }
             }
         }
@@ -45,9 +57,12 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
+            arg '-nogui'
+
             mods {
                 nomowanderer {
                     source sourceSets.main
+                    source sourceSets.gametest
                 }
             }
         }
@@ -60,11 +75,28 @@ minecraft {
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
 
-            args '--mod', 'nomowanderer', '--all', '--output', file('src/generated/resources/')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/')
 
             mods {
                 nomowanderer {
                     source sourceSets.main
+                    source sourceSets.gametest
+                }
+            }
+        }
+
+        gameTestServer {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', ''
+            property 'forge.logging.console.level', 'debug'
+
+            ideaModule project.name + ".gametest"
+
+            mods {
+                immersiveengineering {
+                    source sourceSets.main
+                    source sourceSets.gametest
                 }
             }
         }
@@ -110,12 +142,12 @@ classes.configure {
 
 jar {
     manifest {
-        attributes(["Specification-Title"     : "${mod_id}",
-                    "Specification-Vendor"    : "${mod_author}",
+        attributes(["Specification-Title"     : mod_id,
+                    "Specification-Vendor"    : mod_author,
                     "Specification-Version"   : "1",
-                    "Implementation-Title"    : "${mod_id}",
+                    "Implementation-Title"    : mod_id,
                     "Implementation-Version"  : "${version_mc}_${mod_version}",
-                    "Implementation-Vendor"   : "${mod_author}",
+                    "Implementation-Vendor"   : mod_author,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
