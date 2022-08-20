@@ -94,7 +94,7 @@ minecraft {
             ideaModule project.name + ".gametest"
 
             mods {
-                immersiveengineering {
+                nomowanderer {
                     source sourceSets.main
                     source sourceSets.gametest
                 }
