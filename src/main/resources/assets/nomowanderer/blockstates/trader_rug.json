@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": [
+      { "model": "nomowanderer:block/trader_rug" }
+    ],
+    "facing=south": [
+      { "model": "nomowanderer:block/trader_rug", "y": 180 }
+    ],
+    "facing=east": [
+      { "model": "nomowanderer:block/trader_rug", "y": 90 }
+    ],
+    "facing=west": [
+      { "model": "nomowanderer:block/trader_rug", "y": 270 }
+    ]
+  }
+}

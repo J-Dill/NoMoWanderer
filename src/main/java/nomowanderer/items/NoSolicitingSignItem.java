@@ -29,7 +29,7 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level level,
         List<Component> toolTips, TooltipFlag flag) {
-        int chunks = Config.SPAWN_PREV_RANGE.get();
+        int chunks = Config.SPAWN_WATCH_RANGE.get();
         String msg = String.format("Prevents Wandering Trader spawns within %d chunks of the sign. Other entities can be blocked via config.", chunks);
         toolTips.add(Component.literal(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         super.appendHoverText(stack, level, toolTips, flag);

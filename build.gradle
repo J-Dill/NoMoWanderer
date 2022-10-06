@@ -99,6 +99,8 @@ minecraft {
                     source sourceSets.gametest
                 }
             }
+
+
         }
     }
 }
@@ -162,3 +164,7 @@ artifacts {
 }
 
 jar.finalizedBy('reobfJar')
+
+task removeWorld(type: Delete) {
+    delete "./run/world"
+}

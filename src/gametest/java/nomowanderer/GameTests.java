@@ -19,9 +19,9 @@ public class GameTests {
 
     @BeforeBatch(batch = "sign")
     public static void before(ServerLevel level) {
-        if (Config.SPAWN_PREV_RANGE.get() > 1) {
-            Config.SPAWN_PREV_RANGE.set(1);
-            Config.SPAWN_PREV_RANGE.save();
+        if (Config.SPAWN_WATCH_RANGE.get() > 1) {
+            Config.SPAWN_WATCH_RANGE.set(1);
+            Config.SPAWN_WATCH_RANGE.save();
         }
     }
 
