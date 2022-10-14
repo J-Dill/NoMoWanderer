@@ -22,9 +22,9 @@ public class Config {
         ENTITY_WATCH_LIST = COMMON_BUILDER
             .comment("A list of 'modid:entity_name' entries.",
                     "These entities will be blocked from spawning if within the radius of a No Soliciting Sign.",
-                    "If the entity is not blocked, its spawn will be moved if in radius of a Trader Rug.")
+                    "If the entity is not blocked, its spawn will be moved to a Trader Rug if in the radius of one.")
             .defineList("entityWatchList",
-                Arrays.asList("minecraft:wandering_trader", "rats:plague_doctor"), it ->
+                Arrays.asList("minecraft:wandering_trader", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
                 it instanceof String && ResourceLocation.isValidResourceLocation((String) it)
             );
 
