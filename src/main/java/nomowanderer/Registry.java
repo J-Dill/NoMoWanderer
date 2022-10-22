@@ -1,7 +1,5 @@
 package nomowanderer;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +19,7 @@ import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.items.NoSolicitingSignItem;
+import nomowanderer.items.TraderClothPieceItem;
 import nomowanderer.items.TraderRugItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
@@ -63,7 +62,7 @@ public class Registry {
     public static final RegistryObject<Item> NO_SOLICITING_SIGN_ITEM = ITEMS.register(NoSolicitingSignItem.ID, NoSolicitingSignItem::new);
     public static final RegistryObject<Item> NO_MO_WANDERER_TOTEM_ITEM = ITEMS.register(NoMoWandererTotemItem.ID, NoMoWandererTotemItem::new);
     public static final RegistryObject<Item> TRADER_RUG_ITEM = ITEMS.register(TraderRugBlock.ID, TraderRugItem::new);
-
+    public static final RegistryObject<Item> TRADER_CLOTH_PIECE_ITEM = ITEMS.register(TraderClothPieceItem.ID, TraderClothPieceItem::new);
 
     //===============
     // Other

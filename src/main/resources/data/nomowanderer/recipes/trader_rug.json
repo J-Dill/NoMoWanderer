@@ -2,10 +2,16 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:blue_carpet"
+      "item": "nomowanderer:trader_cloth_piece"
     },
     {
-      "tag": "forge:dyes/yellow"
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
     }
   ],
   "result": {
