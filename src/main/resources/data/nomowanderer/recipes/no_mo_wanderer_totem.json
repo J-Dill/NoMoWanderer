@@ -1,13 +1,21 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    {
-      "item": "minecraft:totem_of_undying"
-    },
-    {
-      "item": "minecraft:emerald"
-    }
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " s ",
+    " e ",
+    " r "
   ],
+  "key": {
+    "s": {
+      "item": "minecraft:string"
+    },
+    "e": {
+      "item": "minecraft:emerald"
+    },
+    "r": {
+      "tag": "forge:dyes/red"
+    }
+  },
   "result": {
     "item": "nomowanderer:no_mo_wanderer_totem",
     "count": 1
