@@ -4,6 +4,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.CreativeModeTab;
@@ -14,8 +15,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import nomowanderer.Config;
 import nomowanderer.Registry;
+import nomowanderer.util.HoverTextUtil;
 
 public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
@@ -30,9 +31,15 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level level,
         List<Component> toolTips, TooltipFlag flag) {
-        int chunks = Config.SPAWN_WATCH_RANGE.get();
-        String msg = String.format("Prevents Wandering Trader spawns within %d chunks of the sign. Other entities can be blocked via config.", chunks);
-        toolTips.add(new TextComponent(msg).withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
+        if (Screen.hasShiftDown()) {
+            HoverTextUtil.addCommonText(toolTips);
+        } else {
+            toolTips.add(
+                    new TextComponent("Hold ").withStyle(ChatFormatting.GRAY)
+                            .append(new TextComponent("SHIFT ").withStyle(ChatFormatting.AQUA))
+                            .append(new TextComponent("for details.").withStyle(ChatFormatting.GRAY))
+            );
+        }
         super.appendHoverText(stack, level, toolTips, flag);
     }
 

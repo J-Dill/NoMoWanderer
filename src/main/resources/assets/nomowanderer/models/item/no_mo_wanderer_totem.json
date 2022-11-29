@@ -2,5 +2,13 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "nomowanderer:item/no_mo_wanderer_totem"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "nomowanderer:enabled": 1
+            },
+            "model": "nomowanderer:item/no_mo_wanderer_totem_disabled"
+        }
+    ]
 }

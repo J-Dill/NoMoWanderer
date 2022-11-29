@@ -34,6 +34,8 @@ public class Config {
         DISABLE_ENTITY_SPAWNS = COMMON_BUILDER.comment("Disable all spawns of entities in entityWatchList? Ignores radius.")
             .define("disableSpawns", false);
 
+        // TODO add setting to check for Trader already present
+
         COMMON_CONFIG = COMMON_BUILDER.build();
     }
 

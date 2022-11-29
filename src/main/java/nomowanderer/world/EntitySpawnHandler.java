@@ -3,9 +3,8 @@ package nomowanderer.world;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -19,13 +18,16 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nomowanderer.Config;
 import nomowanderer.NoMoWanderer;
-import nomowanderer.Registry;
 import nomowanderer.compat.ExternalMods;
+import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
 import top.theillusivec4.curios.api.CuriosApi;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
@@ -99,13 +101,14 @@ public class EntitySpawnHandler {
                 event.getY() + spawnCheckDist,
                 event.getZ() + spawnCheckDist
         );
-        Set<Item> totemSet = new HashSet<>();
-        totemSet.add(Registry.NO_MO_WANDERER_TOTEM_ITEM.get());
         List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
-            if (player.getInventory().hasAnyOf(totemSet)
-                || (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, Registry.NO_MO_WANDERER_TOTEM_ITEM.get()).isPresent())
-            ) {
+            for(ItemStack stack : player.getInventory().items) {
+                if (NoMoWandererTotemItem.isEnabled(stack)) {
+                    return true;
+                }
+            }
+            if (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, NoMoWandererTotemItem::isEnabled).isPresent()) {
                 return true;
             }
         }

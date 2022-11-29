@@ -16,8 +16,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
 import nomowanderer.util.SpawnTraderCommand;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 @Mod(NoMoWanderer.MODID)
