@@ -1,14 +1,6 @@
 package nomowanderer;
 
-import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
-import net.minecraft.commands.arguments.coordinates.Vec3Argument;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -21,16 +13,12 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
 import nomowanderer.util.SpawnTraderCommand;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 @Mod(NoMoWanderer.MODID)
 public class NoMoWanderer {
 
     public static final String MODID = "nomowanderer";
-
-    private static final Logger LOGGER = LogManager.getLogger(NoMoWanderer.MODID + " Mod Event Subscriber");
 
     public NoMoWanderer() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONFIG);

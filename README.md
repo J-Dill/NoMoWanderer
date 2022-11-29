@@ -4,7 +4,7 @@
 ![MC Versions](http://cf.way2muchnoise.eu/versions/nomowanderer.svg)
 
 Getting tired of those Wandering Traders trampling across your lawn and your crops, just to offer you some measly trades?
-Look no further than... well, this mod! Provides the player with a few blocks/items to either prevent or control
+Look no further than... well, this mod! Provides the player with a few blocks/items to prevent and/or control
 Wandering Trader spawns.
 
 ## Features
