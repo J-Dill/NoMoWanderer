@@ -2,7 +2,7 @@ package nomowanderer.tileentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -36,12 +36,12 @@ public class NoSolicitingSignBlockEntityRenderer implements
         if (blockstate.getBlock() instanceof StandingSignBlock) {
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
             float f1 = -((float)(blockstate.getValue(StandingSignBlock.ROTATION) * 360) / 16.0F);
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f1));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(f1));
             this.model.stick.visible = true;
         } else {
             matrixStackIn.translate(0.5D, 0.5D, 0.5D);
             float f4 = -blockstate.getValue(WallSignBlock.FACING).toYRot();
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f4));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(f4));
             matrixStackIn.translate(0.0D, -0.3125D, -0.4375D);
             this.model.stick.visible = false;
         }

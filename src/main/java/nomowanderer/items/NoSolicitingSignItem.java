@@ -5,8 +5,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -23,7 +23,7 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
     public NoSolicitingSignItem() {
         super(Registry.NO_SOLICITING_SIGN_STAND.get(), Registry.NO_SOLICITING_SIGN_WALL.get(),
-            new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(16));
+            new Item.Properties().stacksTo(16), Direction.DOWN);
     }
 
     @Override

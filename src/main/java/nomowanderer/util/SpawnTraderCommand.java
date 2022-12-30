@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.item.ItemStack;
 
 public class SpawnTraderCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> create(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -25,7 +26,7 @@ public class SpawnTraderCommand {
     }
 
     private static int trySpawnTrader(CommandContext<CommandSourceStack> stack) {
-        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(stack.getSource().getLevel(), null, null, null,
+        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(stack.getSource().getLevel(), (ItemStack) null, null,
                 new BlockPos(Vec3Argument.getVec3(stack, "pos")), MobSpawnType.EVENT, true, false
         );
         try {

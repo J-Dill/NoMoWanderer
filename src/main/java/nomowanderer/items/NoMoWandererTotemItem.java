@@ -1,17 +1,12 @@
 package nomowanderer.items;
 
-import java.util.List;
-import javax.annotation.Nullable;
-
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -23,12 +18,15 @@ import nomowanderer.compat.ExternalMods;
 import nomowanderer.util.HoverTextUtil;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class NoMoWandererTotemItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
 
     public NoMoWandererTotemItem() {
-        super(new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1));
+        super(new Item.Properties().stacksTo(1));
     }
 
     @Override
@@ -37,17 +35,6 @@ public class NoMoWandererTotemItem extends Item {
         CompoundTag enabled = defaultInstance.getOrCreateTag();
         enabled.putBoolean("Enabled", true);
         return defaultInstance;
-    }
-
-    @Override
-    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> itemStacks) {
-        if (!allowedIn(tab)) {
-            return;
-        }
-        ItemStack stack = new ItemStack(this);
-        CompoundTag enabled = stack.getOrCreateTag();
-        enabled.putBoolean("Enabled", true);
-        itemStacks.add(stack);
     }
 
     @Override

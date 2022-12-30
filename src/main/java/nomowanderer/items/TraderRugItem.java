@@ -15,7 +15,7 @@ import java.util.List;
 public class TraderRugItem extends BlockItem {
 
     public TraderRugItem() {
-        super(Registry.TRADER_RUG_BLOCK.get(), new Item.Properties().tab(CreativeModeTab.TAB_MISC));
+        super(Registry.TRADER_RUG_BLOCK.get(), new Item.Properties());
     }
 
     @Override

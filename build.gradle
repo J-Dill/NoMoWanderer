@@ -123,11 +123,11 @@ dependencies {
     minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
 
     // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
+//    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
 
     // JER
-    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:${version_jer}")
+//    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:${version_jer}")
 
     // Curios
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
