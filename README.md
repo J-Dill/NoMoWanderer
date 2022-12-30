@@ -15,6 +15,8 @@ Prevents configured entity spawns within a configurable distance (in chunks) of 
 Item that, when in a Baubles slot, Curios slot, or anywhere in your inventory, will prevent
 Wandering Trader spawns around the player. The distance is the same used for the No Soliciting Sign.
 
+It can be toggled on/off by _Shift right-clicking_ the Talisman.
+
 ### Trader Rug
 Provides a way to set the spawn location of Wandering Traders nearby. If a Wandering Trader spawns within the `radius` 
 of the rug, it will instead spawn on top of this block.
@@ -23,8 +25,9 @@ of the rug, it will instead spawn on top of this block.
 ### _nomowanderer-common.toml_
 `entityWatchList` These entities will be blocked from spawning if within the radius of a No Soliciting Sign.
 If the entity is not blocked, its spawn will be moved to a Trader Rug if in the radius of one.
-The Wandering Trader and the Plague Doctor from the [Rats](https://www.curseforge.com/minecraft/mc-mods/rats)
-mod (sorry alex) are in the list by default.
+The Wandering Trader, Plague Doctor from the [Rats](https://www.curseforge.com/minecraft/mc-mods/rats)
+mod, and Red Merchant from [Supplementaries](https://www.curseforge.com/minecraft/mc-mods/supplementaries) 
+are in this list by default.
 
 `radius` The effective range of this mod's items/blocks. Default 8.
 
