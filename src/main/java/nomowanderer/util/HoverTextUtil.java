@@ -2,14 +2,14 @@ package nomowanderer.util;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import nomowanderer.Config;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.List;
 
 public class HoverTextUtil {
 
-    public static void addCommonText(List<Component> toolTips) {
-        int chunks = Config.SPAWN_WATCH_RANGE.get();
+    public static void addCommonText(List<Component> toolTips, ForgeConfigSpec.IntValue config) {
+        int chunks = config.get();
         toolTips.add(
                 Component.literal("Prevents Wandering Trader spawns within ").withStyle(ChatFormatting.GREEN)
                         .append(Component.literal(String.valueOf(chunks)).withStyle(ChatFormatting.BLUE))
@@ -21,4 +21,11 @@ public class HoverTextUtil {
         );
     }
 
+    public static void addHoldShiftText(List<Component> toolTips) {
+        toolTips.add(
+                Component.literal("Hold ").withStyle(ChatFormatting.GRAY)
+                        .append(Component.literal("SHIFT ").withStyle(ChatFormatting.AQUA))
+                        .append(Component.literal("for details.").withStyle(ChatFormatting.GRAY))
+        );
+    }
 }

@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,18 +20,18 @@ import net.minecraftforge.fml.common.Mod;
 import nomowanderer.Config;
 import nomowanderer.NoMoWanderer;
 import nomowanderer.compat.ExternalMods;
-import nomowanderer.items.NoMoWandererTotemItem;
+import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
+
+    public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     @SubscribeEvent
     public static void maybeChangeEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
@@ -42,37 +43,29 @@ public class EntitySpawnHandler {
         checkSpawn(event);
     }
 
+    private static boolean isWatchedEntity(Entity entity) {
+        List<? extends String> watchedEntities = Config.ENTITY_WATCH_LIST.get();
+        String registryName = getRegistryName(entity);
+        return watchedEntities.contains(registryName);
+    }
+
+    @NotNull
+    private static String getRegistryName(Entity entity) {
+        return Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
+    }
+
     /**
      * If the entity from the spawn event is one of our watched entities, block its spawn if there
      * is a NoSolicitingSign in range or move its spawn if there is a TraderRug in range.
      */
     private static void checkSpawn(LivingSpawnEvent event) {
-        List<? extends String> blockedEntities = Config.ENTITY_WATCH_LIST.get();
         Entity entity = event.getEntity();
-        String registryName = Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
-        if (blockedEntities.contains(registryName)) {
-            if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event)) {
+        if (isWatchedEntity(entity)) {
+            if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindCancelEntity(event)) {
                 cancelSpawn(event);
                 return;
             }
-            List<BlockEntity> foundBEs = getBlockEntities(event);
-            for (BlockEntity be : foundBEs) {
-                if (be instanceof NoSolicitingSignBlockEntity) {
-                    cancelSpawn(event);
-                    return;
-                } else if (be instanceof TraderRugBlockEntity) {
-                    // If spawn isn't cancelled, then look for Trader Rug and spawn in center of it.
-                    BlockPos bePos = be.getBlockPos();
-                    BlockState blockState = event.getLevel().getBlockState(bePos.above());
-                    boolean validSpawn = !blockState.isSuffocating(event.getLevel(), bePos.above());
-                    if (validSpawn) {
-                        double x = bePos.getX() + 0.5;
-                        double z = bePos.getZ() + 0.5;
-                        entity.setPos(x, bePos.getY(), z);
-                        return;
-                    }
-                }
-            }
+            checkBlockEntities(event);
         }
     }
 
@@ -85,82 +78,122 @@ public class EntitySpawnHandler {
 
     /**
      * Searches for a player with a totem in their inventory, or other modded slots.
-     * Looks in a radius = (16 * SPAWN_PREV_RANGE) around the event for a player.
      *
      * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
-    private static boolean canFindTotem(LivingSpawnEvent event) {
-        int spawnCheckDist = Config.SPAWN_WATCH_RANGE.get() * 16;
-        boolean curios = ExternalMods.CURIOS.isLoaded();
-        AABB aabb = new AABB(
-                event.getX() - spawnCheckDist,
-                event.getY() - spawnCheckDist,
-                event.getZ() - spawnCheckDist,
-                event.getX() + spawnCheckDist,
-                event.getY() + spawnCheckDist,
-                event.getZ() + spawnCheckDist
-        );
-        List<Player> entities = event.getLevel().getEntitiesOfClass(Player.class, aabb);
-        for(Player player : entities) {
-            for(ItemStack stack : player.getInventory().items) {
-                if (NoMoWandererTotemItem.isEnabled(stack)) {
+    private static boolean canFindCancelEntity(LivingSpawnEvent event) {
+        int spawnCapCheckDist = getCheckDist(Config.SPAWN_CAP_WATCH_RADIUS);
+        int talismanCheckDist = getCheckDist(Config.TALISMAN_WATCH_RADIUS);
+
+        AABB spawnCapAABB = getAABB(event, spawnCapCheckDist);
+        AABB talismanAABB = getAABB(event, talismanCheckDist);
+        AABB largestAABB = getLargestAABB(spawnCapAABB, talismanAABB);
+        List<Entity> entities = event.getLevel().getEntitiesOfClass(Entity.class, largestAABB);
+        HashMap<String, Integer> entityCount = new HashMap<>();
+        for(Entity entity : entities) {
+            if (entity instanceof Player player) {
+                if (!talismanAABB.contains(player.position())) {
+                    continue;
+                }
+                for (ItemStack stack : player.getInventory().items) {
+                    if (AntiSolicitorTalismanItem.isEnabled(stack)) {
+                        return true;
+                    }
+                }
+                if (CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent()) {
                     return true;
                 }
-            }
-            if (curios && CuriosApi.getCuriosHelper().findFirstCurio(player, NoMoWandererTotemItem::isEnabled).isPresent()) {
-                return true;
+            } else if (isWatchedEntity(entity) && spawnCapAABB.contains(entity.position())) {
+                String registryName = getRegistryName(entity);
+                int count = entityCount.get(registryName) != null ? entityCount.get(registryName) : 0;
+                entityCount.put(registryName, count + 1);
+                Integer spawnCap = Config.ENTITY_SPAWN_CAP.get();
+                if (spawnCap != 0 && entityCount.get(registryName) >= spawnCap) {
+                     return true;
+                }
             }
         }
         return false;
+    }
+
+    private static AABB getLargestAABB(AABB... areas) {
+        AABB largest = null;
+        for (AABB aabb : areas) {
+            largest = (largest == null || aabb.getXsize() > largest.getXsize() ? aabb : largest);
+        }
+        return largest;
+    }
+
+    @NotNull
+    private static AABB getAABB(LivingSpawnEvent event, int spawnCheckDist) {
+        ChunkAccess eventChunk = event.getLevel().getChunk(new BlockPos(event.getX(), event.getY(), event.getZ()));
+        ChunkPos pos = eventChunk.getPos();
+        return new AABB(
+                pos.getMaxBlockX() + spawnCheckDist,
+                event.getLevel().getMinBuildHeight(),
+                pos.getMinBlockZ() - spawnCheckDist,
+                pos.getMinBlockX() - spawnCheckDist,
+                event.getLevel().getMaxBuildHeight(),
+                pos.getMaxBlockZ() + spawnCheckDist
+        );
+    }
+
+    private static int getCheckDist(ForgeConfigSpec.IntValue radius) {
+        return (radius.get() * 16) + 1;
     }
 
     /**
      * Looks for a No Soliciting Sign within the configured distance of the event.
      *
      * @param event The SpecialSpawn event.
-     * @return true if sign is found, false otherwise.
      */
-    private static List<BlockEntity> getBlockEntities(LivingSpawnEvent event) {
+    private static void checkBlockEntities(LivingSpawnEvent event) {
         BlockPos eventPos = event.getEntity().getOnPos();
         LevelAccessor world = event.getLevel();
         ChunkAccess eventChunk = world.getChunk(eventPos);
-        ArrayList<ChunkAccess> chunks = getChunksInRadius(world, eventChunk.getPos(), Config.SPAWN_WATCH_RANGE.get());
-        return lookForBEInChunks(chunks);
+        ArrayList<ChunkAccess> largestChunks = getChunksInRadius(world, eventChunk.getPos(), Math.max(Config.RUG_WATCH_RADIUS.get(), Config.SIGN_WATCH_RADIUS.get()));
+        ArrayList<ChunkAccess> rugChunks = getChunksInRadius(world, eventChunk.getPos(), Config.RUG_WATCH_RADIUS.get());
+        ArrayList<ChunkAccess> signChunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_WATCH_RADIUS.get());
+        lookForBEInChunks(event, largestChunks, rugChunks, signChunks);
     }
 
-    /**
-     * Search for a NoSolicitingSignBlockEntity within the given chunks.
-     *
-     * @param chunks Chunks to search for signs in.
-     * @return True if we found a sign within the chunks, false otherwise.
-     */
-    private static List<BlockEntity> lookForBEInChunks(ArrayList<ChunkAccess> chunks) {
-        List<BlockEntity> matches = new ArrayList<>();
-        for (ChunkAccess chunk : chunks) {
+    private static void lookForBEInChunks(LivingSpawnEvent event, ArrayList<ChunkAccess> largestChunks, ArrayList<ChunkAccess> rugChunks, ArrayList<ChunkAccess> signChunks) {
+        for (ChunkAccess chunk : largestChunks) {
             if (chunk instanceof LevelChunk newChunk) {
                 Map<BlockPos, BlockEntity> blockEntities = newChunk.getBlockEntities();
                 for (BlockPos pos : blockEntities.keySet()) {
                     BlockEntity be = blockEntities.get(pos);
-                    if (be instanceof NoSolicitingSignBlockEntity || be instanceof TraderRugBlockEntity) {
-                        matches.add(be);
+                    BlockPos bePos = be.getBlockPos();
+                    if (be instanceof NoSolicitingSignBlockEntity && signChunks.contains(event.getLevel().getChunk(bePos))) {
+                        cancelSpawn(event);
+                        return;
+                    } else if (be instanceof TraderRugBlockEntity && rugChunks.contains(event.getLevel().getChunk(bePos))) {
+                        // If spawn isn't cancelled, then look for Trader Rug and spawn in center of it.
+                        BlockState blockState = event.getLevel().getBlockState(bePos.above());
+                        boolean validSpawn = !blockState.isSuffocating(event.getLevel(), bePos.above());
+                        if (validSpawn) {
+                            double x = bePos.getX() + 0.5;
+                            double z = bePos.getZ() + 0.5;
+                            event.getEntity().setPos(x, bePos.getY(), z);
+                            return;
+                        }
                     }
                 }
             }
         }
-        return matches;
     }
 
     /**
      * Get all chunks within the given radius of the ChunkPos.
      *
-     * @param w The chunk's world.
+     * @param level The chunk's world.
      * @param chunkPos The ChunkPos of the event's chunk.
      * @param radius The radius around the ChunkPos to grab chunks from. For example, a radius of 2 would
      *               end up returning 25 chunks.
      * @return Array of chunks within given radius surrounding the provided ChunkPos.
      */
-    private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor w, ChunkPos chunkPos, int radius) {
+    private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor level, ChunkPos chunkPos, int radius) {
         /*
             Remember:   North = -Z
                         East  = +X
@@ -173,7 +206,7 @@ public class EntitySpawnHandler {
         ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {
-                ChunkAccess chunk = w.getChunk(curX, curZ);
+                ChunkAccess chunk = level.getChunk(curX, curZ);
                 chunks.add(chunk);
             }
             curX = startX; // Resetting current X back to start position.

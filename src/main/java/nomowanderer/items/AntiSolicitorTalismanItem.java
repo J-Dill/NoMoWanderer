@@ -18,24 +18,32 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import nomowanderer.Config;
 import nomowanderer.Registry;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.util.HoverTextUtil;
 import org.jetbrains.annotations.NotNull;
 
-public class NoMoWandererTotemItem extends Item {
+public class AntiSolicitorTalismanItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
 
-    public NoMoWandererTotemItem() {
+    public AntiSolicitorTalismanItem() {
         super(new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1));
     }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack defaultInstance = super.getDefaultInstance();
-        CompoundTag enabled = defaultInstance.getOrCreateTag();
-        enabled.putBoolean("Enabled", true);
+        CompoundTag tag = defaultInstance.getOrCreateTag();
+        tag.putBoolean("Enabled", true);
+        return defaultInstance;
+    }
+
+    public @NotNull ItemStack getDefaultInstance(boolean enabled) {
+        ItemStack defaultInstance = super.getDefaultInstance();
+        CompoundTag tag = defaultInstance.getOrCreateTag();
+        tag.putBoolean("Enabled", enabled);
         return defaultInstance;
     }
 
@@ -67,7 +75,7 @@ public class NoMoWandererTotemItem extends Item {
                                 @NotNull List<Component> toolTips, @NotNull TooltipFlag flag) {
         addEnabledTooltip(stack, toolTips);
         if (Screen.hasShiftDown()) {
-            HoverTextUtil.addCommonText(toolTips);
+            HoverTextUtil.addCommonText(toolTips, Config.TALISMAN_WATCH_RADIUS);
             String totemMessage = String.format(
                     "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
             );
@@ -79,17 +87,13 @@ public class NoMoWandererTotemItem extends Item {
                             .append(Component.literal("to toggle on/off").withStyle(ChatFormatting.GRAY))
             );
         } else {
-            toolTips.add(
-                    Component.literal("Hold ").withStyle(ChatFormatting.GRAY)
-                        .append(Component.literal("SHIFT ").withStyle(ChatFormatting.AQUA))
-                        .append(Component.literal("for details.").withStyle(ChatFormatting.GRAY))
-            );
+            HoverTextUtil.addHoldShiftText(toolTips);
         }
         super.appendHoverText(stack, level, toolTips, flag);
     }
 
     private static void addEnabledTooltip(@NotNull ItemStack stack, @NotNull List<Component> toolTips) {
-        boolean enabled = NoMoWandererTotemItem.isEnabled(stack);
+        boolean enabled = AntiSolicitorTalismanItem.isEnabled(stack);
         toolTips.add(
                 Component.literal("Enabled: ").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(enabled ? "Yes" : "No").withStyle(enabled ? ChatFormatting.GREEN : ChatFormatting.RED))
