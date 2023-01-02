@@ -17,7 +17,7 @@ import nomowanderer.blocks.NoSolicitingSignStand;
 import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.compat.ExternalMods;
-import nomowanderer.items.NoMoWandererTotemItem;
+import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.items.NoSolicitingSignItem;
 import nomowanderer.items.TraderClothPieceItem;
 import nomowanderer.items.TraderRugItem;
@@ -60,7 +60,7 @@ public class Registry {
     // Items
     //===============
     public static final RegistryObject<Item> NO_SOLICITING_SIGN_ITEM = ITEMS.register(NoSolicitingSignItem.ID, NoSolicitingSignItem::new);
-    public static final RegistryObject<Item> NO_SOLICITING_TALISMAN = ITEMS.register(NoMoWandererTotemItem.ID, NoMoWandererTotemItem::new);
+    public static final RegistryObject<Item> NO_SOLICITING_TALISMAN = ITEMS.register(AntiSolicitorTalismanItem.ID, AntiSolicitorTalismanItem::new);
     public static final RegistryObject<Item> TRADER_RUG_ITEM = ITEMS.register(TraderRugBlock.ID, TraderRugItem::new);
     public static final RegistryObject<Item> TRADER_CLOTH_PIECE_ITEM = ITEMS.register(TraderClothPieceItem.ID, TraderClothPieceItem::new);
 
