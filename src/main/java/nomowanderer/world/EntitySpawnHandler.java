@@ -13,7 +13,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,13 +34,10 @@ public class EntitySpawnHandler {
     public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     @SubscribeEvent
-    public static void maybeChangeEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
-        checkSpawn(event);
-    }
-
-    @SubscribeEvent
-    public static void maybeChangeEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
-        checkSpawn(event);
+    public static void maybeChangeEntitySpawn(EntityJoinLevelEvent event) {
+        if (!event.loadedFromDisk()) {
+            checkSpawn(event);
+        }
     }
 
     private static boolean isWatchedEntity(Entity entity) {
@@ -58,7 +55,7 @@ public class EntitySpawnHandler {
      * If the entity from the spawn event is one of our watched entities, block its spawn if there
      * is a NoSolicitingSign in range or move its spawn if there is a TraderRug in range.
      */
-    private static void checkSpawn(LivingSpawnEvent event) {
+    private static void checkSpawn(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (isWatchedEntity(entity)) {
             if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindCancelEntity(event)) {
@@ -69,7 +66,7 @@ public class EntitySpawnHandler {
         }
     }
 
-    private static void cancelSpawn(LivingSpawnEvent event) {
+    private static void cancelSpawn(EntityJoinLevelEvent event) {
         if (event.isCancelable()) {
             event.setCanceled(true);
         }
@@ -82,7 +79,7 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
-    private static boolean canFindCancelEntity(LivingSpawnEvent event) {
+    private static boolean canFindCancelEntity(EntityJoinLevelEvent event) {
         int spawnCapCheckDist = getCheckDist(Config.SPAWN_CAP_WATCH_RADIUS);
         int talismanCheckDist = getCheckDist(Config.TALISMAN_WATCH_RADIUS);
 
@@ -126,8 +123,8 @@ public class EntitySpawnHandler {
     }
 
     @NotNull
-    private static AABB getAABB(LivingSpawnEvent event, int spawnCheckDist) {
-        ChunkAccess eventChunk = event.getLevel().getChunk(new BlockPos(event.getX(), event.getY(), event.getZ()));
+    private static AABB getAABB(EntityJoinLevelEvent event, int spawnCheckDist) {
+        ChunkAccess eventChunk = event.getLevel().getChunk(new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ()));
         ChunkPos pos = eventChunk.getPos();
         return new AABB(
                 pos.getMaxBlockX() + spawnCheckDist,
@@ -148,7 +145,7 @@ public class EntitySpawnHandler {
      *
      * @param event The SpecialSpawn event.
      */
-    private static void checkBlockEntities(LivingSpawnEvent event) {
+    private static void checkBlockEntities(EntityJoinLevelEvent event) {
         BlockPos eventPos = event.getEntity().getOnPos();
         LevelAccessor world = event.getLevel();
         ChunkAccess eventChunk = world.getChunk(eventPos);
@@ -158,7 +155,7 @@ public class EntitySpawnHandler {
         lookForBEInChunks(event, largestChunks, rugChunks, signChunks);
     }
 
-    private static void lookForBEInChunks(LivingSpawnEvent event, ArrayList<ChunkAccess> largestChunks, ArrayList<ChunkAccess> rugChunks, ArrayList<ChunkAccess> signChunks) {
+    private static void lookForBEInChunks(EntityJoinLevelEvent event, ArrayList<ChunkAccess> largestChunks, ArrayList<ChunkAccess> rugChunks, ArrayList<ChunkAccess> signChunks) {
         for (ChunkAccess chunk : largestChunks) {
             if (chunk instanceof LevelChunk newChunk) {
                 Map<BlockPos, BlockEntity> blockEntities = newChunk.getBlockEntities();
