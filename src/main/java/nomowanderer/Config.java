@@ -79,7 +79,7 @@ public class Config {
         ENTITY_WATCH_LIST = COMMON_BUILDER
             .comment("A list of 'modid:entityName' entries used for the various functions of this mod.")
             .defineList("entityWatchList",
-                Arrays.asList("minecraft:wandering_trader", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
+                Arrays.asList("minecraft:wandering_trader", "minecraft:trader_llama", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
                 it instanceof String && ResourceLocation.isValidResourceLocation((String) it)
             );
         COMMON_BUILDER.pop();
