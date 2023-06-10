@@ -29,6 +29,7 @@ public class SpawnTraderCommand {
                 new BlockPos(Vec3Argument.getVec3(stack, "pos")), MobSpawnType.EVENT, false, false
         );
         try {
+            // TODO try to mimic vanilla more here
             ServerPlayer serverPlayer = stack.getSource().getPlayerOrException();
             String message = trader != null ? "Spawned Trader at " + trader.position() : "Trader spawn blocked.";
             serverPlayer.sendSystemMessage(Component.literal(message));
