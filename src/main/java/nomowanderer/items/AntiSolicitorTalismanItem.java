@@ -29,7 +29,7 @@ public class AntiSolicitorTalismanItem extends Item {
     public static final String ID = "no_mo_wanderer_totem";
 
     public AntiSolicitorTalismanItem() {
-        super(new Item.Properties().tab(CreativeModeTab.TAB_MISC).stacksTo(1));
+        super(new Item.Properties().stacksTo(1));
     }
 
     @Override
@@ -45,17 +45,6 @@ public class AntiSolicitorTalismanItem extends Item {
         CompoundTag tag = defaultInstance.getOrCreateTag();
         tag.putBoolean("Enabled", enabled);
         return defaultInstance;
-    }
-
-    @Override
-    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> itemStacks) {
-        if (!allowedIn(tab)) {
-            return;
-        }
-        ItemStack stack = new ItemStack(this);
-        CompoundTag enabled = stack.getOrCreateTag();
-        enabled.putBoolean("Enabled", true);
-        itemStacks.add(stack);
     }
 
     @Override

@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.npc.WanderingTrader;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.util.FakePlayer;
@@ -200,7 +201,7 @@ public class GameTests {
 
     private static void trySpawnTrader(GameTestHelper helper, BlockPos pos, boolean absolute) {
         ServerLevel level = helper.getLevel();
-        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, null, null, null,
+        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, (ItemStack) null, null,
                 absolute ? helper.absolutePos(pos) : pos, MobSpawnType.EVENT, true, false
         );
         if (trader != null) {
