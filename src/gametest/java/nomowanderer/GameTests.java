@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -159,6 +160,31 @@ public class GameTests {
     }
 
     @PrefixGameTestTemplate(value = false)
+    @GameTest(batch = "spawnCap", template = "trader_platform_talisman")
+    public static void spawnTraderCapTraderAndLlamasLimited(GameTestHelper helper) {
+        setSpawnCapConfig(1);
+        WanderingTrader trader = trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
+        tryToSpawnLlamaFor(helper, trader, TALISMAN_PLAYER_SPAWN);
+        tryToSpawnLlamaFor(helper, trader, TALISMAN_PLAYER_SPAWN);
+        helper.assertEntitiesPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.assertEntitiesPresent(EntityType.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.succeed();
+    }
+
+    @PrefixGameTestTemplate(value = false)
+    @GameTest(batch = "spawnCap", template = "trader_platform_talisman")
+    public static void spawnTraderCapTraderAndLlamasNoLimit(GameTestHelper helper) {
+        setSpawnCapConfig(0);
+        WanderingTrader trader = trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
+        tryToSpawnLlamaFor(helper, trader, TALISMAN_PLAYER_SPAWN);
+        tryToSpawnLlamaFor(helper, trader, TALISMAN_PLAYER_SPAWN);
+        tryToSpawnLlamaFor(helper, trader, TALISMAN_PLAYER_SPAWN);
+        helper.assertEntitiesPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.assertEntitiesPresent(EntityType.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 3, 0);
+        helper.succeed();
+    }
+
+    @PrefixGameTestTemplate(value = false)
     @GameTest(batch = "rug", template = "trader_platform_rug")
     public static void spawnTraderByRugOut(GameTestHelper helper) {
         BlockPos blockPos = trySpawnTraderBarelyOut(helper, RUG_POS);
@@ -195,11 +221,11 @@ public class GameTests {
         }
     }
 
-    private static void trySpawnTrader(GameTestHelper helper, BlockPos pos) {
-        trySpawnTrader(helper, pos, true);
+    private static WanderingTrader trySpawnTrader(GameTestHelper helper, BlockPos pos) {
+        return trySpawnTrader(helper, pos, true);
     }
 
-    private static void trySpawnTrader(GameTestHelper helper, BlockPos pos, boolean absolute) {
+    private static WanderingTrader trySpawnTrader(GameTestHelper helper, BlockPos pos, boolean absolute) {
         ServerLevel level = helper.getLevel();
         WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, (ItemStack) null, null,
                 absolute ? helper.absolutePos(pos) : pos, MobSpawnType.EVENT, true, false
@@ -207,6 +233,7 @@ public class GameTests {
         if (trader != null) {
             trader.removeFreeWill();
         }
+        return trader;
     }
 
     private static BlockPos trySpawnTraderBarelyIn(GameTestHelper helper, BlockPos pos) {
@@ -245,6 +272,13 @@ public class GameTests {
         AntiSolicitorTalismanItem item = (AntiSolicitorTalismanItem) Registry.NO_SOLICITING_TALISMAN.get();
         fakePlayer.addItem(item.getDefaultInstance(enabled));
         return fakePlayer;
+    }
+
+    private static void tryToSpawnLlamaFor(GameTestHelper helper, WanderingTrader trader, BlockPos blockPos) {
+        ServerLevel serverLevel = helper.getLevel();
+        TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, trader.blockPosition(), MobSpawnType.EVENT);
+        assert traderllama != null;
+        traderllama.removeFreeWill();
     }
 
 }

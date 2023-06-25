@@ -106,7 +106,7 @@ public class EntitySpawnHandler {
                 int count = entityCount.get(registryName) != null ? entityCount.get(registryName) : 0;
                 entityCount.put(registryName, count + 1);
                 Integer spawnCap = Config.ENTITY_SPAWN_CAP.get();
-                if (spawnCap != 0 && entityCount.get(registryName) >= spawnCap) {
+                if (spawnCap != 0 && registryName.equals(getRegistryName(event.getEntity())) && entityCount.get(registryName) >= spawnCap) {
                      return true;
                 }
             }
