@@ -26,7 +26,7 @@ public class SpawnTraderCommand {
 
     private static int trySpawnTrader(CommandContext<CommandSourceStack> stack) {
         WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(stack.getSource().getLevel(), null, null, null,
-                new BlockPos(Vec3Argument.getVec3(stack, "pos")), MobSpawnType.EVENT, true, false
+                new BlockPos(Vec3Argument.getVec3(stack, "pos")), MobSpawnType.EVENT, false, false
         );
         try {
             ServerPlayer serverPlayer = stack.getSource().getPlayerOrException();

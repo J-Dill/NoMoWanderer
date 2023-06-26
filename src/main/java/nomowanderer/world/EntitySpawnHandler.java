@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,35 +23,41 @@ import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.NoMoWandererTotemItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
+import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
 
-    @SubscribeEvent
-    public static void maybeChangeEntitySpawn(LivingSpawnEvent.SpecialSpawn event) {
-        checkSpawn(event);
-    }
+    public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     @SubscribeEvent
-    public static void maybeChangeEntitySpawn(LivingSpawnEvent.CheckSpawn event) {
-        checkSpawn(event);
+    public static void maybeChangeEntitySpawn(EntityJoinWorldEvent event) {
+        if (!event.loadedFromDisk()) {
+            checkSpawn(event);
+        }
+    }
+
+    private static boolean isWatchedEntity(Entity entity) {
+        List<? extends String> watchedEntities = Config.ENTITY_WATCH_LIST.get();
+        String registryName = getRegistryName(entity);
+        return watchedEntities.contains(registryName);
+    }
+
+    @NotNull
+    private static String getRegistryName(Entity entity) {
+        return Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
     }
 
     /**
      * If the entity from the spawn event is one of our watched entities, block its spawn if there
      * is a NoSolicitingSign in range or move its spawn if there is a TraderRug in range.
      */
-    private static void checkSpawn(LivingSpawnEvent event) {
-        List<? extends String> blockedEntities = Config.ENTITY_WATCH_LIST.get();
+    private static void checkSpawn(EntityJoinWorldEvent event) {
         Entity entity = event.getEntity();
-        String registryName = Objects.requireNonNull(EntityType.getKey(entity.getType())).toString();
-        if (blockedEntities.contains(registryName)) {
+        if (isWatchedEntity(entity)) {
             if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindTotem(event)) {
                 cancelSpawn(event);
                 return;
@@ -76,7 +83,7 @@ public class EntitySpawnHandler {
         }
     }
 
-    private static void cancelSpawn(LivingSpawnEvent event) {
+    private static void cancelSpawn(EntityJoinWorldEvent event) {
         if (event.isCancelable()) {
             event.setCanceled(true);
         }
@@ -90,16 +97,16 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      * @return true if totem is found, false otherwise.
      */
-    private static boolean canFindTotem(LivingSpawnEvent event) {
+    private static boolean canFindTotem(EntityJoinWorldEvent event) {
         int spawnCheckDist = Config.SPAWN_WATCH_RANGE.get() * 16;
         boolean curios = ExternalMods.CURIOS.isLoaded();
         AABB aabb = new AABB(
-                event.getX() - spawnCheckDist,
-                event.getY() - spawnCheckDist,
-                event.getZ() - spawnCheckDist,
-                event.getX() + spawnCheckDist,
-                event.getY() + spawnCheckDist,
-                event.getZ() + spawnCheckDist
+                event.getEntity().getX() - spawnCheckDist,
+                event.getEntity().getY() - spawnCheckDist,
+                event.getEntity().getZ() - spawnCheckDist,
+                event.getEntity().getX() + spawnCheckDist,
+                event.getEntity().getY() + spawnCheckDist,
+                event.getEntity().getZ() + spawnCheckDist
         );
         List<Player> entities = event.getWorld().getEntitiesOfClass(Player.class, aabb);
         for(Player player : entities) {
@@ -119,9 +126,9 @@ public class EntitySpawnHandler {
      * Looks for a No Soliciting Sign within the configured distance of the event.
      *
      * @param event The SpecialSpawn event.
-     * @return true if sign is found, false otherwise.
+     * @return Block entities in configured radius around the event.
      */
-    private static List<BlockEntity> getBlockEntities(LivingSpawnEvent event) {
+    private static List<BlockEntity> getBlockEntities(EntityJoinWorldEvent event) {
         BlockPos eventPos = event.getEntity().getOnPos();
         LevelAccessor world = event.getWorld();
         ChunkAccess eventChunk = world.getChunk(eventPos);
@@ -158,7 +165,7 @@ public class EntitySpawnHandler {
      * @param chunkPos The ChunkPos of the event's chunk.
      * @param radius The radius around the ChunkPos to grab chunks from. For example, a radius of 2 would
      *               end up returning 25 chunks.
-     * @return Array of chunks within given radius surrounding the provided ChunkPos.
+     * @return List of chunks within given radius surrounding the provided ChunkPos.
      */
     private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor w, ChunkPos chunkPos, int radius) {
         /*
