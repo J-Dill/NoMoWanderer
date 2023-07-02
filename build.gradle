@@ -132,6 +132,16 @@ dependencies {
     // Curios
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+
+    // IDAS
+//    implementation fg.deobf("curse.maven:idas-605375:4558431")
+//    implementation fg.deobf("curse.maven:autoreglib-250363:4100299")
+//    implementation fg.deobf("curse.maven:integrated-api-817709:4446914")
+//    implementation fg.deobf("curse.maven:create-328085:4550987")
+//    implementation fg.deobf("curse.maven:supplementaries-412082:4615838")
+//    implementation fg.deobf("curse.maven:quark-243121:4587248")
+//    implementation fg.deobf("curse.maven:selene-499980:4620027")
+
 }
 
 def replaceResources = tasks.register("replaceResources", Copy) {

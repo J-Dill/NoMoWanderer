@@ -6,6 +6,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,9 +36,16 @@ public class EntitySpawnHandler {
 
     @SubscribeEvent
     public static void maybeChangeEntitySpawn(EntityJoinLevelEvent event) {
-        if (!event.loadedFromDisk()) {
+        if (!event.loadedFromDisk() && tryGetEventChunk(event) != null) {
             checkSpawn(event);
         }
+    }
+
+    private static LevelChunk tryGetEventChunk(EntityJoinLevelEvent event) {
+        BlockPos blockPos = new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
+        ChunkPos chunkPos = new ChunkPos(blockPos);
+        Level level = event.getLevel();
+        return level.getChunkSource().getChunkNow(chunkPos.x, chunkPos.z);
     }
 
     private static boolean isWatchedEntity(Entity entity) {
@@ -124,14 +132,16 @@ public class EntitySpawnHandler {
 
     @NotNull
     private static AABB getAABB(EntityJoinLevelEvent event, int spawnCheckDist) {
-        ChunkAccess eventChunk = event.getLevel().getChunk(new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ()));
+        BlockPos blockPos = new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
+        Level level = event.getLevel();
+        ChunkAccess eventChunk = level.getChunk(blockPos);
         ChunkPos pos = eventChunk.getPos();
         return new AABB(
                 pos.getMaxBlockX() + spawnCheckDist,
-                event.getLevel().getMinBuildHeight(),
+                level.getMinBuildHeight(),
                 pos.getMinBlockZ() - spawnCheckDist,
                 pos.getMinBlockX() - spawnCheckDist,
-                event.getLevel().getMaxBuildHeight(),
+                level.getMaxBuildHeight(),
                 pos.getMaxBlockZ() + spawnCheckDist
         );
     }
