@@ -37,7 +37,7 @@ public class SpawnTraderCommand {
     private static int trySpawnTrader(CommandContext<CommandSourceStack> stack) {
         WanderingTrader wanderingtrader = EntityType.WANDERING_TRADER.spawn(
                 stack.getSource().getLevel(),
-                new BlockPos(Vec3Argument.getVec3(stack, "pos")),
+                BlockPos.containing(stack.getSource().getPosition()),
                 MobSpawnType.EVENT
         );
         if (wanderingtrader != null) {
@@ -52,7 +52,7 @@ public class SpawnTraderCommand {
             String message = wanderingtrader != null ? "Spawned Trader at " + wanderingtrader.position() : "Trader spawn blocked.";
             serverPlayer.sendSystemMessage(Component.literal(message));
         } catch (CommandSyntaxException e) {
-            return 0;
+            return 1;
         }
         return 0;
     }

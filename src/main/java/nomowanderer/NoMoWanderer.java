@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,13 +41,13 @@ public class NoMoWanderer {
     }
 
     @SubscribeEvent
-    public void registerTabs(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+    public void registerTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             event.accept(Registry.NO_SOLICITING_SIGN_ITEM.get());
             event.accept(Registry.TRADER_RUG_ITEM.get());
-        } else if (event.getTab() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        } else if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(Registry.NO_SOLICITING_TALISMAN.get().getDefaultInstance());
-        } else if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+        } else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(Registry.TRADER_CLOTH_PIECE_ITEM.get());
         }
     }

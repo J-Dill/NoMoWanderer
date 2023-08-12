@@ -124,7 +124,7 @@ public class EntitySpawnHandler {
 
     @NotNull
     private static AABB getAABB(EntityJoinLevelEvent event, int spawnCheckDist) {
-        ChunkAccess eventChunk = event.getLevel().getChunk(new BlockPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ()));
+        ChunkAccess eventChunk = event.getLevel().getChunk(event.getEntity().blockPosition());
         ChunkPos pos = eventChunk.getPos();
         return new AABB(
                 pos.getMaxBlockX() + spawnCheckDist,
@@ -188,7 +188,7 @@ public class EntitySpawnHandler {
      * @param chunkPos The ChunkPos of the event's chunk.
      * @param radius The radius around the ChunkPos to grab chunks from. For example, a radius of 2 would
      *               end up returning 25 chunks.
-     * @return Array of chunks within given radius surrounding the provided ChunkPos.
+     * @return ArrayList Array of chunks within given radius surrounding the provided ChunkPos.
      */
     private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor level, ChunkPos chunkPos, int radius) {
         /*

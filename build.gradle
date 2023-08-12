@@ -7,7 +7,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.+', changing: true
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -167,7 +167,7 @@ jar {
     }
 }
 
-task sourcesJar(type: Jar) {
+tasks.register('sourcesJar', Jar) {
     archiveClassifier.set('sources')
     from sourceSets.main.allJava
 }
@@ -178,6 +178,6 @@ artifacts {
 
 jar.finalizedBy('reobfJar')
 
-task removeWorld(type: Delete) {
+tasks.register('removeWorld', Delete) {
     delete "./run/world"
 }

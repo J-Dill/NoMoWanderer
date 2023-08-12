@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import nomowanderer.tileentity.TraderRugBlockEntity;
@@ -30,7 +30,7 @@ public class TraderRugBlock extends HorizontalDirectionalBlock implements Entity
     public static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public TraderRugBlock() {
-        super(Properties.of(Material.WOOL).instabreak().noCollission());
+        super(Properties.of().mapColor(MapColor.WOOL).instabreak().noCollission());
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 
