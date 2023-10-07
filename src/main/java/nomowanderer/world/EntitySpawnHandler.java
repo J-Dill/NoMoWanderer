@@ -1,6 +1,7 @@
 package nomowanderer.world;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -58,6 +59,10 @@ public class EntitySpawnHandler {
     private static void checkSpawn(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (isWatchedEntity(entity)) {
+            Optional<ChunkAccess> eventChunk = getChunk(event, event.getEntity().blockPosition());
+            if (eventChunk.isEmpty()) {
+                return;
+            }
             if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindCancelEntity(event)) {
                 cancelSpawn(event);
                 return;
@@ -181,6 +186,14 @@ public class EntitySpawnHandler {
         }
     }
 
+    @NotNull
+    private static Optional<ChunkAccess> getChunk(EntityJoinLevelEvent event, BlockPos bePos) {
+        if (event.getLevel().hasChunk(SectionPos.blockToSectionCoord(bePos.getX()), SectionPos.blockToSectionCoord(bePos.getY()))) {
+            return Optional.of(event.getLevel().getChunkAt(bePos));
+        }
+        return Optional.empty();
+    }
+
     /**
      * Get all chunks within the given radius of the ChunkPos.
      *
@@ -203,8 +216,10 @@ public class EntitySpawnHandler {
         ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {
-                ChunkAccess chunk = level.getChunk(curX, curZ);
-                chunks.add(chunk);
+                if (level.hasChunk(curX, curZ)) {
+                    ChunkAccess chunk = level.getChunk(curX, curZ);
+                    chunks.add(chunk);
+                }
             }
             curX = startX; // Resetting current X back to start position.
         }
