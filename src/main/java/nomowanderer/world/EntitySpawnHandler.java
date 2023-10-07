@@ -213,8 +213,10 @@ public class EntitySpawnHandler {
         ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {
-                ChunkAccess chunk = level.getChunk(curX, curZ);
-                chunks.add(chunk);
+                if (level.hasChunk(curX, curZ)) {
+                    ChunkAccess chunk = level.getChunk(curX, curZ);
+                    chunks.add(chunk);
+                }
             }
             curX = startX; // Resetting current X back to start position.
         }
