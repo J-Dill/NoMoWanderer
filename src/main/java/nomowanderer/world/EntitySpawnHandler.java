@@ -198,7 +198,7 @@ public class EntitySpawnHandler {
 
     @NotNull
     private static Optional<ChunkAccess> getChunk(EntityJoinLevelEvent event, BlockPos bePos) {
-        if (event.getLevel().hasChunk(SectionPos.blockToSectionCoord(bePos.getX()), SectionPos.blockToSectionCoord(bePos.getY()))) {
+        if (event.getLevel().hasChunk(SectionPos.blockToSectionCoord(bePos.getX()), SectionPos.blockToSectionCoord(bePos.getZ()))) {
             return Optional.of(event.getLevel().getChunkAt(bePos));
         }
         return Optional.empty();
