@@ -188,10 +188,13 @@ public class EntitySpawnHandler {
 
     @NotNull
     private static Optional<ChunkAccess> getChunk(EntityJoinLevelEvent event, BlockPos bePos) {
-        if (event.getLevel().hasChunk(SectionPos.blockToSectionCoord(bePos.getX()), SectionPos.blockToSectionCoord(bePos.getZ()))) {
-            return Optional.of(event.getLevel().getChunkAt(bePos));
-        }
-        return Optional.empty();
+        int cX = SectionPos.blockToSectionCoord(bePos.getX());
+        int cZ = SectionPos.blockToSectionCoord(bePos.getZ());
+
+        // getChunkNow is used here as regular getChunk calls on Level will all block
+        // and generate a new chunk, we can never block here waiting for a new chunk as we will
+        // cause a thread deadlock.
+        return Optional.ofNullable(event.getLevel().getChunkSource().getChunkNow(cX, cZ));
     }
 
     /**
