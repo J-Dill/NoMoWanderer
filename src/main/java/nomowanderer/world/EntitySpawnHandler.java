@@ -7,7 +7,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -21,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import nomowanderer.Config;
 import nomowanderer.NoMoWanderer;
 import nomowanderer.compat.ExternalMods;
+import nomowanderer.exception.UnloadedChunkException;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
@@ -37,7 +37,11 @@ public class EntitySpawnHandler {
     @SubscribeEvent
     public static void maybeChangeEntitySpawn(EntityJoinLevelEvent event) {
         if (!event.loadedFromDisk()) {
-            checkSpawn(event);
+            try {
+                checkSpawn(event);
+            } catch (UnloadedChunkException ignored) {
+                // Event is taking place in unloaded chunk, so do nothing to prevent deadlock.
+            }
         }
     }
 
@@ -59,10 +63,6 @@ public class EntitySpawnHandler {
     private static void checkSpawn(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
         if (isWatchedEntity(entity)) {
-            Optional<ChunkAccess> eventChunk = getChunk(event, event.getEntity().blockPosition());
-            if (eventChunk.isEmpty()) {
-                return;
-            }
             if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindCancelEntity(event)) {
                 cancelSpawn(event);
                 return;
@@ -127,9 +127,8 @@ public class EntitySpawnHandler {
         return largest;
     }
 
-    @NotNull
     private static AABB getAABB(EntityJoinLevelEvent event, int spawnCheckDist) {
-        ChunkAccess eventChunk = event.getLevel().getChunk(event.getEntity().blockPosition());
+        ChunkAccess eventChunk = getChunk(event, event.getEntity().blockPosition());
         ChunkPos pos = eventChunk.getPos();
         return new AABB(
                 pos.getMaxBlockX() + spawnCheckDist,
@@ -151,12 +150,10 @@ public class EntitySpawnHandler {
      * @param event The SpecialSpawn event.
      */
     private static void checkBlockEntities(EntityJoinLevelEvent event) {
-        BlockPos eventPos = event.getEntity().getOnPos();
-        LevelAccessor world = event.getLevel();
-        ChunkAccess eventChunk = world.getChunk(eventPos);
-        ArrayList<ChunkAccess> largestChunks = getChunksInRadius(world, eventChunk.getPos(), Math.max(Config.RUG_WATCH_RADIUS.get(), Config.SIGN_WATCH_RADIUS.get()));
-        ArrayList<ChunkAccess> rugChunks = getChunksInRadius(world, eventChunk.getPos(), Config.RUG_WATCH_RADIUS.get());
-        ArrayList<ChunkAccess> signChunks = getChunksInRadius(world, eventChunk.getPos(), Config.SIGN_WATCH_RADIUS.get());
+        ChunkAccess eventChunk = getChunk(event, event.getEntity().getOnPos());
+        ArrayList<ChunkAccess> largestChunks = getChunksInRadius(event, eventChunk.getPos(), Math.max(Config.RUG_WATCH_RADIUS.get(), Config.SIGN_WATCH_RADIUS.get()));
+        ArrayList<ChunkAccess> rugChunks = getChunksInRadius(event, eventChunk.getPos(), Config.RUG_WATCH_RADIUS.get());
+        ArrayList<ChunkAccess> signChunks = getChunksInRadius(event, eventChunk.getPos(), Config.SIGN_WATCH_RADIUS.get());
         lookForBEInChunks(event, largestChunks, rugChunks, signChunks);
     }
 
@@ -187,10 +184,18 @@ public class EntitySpawnHandler {
     }
 
     @NotNull
-    private static Optional<ChunkAccess> getChunk(EntityJoinLevelEvent event, BlockPos bePos) {
+    private static ChunkAccess getChunk(EntityJoinLevelEvent event, BlockPos bePos) {
         int cX = SectionPos.blockToSectionCoord(bePos.getX());
         int cZ = SectionPos.blockToSectionCoord(bePos.getZ());
+        Optional<ChunkAccess> chunk = getChunk(event, cX, cZ);
+        if (chunk.isEmpty()) {
+            throw new UnloadedChunkException();
+        }
+        return chunk.get();
+    }
 
+    @NotNull
+    private static Optional<ChunkAccess> getChunk(EntityJoinLevelEvent event, int cX, int cZ) {
         // getChunkNow is used here as regular getChunk calls on Level will all block
         // and generate a new chunk, we can never block here waiting for a new chunk as we will
         // cause a thread deadlock.
@@ -200,13 +205,13 @@ public class EntitySpawnHandler {
     /**
      * Get all chunks within the given radius of the ChunkPos.
      *
-     * @param level The chunk's world.
+     * @param event The EntityJoinLevelEvent.
      * @param chunkPos The ChunkPos of the event's chunk.
      * @param radius The radius around the ChunkPos to grab chunks from. For example, a radius of 2 would
      *               end up returning 25 chunks.
      * @return ArrayList Array of chunks within given radius surrounding the provided ChunkPos.
      */
-    private static ArrayList<ChunkAccess> getChunksInRadius(LevelAccessor level, ChunkPos chunkPos, int radius) {
+    private static ArrayList<ChunkAccess> getChunksInRadius(EntityJoinLevelEvent event, ChunkPos chunkPos, int radius) {
         /*
             Remember:   North = -Z
                         East  = +X
@@ -219,10 +224,8 @@ public class EntitySpawnHandler {
         ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {
-                if (level.hasChunk(curX, curZ)) {
-                    ChunkAccess chunk = level.getChunk(curX, curZ);
-                    chunks.add(chunk);
-                }
+                Optional<ChunkAccess> chunk = getChunk(event, curX, curZ);
+                chunk.ifPresent(chunks::add);
             }
             curX = startX; // Resetting current X back to start position.
         }
