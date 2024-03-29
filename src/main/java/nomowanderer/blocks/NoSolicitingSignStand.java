@@ -16,7 +16,7 @@ public class NoSolicitingSignStand extends StandingSignBlock implements EntityBl
     public static final String ID = "no_soliciting_sign";
 
     public NoSolicitingSignStand() {
-        super(Properties.of().mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F), WoodType.OAK);
+        super(WoodType.OAK, Properties.of().mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F));
     }
 
     @Override

@@ -25,14 +25,14 @@ import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
 import org.jetbrains.annotations.NotNull;
-import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.*;
 
 @Mod.EventBusSubscriber(modid = NoMoWanderer.MODID)
 public class EntitySpawnHandler {
 
-    public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
+//    public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     @SubscribeEvent
     public static void maybeChangeEntitySpawn(EntityJoinLevelEvent event) {
@@ -103,9 +103,9 @@ public class EntitySpawnHandler {
                         return true;
                     }
                 }
-                if (CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent()) {
-                    return true;
-                }
+//                if (CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent()) {
+//                    return true;
+//                }
             } else if (isWatchedEntity(entity) && spawnCapAABB.contains(entity.position())) {
                 String registryName = getRegistryName(entity);
                 int count = entityCount.get(registryName) != null ? entityCount.get(registryName) : 0;

@@ -15,7 +15,7 @@ public class NoSolicitingSignWall extends WallSignBlock {
     public static final String ID = "no_soliciting_sign_wall";
 
     public NoSolicitingSignWall() {
-        super(Properties.of().mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F), WoodType.OAK);
+        super(WoodType.OAK, Properties.of().mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F));
     }
 
     @Override

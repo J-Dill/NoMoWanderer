@@ -17,7 +17,7 @@ import nomowanderer.tileentity.NoSolicitingSignBlockEntityRenderer;
 import nomowanderer.util.SpawnTraderCommand;
 
 
-@Mod(NoMoWanderer.MODID)
+@Mod("nomowanderer")
 public class NoMoWanderer {
 
     public static final String MODID = "nomowanderer";

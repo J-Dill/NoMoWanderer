@@ -2,13 +2,11 @@ package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -65,12 +63,11 @@ public class AntiSolicitorTalismanItem extends Item {
         addEnabledTooltip(stack, toolTips);
         if (Screen.hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.TALISMAN_WATCH_RADIUS);
-            String totemMessage = String.format(
-                    "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
-            );
-            toolTips.add(
-                    Component.literal(totemMessage).withStyle(ChatFormatting.YELLOW)
-            );
+//            String totemMessage = String.format(
+//                    "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
+//            );
+            String totemMessage = "Can be anywhere in your inventory.";
+            toolTips.add(Component.literal(totemMessage).withStyle(ChatFormatting.YELLOW));
             toolTips.add(
                     Component.literal("Sneak right-click ").withStyle(ChatFormatting.GOLD)
                             .append(Component.literal("to toggle on/off").withStyle(ChatFormatting.GRAY))
