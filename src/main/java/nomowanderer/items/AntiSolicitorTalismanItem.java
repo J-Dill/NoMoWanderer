@@ -63,11 +63,12 @@ public class AntiSolicitorTalismanItem extends Item {
         addEnabledTooltip(stack, toolTips);
         if (Screen.hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.TALISMAN_WATCH_RADIUS);
-//            String totemMessage = String.format(
-//                    "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
-//            );
-            String totemMessage = "Can be anywhere in your inventory.";
-            toolTips.add(Component.literal(totemMessage).withStyle(ChatFormatting.YELLOW));
+            String totemMessage = String.format(
+                    "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
+            );
+            toolTips.add(
+                    Component.literal(totemMessage).withStyle(ChatFormatting.YELLOW)
+            );
             toolTips.add(
                     Component.literal("Sneak right-click ").withStyle(ChatFormatting.GOLD)
                             .append(Component.literal("to toggle on/off").withStyle(ChatFormatting.GRAY))

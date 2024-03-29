@@ -25,16 +25,27 @@ minecraft {
         }
 
         client {
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            // For Curios
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
         server {
+            // For Curios
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
             property 'forge.enabledGameTestNamespaces', mod_id
             args '--nogui'
         }
 
         gameTestServer {
+            // For Curios
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
@@ -50,22 +61,37 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven { url = 'https://plugins.gradle.org/m2/' }
+    maven {
+        url "https://www.cursemaven.com"
+    }
+    maven { // Curios API
+        url 'https://maven.theillusivec4.top/'
+    }
+    maven {
+        // JEI
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // JEI backup
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
 
     // JEI
-//    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
-//    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
+    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
 
     // JER
 //    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:${version_jer}")
 
     // Curios
-//    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
-//    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
 }
 
 tasks.named('processResources', ProcessResources).configure {
