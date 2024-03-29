@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.gametest.GameTestDontPrefix;
 import net.minecraftforge.gametest.GameTestHolder;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @GameTestHolder(value = NoMoWanderer.MODID)
-@GameTestDontPrefix
 public class GameTests {
 
     private static final BlockPos RUG_POS = new BlockPos(0, 2, 47);
@@ -32,13 +30,13 @@ public class GameTests {
     private static final BlockPos SIGN_RELATIVE_OUT = new BlockPos(46, 2, 1);
     private static final BlockPos TALISMAN_PLAYER_SPAWN = new BlockPos(1, 2, 46);
 
-    @BeforeBatch(batch = "sign")
+    @BeforeBatch(batch = "nomowanderer.sign")
     public static void beforeSign(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
     }
 
-    @BeforeBatch(batch = "talisman")
+    @BeforeBatch(batch = "nomowanderer.talisman")
     public static void beforeTalisman(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
@@ -46,7 +44,7 @@ public class GameTests {
         mockPlayers.forEach((player) -> level.removePlayerImmediately(player, Entity.RemovalReason.DISCARDED));
     }
 
-    @BeforeBatch(batch = "spawncap")
+    @BeforeBatch(batch = "nomowanderer.spawncap")
     public static void beforeSpawnCap(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
