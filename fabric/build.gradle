@@ -1,0 +1,59 @@
+plugins {
+    id 'idea'
+    id 'fabric-loom' version '1.4-SNAPSHOT'
+}
+
+base {
+    archivesName = "${mod_id}-fabric-${version_mc}-${mod_version}"
+}
+
+repositories {
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org/'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${version_mc}"
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${version_parchment_mc}:${version_parchment}@zip")
+    })
+
+    modImplementation "net.fabricmc:fabric-loader:${version_fabric_loader}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${version_fabric}"
+
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    modImplementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-fabric', version: "${spectrelib_range}"
+
+    implementation project(":common")
+
+    modImplementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-fabric', version: "${spectrelib_range}"
+    include group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-fabric', version: "${version_spectrelib}"
+}
+
+loom {
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+    }
+}
+
+processResources {
+    from project(":common").sourceSets.main.resources
+}
+
+tasks.withType(JavaCompile).configureEach {
+    source(project(":common").sourceSets.main.allSource)
+}

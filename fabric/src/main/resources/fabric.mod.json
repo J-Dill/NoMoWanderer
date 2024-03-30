@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contact": {
+    "homepage": "${mod_url}",
+    "issues": "${mod_issues}"
+  },
+  "license": "${mod_license}",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "nomowanderer.NoMoWandererFabricMod"
+    ],
+    "client": [
+      "nomowanderer.NoMoWandererFabricClientMod"
+    ],
+    "spectrelib": [
+      "nomowanderer.ConfigInitializer"
+    ],
+    "fabric-gametest": [
+      "nomowanderer.NoMoWandererGameTests"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.3",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=17"
+  }
+}

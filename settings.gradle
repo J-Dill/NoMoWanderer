@@ -2,8 +2,24 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         maven {
-            name = 'MinecraftForge'
+            name = 'Forge'
             url = 'https://maven.minecraftforge.net/'
+        }
+        maven {
+            name = 'NeoForge'
+            url = 'https://maven.neoforged.net/releases/'
+        }
+        maven {
+            name = 'Fabric'
+            url = 'https://maven.fabricmc.net/'
+        }
+        maven {
+            name = 'Sponge Snapshots'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
+        maven {
+            name = 'Illusive Soulworks'
+            url = 'https://maven.theillusivec4.top/'
         }
     }
 }
@@ -11,3 +27,9 @@ pluginManagement {
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
 }
+
+rootProject.name = mod_name
+include("common")
+include("forge")
+include('neoforge')
+include('fabric')
