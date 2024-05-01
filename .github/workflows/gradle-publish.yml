@@ -148,6 +148,7 @@ jobs:
           mv ./build/jars/jar-forge ./build/jars/${{ steps.load-props.outputs.mod_id }}-forge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
           mv ./build/jars/jar-neoforge ./build/jars/${{ steps.load-props.outputs.mod_id }}-neoforge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
           mv ./build/jars/jar-fabric ./build/jars/${{ steps.load-props.outputs.mod_id }}-fabric-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
+          tree -d ./build/jars/
 
       - name: Upload to CurseForge - Forge
         uses: itsmeow/curseforge-upload@v3
