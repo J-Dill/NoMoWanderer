@@ -145,12 +145,7 @@ jobs:
 
       - name: Unzip Artifacts
         run: |
-          tree -d ./build/jars/
-          cd ./build/jars
-          unzip jar-forge
-          unzip jar-neoforge
-          unzip jar-fabric
-          tree -d ./
+          tree
 
       - name: Upload to CurseForge - Forge
         uses: itsmeow/curseforge-upload@v3
