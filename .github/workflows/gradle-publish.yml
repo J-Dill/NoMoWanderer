@@ -145,6 +145,7 @@ jobs:
 
       - name: Unzip Artifacts
         run: |
+          tree -d ./build/jars/
           unzip ./build/jars/jar-forge -d ./build/jars/
           unzip ./build/jars/jar-neoforge -d ./build/jars/
           unzip ./build/jars/jar-fabric -d ./build/jars/
