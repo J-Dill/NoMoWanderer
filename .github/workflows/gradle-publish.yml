@@ -103,7 +103,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: jar-*
-          path: ./build/jars/
+          path: ./build/
 
       - name: Create GitHub Release
         id: create-release
@@ -112,7 +112,10 @@ jobs:
           repo_token: ${{ secrets.TOKEN }}
           automatic_release_tag: ${{ needs.version-check.outputs.new-tag }}
           prerelease: false
-          files: ./build/jars/*.jar
+          files: |
+            ./build/jar-forge/*.jar
+            ./build/jar-neoforge/*.jar
+            ./build/jar-fabric/*.jar
           
       - name: Get Release Changelog
         id: get-release-changelog
@@ -141,16 +144,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: jar-*
-          path: ./build/jars/
-
-      - name: Unzip Artifacts
-        run: |
-          tree
+          path: ./build/
 
       - name: Upload to CurseForge - Forge
         uses: itsmeow/curseforge-upload@v3
         with:
-          file_path: "./build/jars/${{ steps.load-props.outputs.mod_id }}-forge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
+          file_path: "./build/jar-forge/${{ steps.load-props.outputs.mod_id }}-forge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
           game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,Forge"
@@ -162,7 +161,7 @@ jobs:
       - name: Upload to CurseForge - NeoForge
         uses: itsmeow/curseforge-upload@v3
         with:
-          file_path: "./build/jars/${{ steps.load-props.outputs.mod_id }}-neoforge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
+          file_path: "./build/jar-neoforge/${{ steps.load-props.outputs.mod_id }}-neoforge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
           game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,NeoForge"
@@ -174,7 +173,7 @@ jobs:
       - name: Upload to CurseForge - Fabric
         uses: itsmeow/curseforge-upload@v3
         with:
-          file_path: "./build/jars/${{ steps.load-props.outputs.mod_id }}-fabric-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
+          file_path: "./build/jar-fabric/${{ steps.load-props.outputs.mod_id }}-fabric-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
           game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,Fabric"
