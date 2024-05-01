@@ -137,17 +137,17 @@ jobs:
           file: ./gradle.properties
           all: true
 
-      - name: Download JARs
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: jar-*
           path: ./build/jars/
 
-      - name: Rename JARs
+      - name: Unzip Artifacts
         run: |
-          mv ./build/jars/jar-forge ./build/jars/${{ steps.load-props.outputs.mod_id }}-forge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
-          mv ./build/jars/jar-neoforge ./build/jars/${{ steps.load-props.outputs.mod_id }}-neoforge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
-          mv ./build/jars/jar-fabric ./build/jars/${{ steps.load-props.outputs.mod_id }}-fabric-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar
+          unzip ./build/jars/jar-forge -d ./build/jars/
+          unzip ./build/jars/jar-neoforge -d ./build/jars/
+          unzip ./build/jars/jar-fabric -d ./build/jars/
           tree -d ./build/jars/
 
       - name: Upload to CurseForge - Forge
