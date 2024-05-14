@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.81'
+    id 'net.neoforged.gradle.userdev' version '7.0.107'
 }
 
 base {
@@ -26,10 +26,8 @@ runs {
 
 dependencies {
     implementation "net.neoforged:neoforge:${version_neoforge}"
-    implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${spectrelib_range}"
-    jarJar (group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${spectrelib_range}") {
-        jarJar.pin(it, "${version_spectrelib}")
-    }
+    implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${version_spectrelib}"
+    jarJar group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${version_spectrelib}"
     compileOnly project(':common')
 
     // Curios

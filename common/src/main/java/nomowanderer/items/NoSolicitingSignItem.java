@@ -25,14 +25,14 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level,
-                                @NotNull List<Component> toolTips, @NotNull TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context,
+                                List<Component> toolTips, TooltipFlag flag) {
         if (Screen.hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.SIGN_WATCH_RADIUS);
         } else {
             HoverTextUtil.addHoldShiftText(toolTips);
         }
-        super.appendHoverText(stack, level, toolTips, flag);
+        super.appendHoverText(stack, context, toolTips, flag);
     }
 
 }

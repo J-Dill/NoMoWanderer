@@ -5,7 +5,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
@@ -51,9 +50,6 @@ public class NoMoWandererNeoForgeMod {
                     Optional.of(invCheck));
             if (SpawnHandlerResult.CANCELLED.equals(result)) {
                 event.setCanceled(true);
-                if (event.hasResult()) {
-                    event.setResult(Event.Result.DENY);
-                }
             }
         }
     }

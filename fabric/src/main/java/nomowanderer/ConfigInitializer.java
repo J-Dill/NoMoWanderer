@@ -1,8 +1,8 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreLibInitializer;
+import com.illusivesoulworks.spectrelib.config.SpectreConfigInitializer;
 
-public class ConfigInitializer implements SpectreLibInitializer {
+public class ConfigInitializer implements SpectreConfigInitializer {
 
     @Override
     public void onInitializeConfig() {

@@ -1,6 +1,6 @@
 plugins {
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
 }
 
 base {
@@ -10,6 +10,7 @@ base {
 minecraft {
     mappings channel: 'official', version: version_mc
     copyIdeResources = true
+    reobf = false
 
     runs {
         configureEach {
@@ -83,21 +84,31 @@ dependencies {
     minecraft "net.minecraftforge:forge:${version_mc}-${version_forge}"
 
     // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
+//    compileOnly fg.deobf("mezz.jei:jei-${version_mc}-forge-api:${version_jei}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${version_mc}-forge:${version_jei}")
 
     // JER
 //    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:${version_jer}")
 
     // Curios
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${version_curios}:api")
+    runtimeOnly "top.theillusivec4.curios:curios-forge:${version_curios}"
+    compileOnly "top.theillusivec4.curios:curios-forge:${version_curios}:api"
 
     compileOnly project(':common')
 
-    implementation fg.deobf(group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "${spectrelib_range}")
-    jarJar fg.deobf(group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "${spectrelib_range}") {
+    implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "${version_spectrelib}"
+    jarJar (group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "[0.16.1,2.0)") {
         jarJar.pin(it, "${version_spectrelib}")
+    }
+
+    // Check future Forge MDK to see if we can remove this
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
+}
+
+repositories {
+    maven {
+        name = 'Illusive Soulworks'
+        url = 'https://maven.theillusivec4.top/'
     }
 }
 
@@ -105,7 +116,7 @@ processResources {
     from project(":common").sourceSets.main.resources
 }
 
-jar.finalizedBy('reobfJar')
+jar.finalizedBy('jarJar')
 
 tasks.withType(Jar).configureEach {
     exclude('nomowanderer/NoMoWandererForgeGameTests.class')

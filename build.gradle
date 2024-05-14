@@ -9,7 +9,11 @@ group = "${mod_group}"
 subprojects {
     apply plugin: 'java'
 
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
 
     processResources {
         var replaceProperties = [
@@ -20,7 +24,7 @@ subprojects {
                 mod_authors: mod_authors, mod_description: mod_description, mod_issues: mod_issues, mod_url: mod_url,
                 neoforge_version: version_neoforge, neoforge_version_range: version_neoforge_range
         ]
-        filesMatching(['META-INF/mods.toml', 'pack.mcmeta', 'fabric.mod.json']) {
+        filesMatching(['META-INF/mods.toml', 'META-INF/neoforge.mods.toml', 'pack.mcmeta', 'fabric.mod.json']) {
             expand replaceProperties
         }
         inputs.properties replaceProperties

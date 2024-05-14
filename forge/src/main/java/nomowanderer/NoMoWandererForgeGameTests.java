@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 import net.minecraftforge.event.RegisterGameTestsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -84,7 +85,7 @@ public class NoMoWandererForgeGameTests {
     }
 
     public static Player spawnPlayerWithTalisman(GameTestHelper helper, boolean enabled, boolean inCurioSlot) {
-        Player fakePlayer = helper.makeMockSurvivalPlayer();
+        Player fakePlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         helper.getLevel().addFreshEntity(fakePlayer);
         BlockPos playerPos = helper.absolutePos(TALISMAN_PLAYER_SPAWN);
         fakePlayer.absMoveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());

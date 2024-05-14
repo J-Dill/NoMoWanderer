@@ -52,10 +52,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
@@ -152,7 +152,7 @@ jobs:
           file_path: "./build/jar-forge/${{ steps.load-props.outputs.mod_id }}-forge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
-          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,Forge"
+          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 21,Forge"
           project_id: "${{ steps.load-props.outputs.curse_id }}"
           changelog: ${{ needs.release-github.outputs.changelog }}
           changelog_type: "markdown"
@@ -164,7 +164,7 @@ jobs:
           file_path: "./build/jar-neoforge/${{ steps.load-props.outputs.mod_id }}-neoforge-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
-          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,NeoForge"
+          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 21,NeoForge"
           project_id: "${{ steps.load-props.outputs.curse_id }}"
           changelog: ${{ needs.release-github.outputs.changelog }}
           changelog_type: "markdown"
@@ -176,7 +176,7 @@ jobs:
           file_path: "./build/jar-fabric/${{ steps.load-props.outputs.mod_id }}-fabric-${{ steps.load-props.outputs.version_mc }}-${{ steps.load-props.outputs.mod_version }}.jar"
           game_endpoint: minecraft
           release_type: release
-          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 17,Fabric"
+          game_versions: "Minecraft ${{ steps.load-props.outputs.version_mc_major }}:${{ steps.load-props.outputs.version_mc }},Java 21,Fabric"
           project_id: "${{ steps.load-props.outputs.curse_id }}"
           changelog: ${{ needs.release-github.outputs.changelog }}
           changelog_type: "markdown"

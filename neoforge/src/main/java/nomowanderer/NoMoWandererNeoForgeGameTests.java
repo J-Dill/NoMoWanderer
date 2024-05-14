@@ -9,7 +9,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
@@ -20,7 +22,7 @@ import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 import java.util.List;
 import java.util.Optional;
 
-@Mod.EventBusSubscriber(modid = NoMoWandererConstants.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = NoMoWandererConstants.MODID, bus = EventBusSubscriber.Bus.MOD)
 @PrefixGameTestTemplate(false)
 public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTests {
 
@@ -172,7 +174,7 @@ public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTests {
     }
 
     public static Player spawnPlayerWithTalisman(GameTestHelper helper, boolean enabled, boolean inCurioSlot) {
-        Player fakePlayer = helper.makeMockSurvivalPlayer();
+        Player fakePlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         helper.getLevel().addFreshEntity(fakePlayer);
         BlockPos playerPos = helper.absolutePos(TALISMAN_PLAYER_SPAWN);
         fakePlayer.absMoveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());

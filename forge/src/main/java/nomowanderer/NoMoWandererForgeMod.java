@@ -35,8 +35,9 @@ public class NoMoWandererForgeMod {
         NoMoWandererCommonMod.initConfig();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientSetup::init);
 
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::registerTabs);
+
         MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
         MinecraftForge.EVENT_BUS.addListener(this::handleSpawns);
     }

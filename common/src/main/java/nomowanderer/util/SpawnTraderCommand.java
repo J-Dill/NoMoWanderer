@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
@@ -44,7 +45,6 @@ public class SpawnTraderCommand {
             for(int j = 0; j < 2; ++j) {
                 tryToSpawnLlamaFor(stack.getSource().getLevel(), wanderingtrader, 4);
             }
-
             wanderingtrader.setDespawnDelay(48000);
         }
         try {
@@ -77,7 +77,8 @@ public class SpawnTraderCommand {
             int k = blockPos.getZ() + random.nextInt(range * 2) - range;
             int l = levelReader.getHeight(Heightmap.Types.WORLD_SURFACE, j, k);
             BlockPos blockpos1 = new BlockPos(j, l, k);
-            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, levelReader, blockpos1, EntityType.WANDERING_TRADER)) {
+            SpawnPlacementType placementType = SpawnPlacements.getPlacementType(EntityType.WANDERING_TRADER);
+            if (placementType.isSpawnPositionOk(levelReader, blockpos1, EntityType.WANDERING_TRADER)) {
                 blockpos = blockpos1;
                 break;
             }

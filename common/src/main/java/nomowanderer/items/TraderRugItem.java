@@ -22,7 +22,7 @@ public class TraderRugItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> toolTips, @NotNull TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> toolTips, TooltipFlag flag) {
         if (Screen.hasShiftDown()) {
             toolTips.add(
                     Component.literal("Directs Wandering Traders to spawn on this block within ").withStyle(ChatFormatting.GREEN)
@@ -32,7 +32,7 @@ public class TraderRugItem extends BlockItem {
         } else {
             HoverTextUtil.addHoldShiftText(toolTips);
         }
-        super.appendHoverText(stack, level, toolTips, flag);
+        super.appendHoverText(stack, context, toolTips, flag);
     }
 
 }

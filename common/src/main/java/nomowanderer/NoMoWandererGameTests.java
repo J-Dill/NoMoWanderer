@@ -13,6 +13,7 @@ import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.GameType;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -239,7 +240,7 @@ public class NoMoWandererGameTests {
     }
 
     public static Player spawnPlayerWithTalisman(GameTestHelper helper, boolean enabled) {
-        Player fakePlayer = helper.makeMockSurvivalPlayer();
+        Player fakePlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         helper.getLevel().addFreshEntity(fakePlayer);
         BlockPos playerPos = helper.absolutePos(TALISMAN_PLAYER_SPAWN);
         fakePlayer.absMoveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());

@@ -1,6 +1,11 @@
 package nomowanderer;
 
+import com.mojang.serialization.Codec;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +22,8 @@ import nomowanderer.registry.Services;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
 
+import java.util.function.UnaryOperator;
+
 public class CommonRegistry {
 
     public static final RegistryProvider<Block> BLOCKS =
@@ -25,6 +32,8 @@ public class CommonRegistry {
             RegistryProvider.get(Registries.ITEM, NoMoWandererConstants.MODID);
     public static final RegistryProvider<BlockEntityType<?>> BLOCK_ENTITIES =
             RegistryProvider.get(Registries.BLOCK_ENTITY_TYPE, NoMoWandererConstants.MODID);
+    public static final RegistryProvider<DataComponentType<?>> DATA_COMPONENT_TYPES =
+            RegistryProvider.get(Registries.DATA_COMPONENT_TYPE, NoMoWandererConstants.MODID);
 
     //===============
     // Blocks
@@ -47,6 +56,8 @@ public class CommonRegistry {
     public static final RegistryObject<Item> TRADER_RUG_ITEM = ITEMS.register(TraderRugBlock.ID, TraderRugItem::new);
     public static final RegistryObject<Item> TRADER_CLOTH_PIECE_ITEM = ITEMS.register(TraderClothPieceItem.ID, TraderClothPieceItem::new);
 
+    public static final RegistryObject<DataComponentType<Boolean>> ENABLED;
+
     static {
         NO_SOLICITING_SIGN_BE = BLOCK_ENTITIES.register(NoSolicitingSignBlockEntity.ID,
                 () -> Services.REGISTRY_UTIL.registerBlockEntityType(NoSolicitingSignBlockEntity::new,
@@ -54,6 +65,10 @@ public class CommonRegistry {
         TRADER_RUG_BE = BLOCK_ENTITIES.register(TraderRugBlockEntity.ID,
                 () -> Services.REGISTRY_UTIL.registerBlockEntityType(TraderRugBlockEntity::new,
                         TRADER_RUG_BLOCK.get()));
+
+        ENABLED = DATA_COMPONENT_TYPES.register("enabled",
+                () -> Services.REGISTRY_UTIL.registerDataComponentType(Codec.BOOL, ByteBufCodecs.BOOL)
+        );
     }
 
     public static void init() {}
