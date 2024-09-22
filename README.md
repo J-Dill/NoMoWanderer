@@ -1,6 +1,7 @@
 ![NoMoWanderer Banner Image](https://i.imgur.com/2HdZhC2.png)
 
 ![Mod Download Total](http://cf.way2muchnoise.eu/full_nomowanderer_downloads.svg)
+![Modrinth Downloads](https://img.shields.io/modrinth/dt/BAGslLB8?logo=modrinth&color=lime&label=Modrinth%20Downloads)
 ![MC Versions](http://cf.way2muchnoise.eu/versions/nomowanderer.svg)
 
 Getting tired of those Wandering Traders trampling across your lawn and your crops, just to offer you some measly trades?
