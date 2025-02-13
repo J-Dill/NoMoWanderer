@@ -9,6 +9,7 @@ Look no further than... well, this mod! Provides the player with a few blocks/it
 Wandering Trader spawns.
 
 ## Features
+
 ### No Soliciting Sign
 Prevents configured entity spawns within a configurable distance (in chunks) of the block.
 
@@ -23,6 +24,7 @@ Provides a way to set the spawn location of Wandering Traders nearby. If a Wande
 of the rug, it will instead spawn on top of this block.
 
 ## Config
+
 ### _nomowanderer-common.toml_
 `entityWatchList` These entities will be blocked from spawning if within the radius of a No Soliciting Sign.
 If the entity is not blocked, its spawn will be moved to a Trader Rug if in the radius of one.
