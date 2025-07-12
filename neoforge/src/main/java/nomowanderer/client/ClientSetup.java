@@ -25,7 +25,7 @@ public class ClientSetup {
     public static void clientOnlySetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ItemProperties.register(CommonRegistry.NO_SOLICITING_TALISMAN.get(),
-                    new ResourceLocation(NoMoWandererConstants.MODID, "enabled"),
+                    ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "enabled"),
                     (stack, level, living, id) ->
                             AntiSolicitorTalismanItem.isEnabled(stack) ? 0.0F : 1.0F);
         });

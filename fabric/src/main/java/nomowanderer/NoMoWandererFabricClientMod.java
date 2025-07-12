@@ -21,7 +21,7 @@ public class NoMoWandererFabricClientMod implements ClientModInitializer {
                 NoSolicitingSignBlockEntityRenderer::new);
         BlockRenderLayerMap.INSTANCE.putBlock(CommonRegistry.TRADER_RUG_BLOCK.get(), RenderType.translucent());
         ItemProperties.register(CommonRegistry.NO_SOLICITING_TALISMAN.get(),
-                new ResourceLocation(NoMoWandererConstants.MODID, "enabled"),
+                ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "enabled"),
                 (stack, level, living, id) ->
                         AntiSolicitorTalismanItem.isEnabled(stack) ? 0.0F : 1.0F);
     }

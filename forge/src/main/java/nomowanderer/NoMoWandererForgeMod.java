@@ -1,7 +1,6 @@
 package nomowanderer;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,21 +13,15 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import nomowanderer.client.ClientSetup;
-import nomowanderer.compat.ExternalMods;
-import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.util.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 
 @Mod(NoMoWandererConstants.MODID)
 public class NoMoWandererForgeMod {
-
-    public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     public NoMoWandererForgeMod() {
         NoMoWandererCommonMod.init();
@@ -44,12 +37,10 @@ public class NoMoWandererForgeMod {
 
     public void handleSpawns(EntityJoinLevelEvent event) {
         if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel level) {
-            Predicate<Player> invCheck = (player) ->
-                    CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent();
             SpawnHandlerResult result = EntitySpawnHandler.maybeChangeEntitySpawn(
                     event.getEntity(),
                     level,
-                    Optional.of(invCheck));
+                    Optional.empty());
             if (SpawnHandlerResult.CANCELLED.equals(result)) {
                 if (event.isCancelable()) {
                     event.setCanceled(true);

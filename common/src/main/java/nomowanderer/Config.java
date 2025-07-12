@@ -77,7 +77,7 @@ public class Config {
             .comment("A list of 'modid:entityName' entries used for the various functions of this mod.")
             .defineList("entityWatchList",
                 Arrays.asList("minecraft:wandering_trader", "minecraft:trader_llama", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
-                it instanceof String && ResourceLocation.isValidResourceLocation((String) it)
+                it instanceof String && (ResourceLocation.tryBySeparator((String) it, ':') != null)
             );
         SERVER_BUILDER.pop();
     }

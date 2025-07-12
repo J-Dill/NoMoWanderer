@@ -17,9 +17,9 @@ import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 
 public class NoSolicitingSignBlockEntityRenderer implements
     BlockEntityRenderer<NoSolicitingSignBlockEntity> {
-    private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation("textures/entity/signs/oak.png");
-    private static final ResourceLocation SIGN_EMERALD_TEXTURE = new ResourceLocation(NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
-    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(NoMoWandererConstants.MODID, "no_soliciting_sign"), "main");
+    private static final ResourceLocation SIGN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/entity/signs/oak.png");
+    private static final ResourceLocation SIGN_EMERALD_TEXTURE = ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
+    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "no_soliciting_sign"), "main");
     private final SignRenderer.SignModel model;
 
     public NoSolicitingSignBlockEntityRenderer(BlockEntityRendererProvider.Context context) {

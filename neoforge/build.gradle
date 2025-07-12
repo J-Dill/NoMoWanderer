@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.107'
+    id 'net.neoforged.gradle.userdev' version '7.0.190'
 }
 
 base {

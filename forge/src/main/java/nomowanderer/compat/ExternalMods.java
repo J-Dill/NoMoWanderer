@@ -1,11 +1,10 @@
 package nomowanderer.compat;
 
 import net.minecraftforge.fml.ModList;
-import top.theillusivec4.curios.api.CuriosApi;
 
 public enum ExternalMods {
 
-    CURIOS(CuriosApi.MODID);
+    EXAMPLE("Example");
     private final boolean loaded;
 
     ExternalMods(String modid) {

@@ -90,10 +90,6 @@ dependencies {
     // JER
 //    implementation fg.deobf("curse.maven:just-enough-resources-jer-240630:${version_jer}")
 
-    // Curios
-    runtimeOnly "top.theillusivec4.curios:curios-forge:${version_curios}"
-    compileOnly "top.theillusivec4.curios:curios-forge:${version_curios}:api"
-
     compileOnly project(':common')
 
     implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "${version_spectrelib}"

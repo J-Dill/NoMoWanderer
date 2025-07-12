@@ -71,7 +71,7 @@ subprojects {
 
     tasks.withType(Jar).configureEach {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
-        exclude('nomowanderer/NoMoWandererGameTests.class')
+        exclude('nomowanderer/NoMoWandererGameTestsBase.class')
         exclude('data/nomowanderer/structures/trader_platform.nbt')
         exclude('data/nomowanderer/structures/trader_platform_rug.nbt')
         exclude('data/nomowanderer/structures/trader_platform_talisman.nbt')

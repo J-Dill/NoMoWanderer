@@ -12,7 +12,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import nomowanderer.items.AntiSolicitorTalismanItem;
@@ -24,7 +23,7 @@ import java.util.Optional;
 
 @EventBusSubscriber(modid = NoMoWandererConstants.MODID, bus = EventBusSubscriber.Bus.MOD)
 @PrefixGameTestTemplate(false)
-public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTests {
+public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTestsBase {
 
     @SubscribeEvent
     public static void registerGameTests(RegisterGameTestsEvent event) {
@@ -33,17 +32,17 @@ public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTests {
 
     @BeforeBatch(batch = "nomowanderer.sign")
     public static void beforeSign(ServerLevel level) {
-        NoMoWandererGameTests.beforeSign(level);
+        NoMoWandererGameTestsBase.beforeSign(level);
     }
 
     @BeforeBatch(batch = "nomowanderer.talisman")
     public static void beforeTalisman(ServerLevel level) {
-        NoMoWandererGameTests.beforeTalisman(level);
+        NoMoWandererGameTestsBase.beforeTalisman(level);
     }
 
     @BeforeBatch(batch = "nomowanderer.spawncap")
     public static void beforeSpawnCap(ServerLevel level) {
-        NoMoWandererGameTests.beforeSpawnCap(level);
+        NoMoWandererGameTestsBase.beforeSpawnCap(level);
     }
 
     @BeforeBatch(batch = "nomowanderer.curios")
@@ -56,77 +55,77 @@ public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTests {
 
     @GameTest(batch = "nomowanderer.sign", template = "trader_platform", templateNamespace = "nomowanderer")
     public static void spawnTraderInRange(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderInRange(helper);
+        NoMoWandererGameTestsBase.spawnTraderInRange(helper);
     }
 
     @GameTest(batch = "nomowanderer.sign", template = "trader_platform", templateNamespace = "nomowanderer")
     public static void spawnTraderOutOfRange(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderOutOfRange(helper);
+        NoMoWandererGameTestsBase.spawnTraderOutOfRange(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanIn(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanIn(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanIn(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanInBarely(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanInBarely(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanInBarely(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanInDisabled(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanInDisabled(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanInDisabled(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanOut(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanOut(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanOut(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanOutDisabled(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanOutDisabled(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanOutDisabled(helper);
     }
 
     @GameTest(batch = "nomowanderer.talisman", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderTalismanOutBarely(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderTalismanOutBarely(helper);
+        NoMoWandererGameTestsBase.spawnTraderTalismanOutBarely(helper);
     }
 
     @GameTest(batch = "nomowanderer.spawncap", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderCapOutBarely(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderCapOutBarely(helper);
+        NoMoWandererGameTestsBase.spawnTraderCapOutBarely(helper);
     }
 
     @GameTest(batch = "nomowanderer.spawncap", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderCapInBarely(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderCapInBarely(helper);
+        NoMoWandererGameTestsBase.spawnTraderCapInBarely(helper);
     }
 
     @GameTest(batch = "nomowanderer.spawncap", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderCapInBarelyMany(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderCapInBarelyMany(helper);
+        NoMoWandererGameTestsBase.spawnTraderCapInBarelyMany(helper);
     }
 
     @GameTest(batch = "nomowanderer.spawncap", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderCapTraderAndLlamasLimited(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderCapTraderAndLlamasLimited(helper);
+        NoMoWandererGameTestsBase.spawnTraderCapTraderAndLlamasLimited(helper);
     }
 
     @GameTest(batch = "nomowanderer.spawncap", template = "trader_platform_talisman", templateNamespace = "nomowanderer")
     public static void spawnTraderCapTraderAndLlamasNoLimit(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderCapTraderAndLlamasNoLimit(helper);
+        NoMoWandererGameTestsBase.spawnTraderCapTraderAndLlamasNoLimit(helper);
     }
 
     @GameTest(batch = "nomowanderer.rug", template = "trader_platform_rug", templateNamespace = "nomowanderer")
     public static void spawnTraderByRugOut(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderByRugOut(helper);
+        NoMoWandererGameTestsBase.spawnTraderByRugOut(helper);
     }
 
     @GameTest(batch = "nomowanderer.rug", template = "trader_platform_rug", templateNamespace = "nomowanderer")
     public static void spawnTraderByRugIn(GameTestHelper helper) {
-        NoMoWandererGameTests.spawnTraderByRugIn(helper);
+        NoMoWandererGameTestsBase.spawnTraderByRugIn(helper);
     }
 
     @GameTest(batch = "nomowanderer.curios", template = "trader_platform_talisman", templateNamespace = "nomowanderer")

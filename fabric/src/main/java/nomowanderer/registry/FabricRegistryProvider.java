@@ -43,7 +43,7 @@ public class FabricRegistryProvider implements RegistryFactory {
 
     @Override
     public <I extends T> RegistryObject<I> register(String name, Supplier<? extends I> supplier) {
-      final var rl = new ResourceLocation(modId, name);
+      final var rl = ResourceLocation.fromNamespaceAndPath(modId, name);
       final var obj = Registry.register(registry, rl, supplier.get());
         return new RegistryObject<>() {
 
