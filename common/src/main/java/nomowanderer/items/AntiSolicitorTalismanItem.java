@@ -2,9 +2,12 @@ package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +15,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import nomowanderer.CommonRegistry;
 import nomowanderer.Config;
+import nomowanderer.NoMoWandererConstants;
+import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.util.HoverTextUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,9 +25,10 @@ import java.util.List;
 public class AntiSolicitorTalismanItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, TraderRugBlock.ID));
 
     public AntiSolicitorTalismanItem() {
-        super(new Properties().stacksTo(1));
+        super(new Properties().setId(KEY).stacksTo(1));
     }
 
     @Override
@@ -39,11 +45,11 @@ public class AntiSolicitorTalismanItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+    public InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         if (player.isShiftKeyDown() && !level.isClientSide()) {
             ItemStack item = player.getItemInHand(hand);
             item.set(CommonRegistry.ENABLED.get(), Boolean.FALSE.equals(item.get(CommonRegistry.ENABLED.get())));
-            return InteractionResultHolder.pass(item);
+            return InteractionResult.PASS;
         }
         return super.use(level, player, hand);
     }

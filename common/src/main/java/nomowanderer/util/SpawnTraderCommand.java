@@ -11,14 +11,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import javax.annotation.Nullable;
@@ -39,7 +38,7 @@ public class SpawnTraderCommand {
         WanderingTrader wanderingtrader = EntityType.WANDERING_TRADER.spawn(
                 stack.getSource().getLevel(),
                 BlockPos.containing(stack.getSource().getPosition()),
-                MobSpawnType.EVENT
+                EntitySpawnReason.EVENT
         );
         if (wanderingtrader != null) {
             for(int j = 0; j < 2; ++j) {
@@ -60,7 +59,7 @@ public class SpawnTraderCommand {
     private static void tryToSpawnLlamaFor(ServerLevel serverLevel, WanderingTrader trader, int range) {
         BlockPos blockpos = findSpawnPositionNear(serverLevel, trader.blockPosition(), range);
         if (blockpos != null) {
-            TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, blockpos, MobSpawnType.EVENT);
+            TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, blockpos, EntitySpawnReason.EVENT);
             if (traderllama != null) {
                 traderllama.setLeashedTo(trader, true);
             }

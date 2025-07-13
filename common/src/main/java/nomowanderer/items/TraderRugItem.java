@@ -2,23 +2,28 @@ package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import nomowanderer.CommonRegistry;
 import nomowanderer.Config;
+import nomowanderer.NoMoWandererConstants;
+import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.util.HoverTextUtil;
-import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class TraderRugItem extends BlockItem {
 
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, TraderRugBlock.ID));
+
     public TraderRugItem() {
-        super(CommonRegistry.TRADER_RUG_BLOCK.get(), new Properties());
+        super(CommonRegistry.TRADER_RUG_BLOCK.get(), new Properties().setId(KEY));
     }
 
     @Override

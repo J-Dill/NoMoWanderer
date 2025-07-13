@@ -15,8 +15,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import nomowanderer.items.AntiSolicitorTalismanItem;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+//import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -179,8 +179,8 @@ public class NoMoWandererNeoForgeGameTests extends NoMoWandererGameTestsBase {
         fakePlayer.absMoveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());
         AntiSolicitorTalismanItem item = (AntiSolicitorTalismanItem) CommonRegistry.NO_SOLICITING_TALISMAN.get();
         if (inCurioSlot) {
-            Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(fakePlayer);
-            inventory.ifPresent((inv) -> inv.setEquippedCurio("charm", 0, item.getDefaultInstance(enabled)));
+//            Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(fakePlayer);
+//            inventory.ifPresent((inv) -> inv.setEquippedCurio("charm", 0, item.getDefaultInstance(enabled)));
         } else {
             fakePlayer.addItem(item.getDefaultInstance(enabled));
         }

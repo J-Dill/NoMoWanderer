@@ -6,8 +6,8 @@ import net.minecraft.gametest.framework.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
@@ -212,8 +212,8 @@ public class NoMoWandererGameTestsBase {
 
     public static WanderingTrader trySpawnTrader(GameTestHelper helper, BlockPos pos, boolean absolute) {
         ServerLevel level = helper.getLevel();
-        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, (ItemStack) null, null,
-                absolute ? helper.absolutePos(pos) : pos, MobSpawnType.EVENT, true, false
+        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, null, null,
+                absolute ? helper.absolutePos(pos) : pos, EntitySpawnReason.EVENT, true, false
         );
         if (trader != null) {
             trader.removeFreeWill();
@@ -261,7 +261,7 @@ public class NoMoWandererGameTestsBase {
 
     public static void tryToSpawnLlamaFor(GameTestHelper helper, WanderingTrader trader) {
         ServerLevel serverLevel = helper.getLevel();
-        TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, trader.blockPosition(), MobSpawnType.EVENT);
+        TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, trader.blockPosition(), EntitySpawnReason.EVENT);
         assert traderllama != null;
         traderllama.removeFreeWill();
     }

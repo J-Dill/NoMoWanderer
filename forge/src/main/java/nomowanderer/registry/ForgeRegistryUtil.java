@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import nomowanderer.registry.services.RegistryUtil;
 
+import java.util.Set;
 import java.util.function.BiFunction;
 
 public class ForgeRegistryUtil implements RegistryUtil {
@@ -18,7 +19,8 @@ public class ForgeRegistryUtil implements RegistryUtil {
   @Override
   public <T extends BlockEntity> BlockEntityType<T> registerBlockEntityType(
       BiFunction<BlockPos, BlockState, T> builder, Block... blocks) {
-    return BlockEntityType.Builder.of(builder::apply, blocks).build(null);
+    Set<Block> blockSet = Set.of(blocks);
+    return new BlockEntityType<>(builder::apply, blockSet);
   }
 
   @Override

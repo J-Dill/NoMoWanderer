@@ -115,10 +115,10 @@ public class EntitySpawnHandler {
         ChunkPos pos = eventChunk.getPos();
         return new AABB(
                 pos.getMaxBlockX() + spawnCheckDist,
-                level.getMinBuildHeight(),
+                level.getMinY(),
                 pos.getMinBlockZ() - spawnCheckDist,
                 pos.getMinBlockX() - spawnCheckDist,
-                level.getMaxBuildHeight(),
+                level.getMaxY(),
                 pos.getMaxBlockZ() + spawnCheckDist
         );
     }

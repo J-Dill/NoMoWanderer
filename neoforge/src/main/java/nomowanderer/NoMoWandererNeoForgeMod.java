@@ -18,7 +18,7 @@ import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.util.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
-import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -42,12 +42,12 @@ public class NoMoWandererNeoForgeMod {
 
     public void handleSpawns(EntityJoinLevelEvent event) {
         if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel level) {
-            Predicate<Player> invCheck = (player) ->
-                    CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent();
+//            Predicate<Player> invCheck = (player) ->
+//                    CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent();
             SpawnHandlerResult result = EntitySpawnHandler.maybeChangeEntitySpawn(
                     event.getEntity(),
                     level,
-                    Optional.of(invCheck));
+                    Optional.empty());
             if (SpawnHandlerResult.CANCELLED.equals(result)) {
                 event.setCanceled(true);
             }
