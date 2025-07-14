@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import nomowanderer.CommonRegistry;
 import nomowanderer.Config;
 import nomowanderer.NoMoWandererConstants;
-import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.util.HoverTextUtil;
 import org.jetbrains.annotations.NotNull;
 
