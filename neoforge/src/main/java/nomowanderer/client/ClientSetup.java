@@ -37,21 +37,10 @@ public class ClientSetup {
     }
 
     public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
-        definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER, () -> createSignLayer(false));
-        definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER, () -> createSignLayer(true));
-    }
-
-    public static LayerDefinition createSignLayer(boolean p_368797_) {
-        MeshDefinition meshdefinition = new MeshDefinition();
-        PartDefinition partdefinition = meshdefinition.getRoot();
-        partdefinition.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 0).addBox(-12.0F, -14.0F, -1.0F, 24.0F, 12.0F, 2.0F), PartPose.ZERO);
-        if (p_368797_) {
-            partdefinition.addOrReplaceChild(
-                    "stick", CubeListBuilder.create().texOffs(0, 14).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 14.0F, 2.0F), PartPose.ZERO
-            );
-        }
-
-        return LayerDefinition.create(meshdefinition, 64, 32);
+        LayerDefinition standingSignDef = NoSolicitingSignBlockEntityRenderer.createSignLayer(true);
+        LayerDefinition wallSignDef = SignRenderer.createSignLayer(false);
+        definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER, () -> standingSignDef);
+        definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER_WALL, () -> wallSignDef);
     }
 
 }
