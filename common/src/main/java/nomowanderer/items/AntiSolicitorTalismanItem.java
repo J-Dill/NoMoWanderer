@@ -25,7 +25,7 @@ import java.util.List;
 public class AntiSolicitorTalismanItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
-    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, TraderRugBlock.ID));
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public AntiSolicitorTalismanItem() {
         super(new Properties().setId(KEY).stacksTo(1));
