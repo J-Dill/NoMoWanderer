@@ -1,6 +1,8 @@
 package nomowanderer.client;
 
 import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +29,10 @@ public class ClientSetup {
 
     public static void clientOnlySetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            // Set render layer for trader rug block to enable transparency
+            // TODO : This is a temporary solution for Forge since it is not using the JSON file correctly.
+            ItemBlockRenderTypes.setRenderLayer(CommonRegistry.TRADER_RUG_BLOCK.get(), RenderType.translucent());
+
             ItemProperties.register(CommonRegistry.NO_SOLICITING_TALISMAN.get(),
                     ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "enabled"),
                     (stack, level, living, id) ->
