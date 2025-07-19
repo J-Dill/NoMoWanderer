@@ -16,9 +16,8 @@ on:
           - 'version-check'
           - 'build'
           - 'release-github'
-          - 'release-neoforge'
-          - 'release-forge'
-          - 'release-fabric'
+          - 'publish-curseforge'
+          - 'publish-modrinth'
       version_override:
         description: 'Override version (optional, leave empty to use gradle.properties)'
         required: false
@@ -203,30 +202,26 @@ jobs:
         with:
           tag: ${{ needs.version-check.outputs.new-tag }}
 
-  publish-neoforge:
-    name: "🚀 Publish NeoForge"
+  publish-curseforge:
+    name: "🔥 Publish to CurseForge"
     runs-on: ubuntu-latest
     needs: [version-check, build, release-github]
     if: |
       always() && 
       (needs.version-check.outputs.continue == 'true' || 
-       inputs.job_to_run == 'release-neoforge' || 
+       inputs.job_to_run == 'publish-curseforge' || 
        (inputs.job_to_run == 'all' && github.event_name == 'workflow_dispatch'))
 
     steps:
-      - name: "📥 Download NeoForge JAR"
+      - name: "📥 Download All JARs"
         uses: actions/download-artifact@v4
         with:
-          pattern: neoforge*.jar
+          pattern: jar-*
           path: ./build/
 
-      - name: "🚀 Publish NeoForge JAR"
+      - name: "🔥 Publish NeoForge to CurseForge"
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: BAGslLB8
-          modrinth-featured: true
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           curseforge-id: 354428
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
 
@@ -244,30 +239,9 @@ jobs:
             Java 21
             21
 
-  publish-forge:
-    name: "🚀 Publish Forge"
-    runs-on: ubuntu-latest
-    needs: [version-check, build, release-github]
-    if: |
-      always() && 
-      (needs.version-check.outputs.continue == 'true' || 
-       inputs.job_to_run == 'release-forge' || 
-       (inputs.job_to_run == 'all' && github.event_name == 'workflow_dispatch'))
-
-    steps:
-      - name: "📥 Download Forge JAR"
-        uses: actions/download-artifact@v4
-        with:
-          pattern: forge*.jar
-          path: ./build/
-
-      - name: "🚀 Publish Forge JAR"
+      - name: "🔥 Publish Forge to CurseForge"
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          modrinth-id: BAGslLB8
-          modrinth-featured: true
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
           curseforge-id: 354428
           curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
 
@@ -285,32 +259,91 @@ jobs:
             Java 21
             21
 
-  publish-fabric:
-    name: "🚀 Publish Fabric"
+      - name: "🔥 Publish Fabric to CurseForge"
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          curseforge-id: 354428
+          curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
+
+          files: |
+            ./build/jar-fabric/*.jar
+
+          name: ""
+          version: ${{ needs.version-check.outputs.new-tag }}
+          version-type: release
+          changelog: ${{ needs.release-github.outputs.changelog }}
+
+          loaders: |
+            fabric
+          java: |
+            Java 21
+            21
+
+  publish-modrinth:
+    name: "💎 Publish to Modrinth"
     runs-on: ubuntu-latest
     needs: [version-check, build, release-github]
     if: |
       always() && 
       (needs.version-check.outputs.continue == 'true' || 
-       inputs.job_to_run == 'release-fabric' || 
+       inputs.job_to_run == 'publish-modrinth' || 
        (inputs.job_to_run == 'all' && github.event_name == 'workflow_dispatch'))
 
     steps:
-      - name: "📥 Download Fabric JAR"
+      - name: "📥 Download All JARs"
         uses: actions/download-artifact@v4
         with:
-          pattern: fabric*.jar
+          pattern: jar-*
           path: ./build/
 
-      - name: "🚀 Publish Fabric JAR"
+      - name: "💎 Publish NeoForge to Modrinth"
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: BAGslLB8
           modrinth-featured: true
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
-          curseforge-id: 354428
-          curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
+          files: |
+            ./build/jar-neoforge/*.jar
+
+          name: ""
+          version: ${{ needs.version-check.outputs.new-tag }}
+          version-type: release
+          changelog: ${{ needs.release-github.outputs.changelog }}
+
+          loaders: |
+            neoforge
+          java: |
+            Java 21
+            21
+
+      - name: "💎 Publish Forge to Modrinth"
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: BAGslLB8
+          modrinth-featured: true
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          files: |
+            ./build/jar-forge/*.jar
+
+          name: ""
+          version: ${{ needs.version-check.outputs.new-tag }}
+          version-type: release
+          changelog: ${{ needs.release-github.outputs.changelog }}
+
+          loaders: |
+            forge
+          java: |
+            Java 21
+            21
+
+      - name: "💎 Publish Fabric to Modrinth"
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: BAGslLB8
+          modrinth-featured: true
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
 
           files: |
             ./build/jar-fabric/*.jar
