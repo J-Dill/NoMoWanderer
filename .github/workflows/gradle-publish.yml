@@ -39,7 +39,6 @@ jobs:
   version-check:
     name: "🏷️ Check Version & Create Tag"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || inputs.job_to_run == 'all' || inputs.job_to_run == 'version-check'
     outputs:
       continue: ${{ steps.continue-build.outputs.continue }}
       new-tag: ${{ steps.determine-version.outputs.version }}
