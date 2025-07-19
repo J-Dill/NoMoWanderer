@@ -28,11 +28,6 @@ on:
         description: 'Override version (optional, leave empty to use gradle.properties)'
         required: false
         type: string
-      skip_version_check:
-        description: 'Skip version check and force run'
-        required: false
-        type: boolean
-        default: false
 
 jobs:
 
@@ -77,10 +72,7 @@ jobs:
       - name: "❓ Continue Build?"
         id: continue-build
         run: |
-          if [[ "${{ inputs.skip_version_check }}" == "true" ]]; then
-            echo "continue=true" >> $GITHUB_OUTPUT
-            echo "Skipping version check - forcing run"
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "continue=true" >> $GITHUB_OUTPUT
             echo "Manual trigger - proceeding with build"
           elif [[ "${{ steps.load-props.outputs.value }}" != "${{ steps.get-version.outputs.latest-tag }}" ]]; then
