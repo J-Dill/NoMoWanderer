@@ -18,6 +18,12 @@ on:
           - 'release-github'
           - 'publish-curseforge'
           - 'publish-modrinth'
+          - 'publish-curseforge-neoforge'
+          - 'publish-curseforge-forge'
+          - 'publish-curseforge-fabric'
+          - 'publish-modrinth-neoforge'
+          - 'publish-modrinth-forge'
+          - 'publish-modrinth-fabric'
       version_override:
         description: 'Override version (optional, leave empty to use gradle.properties)'
         required: false
@@ -209,7 +215,8 @@ jobs:
     if: |
       always() && 
       (needs.version-check.outputs.continue == 'true' || 
-       inputs.job_to_run == 'publish-curseforge' || 
+       inputs.job_to_run == 'publish-curseforge' ||
+       contains(inputs.job_to_run, 'publish-curseforge-') ||
        (inputs.job_to_run == 'all' && github.event_name == 'workflow_dispatch'))
 
     steps:
@@ -220,6 +227,7 @@ jobs:
           path: ./build/
 
       - name: "🔥 Publish NeoForge to CurseForge"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-curseforge' || inputs.job_to_run == 'publish-curseforge-neoforge' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 354428
@@ -240,6 +248,7 @@ jobs:
             21
 
       - name: "🔥 Publish Forge to CurseForge"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-curseforge' || inputs.job_to_run == 'publish-curseforge-forge' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 354428
@@ -260,6 +269,7 @@ jobs:
             21
 
       - name: "🔥 Publish Fabric to CurseForge"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-curseforge' || inputs.job_to_run == 'publish-curseforge-fabric' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           curseforge-id: 354428
@@ -286,7 +296,8 @@ jobs:
     if: |
       always() && 
       (needs.version-check.outputs.continue == 'true' || 
-       inputs.job_to_run == 'publish-modrinth' || 
+       inputs.job_to_run == 'publish-modrinth' ||
+       contains(inputs.job_to_run, 'publish-modrinth-') ||
        (inputs.job_to_run == 'all' && github.event_name == 'workflow_dispatch'))
 
     steps:
@@ -297,6 +308,7 @@ jobs:
           path: ./build/
 
       - name: "💎 Publish NeoForge to Modrinth"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-modrinth' || inputs.job_to_run == 'publish-modrinth-neoforge' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: BAGslLB8
@@ -306,7 +318,7 @@ jobs:
           files: |
             ./build/jar-neoforge/*.jar
 
-          name: ""
+          name: "NoMoWanderer - NeoForge - ${{ needs.version-check.outputs.new-tag }}"
           version: ${{ needs.version-check.outputs.new-tag }}
           version-type: release
           changelog: ${{ needs.release-github.outputs.changelog }}
@@ -318,6 +330,7 @@ jobs:
             21
 
       - name: "💎 Publish Forge to Modrinth"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-modrinth' || inputs.job_to_run == 'publish-modrinth-forge' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: BAGslLB8
@@ -327,7 +340,7 @@ jobs:
           files: |
             ./build/jar-forge/*.jar
 
-          name: ""
+          name: "NoMoWanderer - Forge - ${{ needs.version-check.outputs.new-tag }}"
           version: ${{ needs.version-check.outputs.new-tag }}
           version-type: release
           changelog: ${{ needs.release-github.outputs.changelog }}
@@ -339,6 +352,7 @@ jobs:
             21
 
       - name: "💎 Publish Fabric to Modrinth"
+        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-modrinth' || inputs.job_to_run == 'publish-modrinth-fabric' || github.event_name == 'push'
         uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: BAGslLB8
@@ -348,7 +362,7 @@ jobs:
           files: |
             ./build/jar-fabric/*.jar
 
-          name: ""
+          name: "NoMoWanderer - Fabric - ${{ needs.version-check.outputs.new-tag }}"
           version: ${{ needs.version-check.outputs.new-tag }}
           version-type: release
           changelog: ${{ needs.release-github.outputs.changelog }}
