@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "aXb"
+  ],
+  "key": {
+    "#": "#minecraft:planks",
+    "X": "#c:rods/wooden",
+    "a": "#c:dyes/green",
+    "b": "#c:dyes/red"
+  },
+  "result": {
+    "id": "nomowanderer:no_soliciting_sign",
+    "count": 3
+  }
+}

@@ -6,15 +6,9 @@
     " r "
   ],
   "key": {
-    "s": {
-      "item": "minecraft:string"
-    },
-    "e": {
-      "item": "minecraft:emerald"
-    },
-    "r": {
-      "tag": "forge:dyes/red"
-    }
+    "s": "minecraft:string",
+    "e": "minecraft:emerald",
+    "r": "#c:dyes/red"
   },
   "result": {
     "id": "nomowanderer:no_mo_wanderer_totem",
