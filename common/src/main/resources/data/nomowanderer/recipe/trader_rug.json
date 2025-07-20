@@ -1,10 +1,18 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "nomowanderer:trader_cloth_piece",
-    "nomowanderer:trader_cloth_piece",
-    "nomowanderer:trader_cloth_piece",
-    "nomowanderer:trader_cloth_piece"
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    },
+    {
+      "item": "nomowanderer:trader_cloth_piece"
+    }
   ],
   "result": {
     "id": "nomowanderer:trader_rug",

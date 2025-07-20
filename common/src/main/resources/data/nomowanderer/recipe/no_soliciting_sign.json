@@ -6,10 +6,18 @@
     "aXb"
   ],
   "key": {
-    "#": "#minecraft:planks",
-    "X": "#c:rods/wooden",
-    "a": "#c:dyes/green",
-    "b": "#c:dyes/red"
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "X": {
+      "tag": "c:rods/wooden"
+    },
+    "a": {
+      "tag": "c:dyes/green"
+    },
+    "b": {
+      "tag": "c:dyes/red"
+    }
   },
   "result": {
     "id": "nomowanderer:no_soliciting_sign",
