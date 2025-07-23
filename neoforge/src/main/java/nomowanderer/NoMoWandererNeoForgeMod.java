@@ -18,10 +18,9 @@ import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.util.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
-//import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Mod(NoMoWandererConstants.MODID)
 public class NoMoWandererNeoForgeMod {
@@ -41,17 +40,28 @@ public class NoMoWandererNeoForgeMod {
     }
 
     public void handleSpawns(EntityJoinLevelEvent event) {
-        if (!event.loadedFromDisk() && event.getLevel() instanceof ServerLevel level) {
-//            Predicate<Player> invCheck = (player) ->
-//                    CURIOS && CuriosApi.getCuriosHelper().findFirstCurio(player, AntiSolicitorTalismanItem::isEnabled).isPresent();
-            SpawnHandlerResult result = EntitySpawnHandler.maybeChangeEntitySpawn(
-                    event.getEntity(),
-                    level,
-                    Optional.empty());
-            if (SpawnHandlerResult.CANCELLED.equals(result)) {
-                event.setCanceled(true);
-            }
+        if (event.loadedFromDisk() || !(event.getLevel() instanceof ServerLevel serverLevel)) {
+            return;
         }
+
+        SpawnHandlerResult result = EntitySpawnHandler.maybeChangeEntitySpawn(
+                event.getEntity(),
+                serverLevel,
+                Optional.of(this::hasAntiSolicitorTalisman));
+
+        if (result == SpawnHandlerResult.CANCELLED) {
+            event.setCanceled(true);
+        }
+    }
+
+    private boolean hasAntiSolicitorTalisman(Player player) {
+        if (!CURIOS) {
+            return false;
+        }
+
+        return CuriosApi.getCuriosInventory(player)
+                .map(inventory -> inventory.findFirstCurio(AntiSolicitorTalismanItem::isEnabled).isPresent())
+                .orElse(false);
     }
 
     public void registerTabs(BuildCreativeModeTabContentsEvent event) {

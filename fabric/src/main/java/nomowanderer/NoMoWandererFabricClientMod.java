@@ -7,10 +7,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.resources.ResourceLocation;
 import nomowanderer.client.NoSolicitingSignBlockEntityRenderer;
-import nomowanderer.items.AntiSolicitorTalismanItem;
 
 public class NoMoWandererFabricClientMod implements ClientModInitializer {
 
@@ -22,11 +19,6 @@ public class NoMoWandererFabricClientMod implements ClientModInitializer {
                 NoSolicitingSignBlockEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlock(CommonRegistry.TRADER_RUG_BLOCK.get(), RenderType.translucent());
-
-        ItemProperties.register(CommonRegistry.NO_SOLICITING_TALISMAN.get(),
-                ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "enabled"),
-                (stack, level, living, id) ->
-                        AntiSolicitorTalismanItem.isEnabled(stack) ? 0.0F : 1.0F);
     }
 
     public static void registerModels() {
