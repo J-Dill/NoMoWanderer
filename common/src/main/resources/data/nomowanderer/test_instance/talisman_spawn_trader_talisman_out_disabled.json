@@ -1,0 +1,13 @@
+{
+  "environment": "nomowanderer:talisman",
+  "structure": "nomowanderer:trader_platform_talisman",
+  "max_ticks": 400,
+  "setup_ticks": 10,
+  "manual_only": true,
+  "max_attempts": 3,
+  "required_successes": 1,
+  "sky_access": false,
+  "type": "minecraft:function",
+  "function": "nomowanderer:talisman_spawn_trader_talisman_out_disabled"
+}
+

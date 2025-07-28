@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import nomowanderer.client.ClientSetup;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.AntiSolicitorTalismanItem;
-import nomowanderer.util.SpawnTraderCommand;
+import nomowanderer.commands.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 import top.theillusivec4.curios.api.CuriosApi;

@@ -1,0 +1,13 @@
+{
+  "environment": "nomowanderer:rug",
+  "structure": "nomowanderer:trader_platform_rug",
+  "max_ticks": 400,
+  "setup_ticks": 10,
+  "manual_only": true,
+  "max_attempts": 3,
+  "required_successes": 1,
+  "sky_access": false,
+  "type": "minecraft:function",
+  "function": "nomowanderer:rug_spawn_trader_by_rug_out"
+}
+

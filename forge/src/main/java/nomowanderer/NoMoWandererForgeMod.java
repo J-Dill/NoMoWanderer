@@ -2,18 +2,17 @@ package nomowanderer;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import nomowanderer.client.ClientSetup;
-import nomowanderer.util.SpawnTraderCommand;
+import nomowanderer.commands.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 
@@ -26,7 +25,9 @@ public class NoMoWandererForgeMod {
     public NoMoWandererForgeMod() {
         NoMoWandererCommonMod.init();
         NoMoWandererCommonMod.initConfig();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientSetup::init);
+        if (FMLEnvironment.dist.isClient()) {
+            ClientSetup.init();
+        }
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::registerTabs);

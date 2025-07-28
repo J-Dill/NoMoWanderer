@@ -1,4 +1,4 @@
-package nomowanderer.util;
+package nomowanderer.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -25,8 +25,10 @@ import java.util.Random;
 
 public class SpawnTraderCommand {
 
+    public static final String COMMAND_NAME = "tryspawntrader";
+
     public static LiteralArgumentBuilder<CommandSourceStack> create(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal("tryspawntrader");
+        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal(COMMAND_NAME);
         LiteralArgumentBuilder<CommandSourceStack> permission =
                 builder.requires((stack) -> stack.hasPermission(Commands.LEVEL_ADMINS));
         LiteralArgumentBuilder<CommandSourceStack> pos = permission.then(Commands.argument("pos", Vec3Argument.vec3()).executes(SpawnTraderCommand::trySpawnTrader));

@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTabs;
-import nomowanderer.util.SpawnTraderCommand;
+import nomowanderer.commands.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 
@@ -18,10 +18,18 @@ public class NoMoWandererFabricMod implements ModInitializer {
     @Override
     public void onInitialize() {
         NoMoWandererCommonMod.init();
+        registerCommands();
+        registerEntitySpawnWatching();
+        registerCreativeTabs();
+    }
+
+    private static void registerCommands() {
         CommandRegistrationCallback.EVENT.register((dis, reg, env) -> {
             dis.register(SpawnTraderCommand.create(dis));
         });
+    }
 
+    private static void registerEntitySpawnWatching() {
         ServerEntityEvents.ENTITY_LOAD.register(((entity, level) -> {
             SpawnHandlerResult result = EntitySpawnHandler.maybeChangeEntitySpawn(entity, level, Optional.empty());
             if (SpawnHandlerResult.CANCELLED.equals(result)) {
@@ -30,6 +38,9 @@ public class NoMoWandererFabricMod implements ModInitializer {
                 }
             }
         }));
+    }
+
+    private static void registerCreativeTabs() {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
             entries.accept(CommonRegistry.NO_SOLICITING_SIGN_ITEM.get());
             entries.accept(CommonRegistry.TRADER_RUG_ITEM.get());
