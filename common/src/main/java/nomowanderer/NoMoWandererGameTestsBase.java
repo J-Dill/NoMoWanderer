@@ -11,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import nomowanderer.items.AntiSolicitorTalismanItem;
@@ -36,13 +35,11 @@ public class NoMoWandererGameTestsBase {
     public static final String TEMPLATE_TRADER_PLATFORM_TALISMAN = "nomowanderer:trader_platform_talisman";
     public static final String TEMPLATE_TRADER_PLATFORM_RUG = "nomowanderer:trader_platform_rug";
 
-    @BeforeBatch(batch = BATCH_PREFIX + BATCH_SIGN)
     public static void beforeSign(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
     }
 
-    @BeforeBatch(batch = BATCH_PREFIX + BATCH_TALISMAN)
     public static void beforeTalisman(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
@@ -50,7 +47,6 @@ public class NoMoWandererGameTestsBase {
         mockPlayers.forEach((player) -> level.removePlayerImmediately(player, Entity.RemovalReason.DISCARDED));
     }
 
-    @BeforeBatch(batch = BATCH_PREFIX + BATCH_SPAWN_CAP)
     public static void beforeSpawnCap(ServerLevel level) {
         updateSpawnWatchRanges();
         setSpawnCapConfig(1);
@@ -66,19 +62,16 @@ public class NoMoWandererGameTestsBase {
         }
     }
 
-    @GameTest(batch = BATCH_SIGN, template = TEMPLATE_TRADER_PLATFORM)
     public static void spawnTraderInRange(GameTestHelper helper) {
         trySpawnTrader(helper, SIGN_RELATIVE_IN);
         helper.succeedWhenEntityNotPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_IN);
     }
 
-    @GameTest(batch = BATCH_SIGN, template = TEMPLATE_TRADER_PLATFORM)
     public static void spawnTraderOutOfRange(GameTestHelper helper) {
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanIn(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, true);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -86,7 +79,6 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanInBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalisman(helper, true);
         trySpawnTraderBarelyIn(helper, getFlipRelativePos(helper, player));
@@ -94,35 +86,30 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanInDisabled(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, false);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN);
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanOut(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, true);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanOutDisabled(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, false);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
-    @GameTest(batch = BATCH_TALISMAN, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderTalismanOutBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalisman(helper, true);
         BlockPos barelyOut = trySpawnTraderBarelyOut(helper, getFlipRelativePos(helper, player));
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, barelyOut);
     }
 
-    @GameTest(batch = BATCH_SPAWN_CAP, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderCapOutBarely(GameTestHelper helper) {
         setSpawnCapConfig(1);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -130,7 +117,6 @@ public class NoMoWandererGameTestsBase {
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, traderPos);
     }
 
-    @GameTest(batch = BATCH_SPAWN_CAP, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderCapInBarely(GameTestHelper helper) {
         setSpawnCapConfig(1);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -139,7 +125,6 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_SPAWN_CAP, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderCapInBarelyMany(GameTestHelper helper) {
         setSpawnCapConfig(12);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -148,7 +133,6 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_SPAWN_CAP, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderCapTraderAndLlamasLimited(GameTestHelper helper) {
         setSpawnCapConfig(1);
         WanderingTrader trader = trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -159,7 +143,6 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_SPAWN_CAP, template = TEMPLATE_TRADER_PLATFORM_TALISMAN)
     public static void spawnTraderCapTraderAndLlamasNoLimit(GameTestHelper helper) {
         setSpawnCapConfig(0);
         WanderingTrader trader = trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
@@ -171,14 +154,12 @@ public class NoMoWandererGameTestsBase {
         helper.succeed();
     }
 
-    @GameTest(batch = BATCH_RUG, template = TEMPLATE_TRADER_PLATFORM_RUG)
-    public static void spawnTraderByRugOut(GameTestHelper helper) {
+    public static void spawnTraderRugOut(GameTestHelper helper) {
         BlockPos blockPos = trySpawnTraderBarelyOut(helper, RUG_POS);
         helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, blockPos);
     }
 
-    @GameTest(batch = BATCH_RUG, template = TEMPLATE_TRADER_PLATFORM_RUG)
-    public static void spawnTraderByRugIn(GameTestHelper helper) {
+    public static void spawnTraderRugIn(GameTestHelper helper) {
         BlockPos blockPos = trySpawnTraderBarelyIn(helper, RUG_POS);
         helper.assertEntityNotPresent(EntityType.WANDERING_TRADER, blockPos);
         helper.succeed();
@@ -253,7 +234,7 @@ public class NoMoWandererGameTestsBase {
         Player fakePlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         helper.getLevel().addFreshEntity(fakePlayer);
         BlockPos playerPos = helper.absolutePos(TALISMAN_PLAYER_SPAWN);
-        fakePlayer.absMoveTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());
+        fakePlayer.teleportTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());
         AntiSolicitorTalismanItem item = (AntiSolicitorTalismanItem) CommonRegistry.NO_SOLICITING_TALISMAN.get();
         fakePlayer.addItem(item.getDefaultInstance(enabled));
         return fakePlayer;

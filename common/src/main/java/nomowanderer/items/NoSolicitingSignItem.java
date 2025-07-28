@@ -10,12 +10,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import nomowanderer.CommonRegistry;
 import nomowanderer.Config;
 import nomowanderer.NoMoWandererConstants;
 import nomowanderer.util.HoverTextUtil;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
@@ -29,13 +31,14 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
-                                List<Component> toolTips, TooltipFlag flag) {
+                                TooltipDisplay tooltipDisplay,
+                                Consumer<Component> toolTips, TooltipFlag flag) {
         if (Screen.hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.SIGN_WATCH_RADIUS);
         } else {
             HoverTextUtil.addHoldShiftText(toolTips);
         }
-        super.appendHoverText(stack, context, toolTips, flag);
+        super.appendHoverText(stack, context, tooltipDisplay, toolTips, flag);
     }
 
 }

@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.phys.Vec3;
 import nomowanderer.NoMoWandererConstants;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 
@@ -50,7 +51,7 @@ public class NoSolicitingSignBlockEntityRenderer implements
         );
     }
 
-    public void render(NoSolicitingSignBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+    public void render(NoSolicitingSignBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 vec3) {
         BlockState blockstate = blockEntity.getBlockState();
         SignBlock signblock = (SignBlock)blockstate.getBlock();
         WoodType woodtype = SignBlock.getWoodType(signblock);

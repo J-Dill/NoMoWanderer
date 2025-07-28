@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import nomowanderer.CommonRegistry;
 import nomowanderer.Config;
@@ -19,7 +20,7 @@ import nomowanderer.NoMoWandererConstants;
 import nomowanderer.util.HoverTextUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class AntiSolicitorTalismanItem extends Item {
 
@@ -54,7 +55,8 @@ public class AntiSolicitorTalismanItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> toolTips, TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
+                                Consumer<Component> toolTips, TooltipFlag flag) {
         addEnabledTooltip(stack, toolTips);
         if (Screen.hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.TALISMAN_WATCH_RADIUS);
@@ -62,22 +64,22 @@ public class AntiSolicitorTalismanItem extends Item {
 //                    "Can be anywhere in your inventory%s.", ExternalMods.CURIOS.isLoaded() ? " or a Curios slot" : ""
 //            );
             String totemMessage = "Can be anywhere in your inventory.";
-            toolTips.add(
+            toolTips.accept(
                     Component.literal(totemMessage).withStyle(ChatFormatting.YELLOW)
             );
-            toolTips.add(
+            toolTips.accept(
                     Component.literal("Sneak right-click ").withStyle(ChatFormatting.GOLD)
                             .append(Component.literal("to toggle on/off").withStyle(ChatFormatting.GRAY))
             );
         } else {
             HoverTextUtil.addHoldShiftText(toolTips);
         }
-        super.appendHoverText(stack, context, toolTips, flag);
+        super.appendHoverText(stack, context, tooltipDisplay, toolTips, flag);
     }
 
-    private static void addEnabledTooltip(@NotNull ItemStack stack, @NotNull List<Component> toolTips) {
+    private static void addEnabledTooltip(@NotNull ItemStack stack, Consumer<Component> toolTips) {
         boolean enabled = AntiSolicitorTalismanItem.isEnabled(stack);
-        toolTips.add(
+        toolTips.accept(
                 Component.literal("Enabled: ").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(enabled ? "Yes" : "No").withStyle(enabled ? ChatFormatting.GREEN : ChatFormatting.RED))
         );

@@ -7,6 +7,7 @@ public class NoMoWandererCommonMod {
 
     public static void init() {
         CommonRegistry.init();
+        CommonGameTestRegistry.init();
     }
 
     public static void initConfig() {

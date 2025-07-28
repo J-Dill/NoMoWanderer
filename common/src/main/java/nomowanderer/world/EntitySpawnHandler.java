@@ -79,7 +79,7 @@ public class EntitySpawnHandler {
                 if (!talismanAABB.contains(player.position())) {
                     continue;
                 }
-                for (ItemStack stack : player.getInventory().items) {
+                for (ItemStack stack : player.getInventory()) {
                     if (AntiSolicitorTalismanItem.isEnabled(stack)) {
                         return true;
                     }

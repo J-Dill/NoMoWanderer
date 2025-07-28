@@ -3,6 +3,7 @@ package nomowanderer;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,6 +20,8 @@ import nomowanderer.registry.RegistryProvider;
 import nomowanderer.registry.Services;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
+
+import java.util.function.Consumer;
 
 public class CommonRegistry {
 

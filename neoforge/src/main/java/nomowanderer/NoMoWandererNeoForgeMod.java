@@ -30,6 +30,7 @@ public class NoMoWandererNeoForgeMod {
     public NoMoWandererNeoForgeMod(IEventBus modEventBus) {
         NoMoWandererCommonMod.init();
         NoMoWandererCommonMod.initConfig();
+
         if (FMLEnvironment.dist == Dist.CLIENT) {
             ClientSetup.init(modEventBus);
         }
