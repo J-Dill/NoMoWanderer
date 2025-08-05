@@ -2,15 +2,15 @@
   "model": {
     "type": "minecraft:condition",
     "property": "minecraft:component",
-    "predicate": "nomowanderer:enabled",
-    "value": 1,
+    "predicate": "minecraft:custom_data",
+    "value": "{enabled:1b}",
     "on_true": {
       "type": "minecraft:model",
-      "model": "nomowanderer:item/no_mo_wanderer_totem_disabled"
+      "model": "nomowanderer:item/no_mo_wanderer_totem"
     },
     "on_false": {
       "type": "minecraft:model",
-      "model": "nomowanderer:item/no_mo_wanderer_totem"
+      "model": "nomowanderer:item/no_mo_wanderer_totem_disabled"
     }
   }
 }

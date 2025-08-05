@@ -2,7 +2,11 @@ package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.ByteTag;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import nomowanderer.CommonRegistry;
@@ -34,13 +39,17 @@ public class AntiSolicitorTalismanItem extends Item {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack defaultInstance = super.getDefaultInstance();
-        defaultInstance.set(CommonRegistry.ENABLED.get(), Boolean.TRUE);
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("enabled", ByteTag.valueOf(true));
+        defaultInstance.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
         return defaultInstance;
     }
 
     public @NotNull ItemStack getDefaultInstance(boolean enabled) {
         ItemStack defaultInstance = super.getDefaultInstance();
-        defaultInstance.set(CommonRegistry.ENABLED.get(), enabled);
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.put("enabled", ByteTag.valueOf(enabled));
+        defaultInstance.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
         return defaultInstance;
     }
 
@@ -48,7 +57,14 @@ public class AntiSolicitorTalismanItem extends Item {
     public InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         if (player.isShiftKeyDown() && !level.isClientSide()) {
             ItemStack item = player.getItemInHand(hand);
-            item.set(CommonRegistry.ENABLED.get(), Boolean.FALSE.equals(item.get(CommonRegistry.ENABLED.get())));
+            CompoundTag compoundTag = item.get(DataComponents.CUSTOM_DATA).copyTag();
+            Tag enabled = compoundTag.get("enabled");
+            if (enabled instanceof ByteTag) {
+                // Toggle the enabled state
+                boolean currentValue = enabled.asBoolean().get();
+                compoundTag.put("enabled", ByteTag.valueOf(!currentValue));
+            }
+            item.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
             return InteractionResult.PASS;
         }
         return super.use(level, player, hand);
@@ -89,11 +105,15 @@ public class AntiSolicitorTalismanItem extends Item {
         if (!stack.getItem().equals(CommonRegistry.NO_SOLICITING_TALISMAN.get())) {
             return false;
         }
-        // If there are no tags, assume it is enabled (for backwards compatability)
-        if (stack.get(CommonRegistry.ENABLED.get()) == null) {
-            return true;
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        if (customData == null) {
+            return false; // If no custom data, assume disabled
         }
-        return Boolean.TRUE.equals(stack.get(CommonRegistry.ENABLED.get()));
+        Tag enabled = customData.copyTag().get("enabled");// Ensure the tag exists
+        if (enabled instanceof ByteTag) {
+            return enabled.asBoolean().get();
+        }
+        return false;
     }
 
 }
