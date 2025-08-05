@@ -4,9 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.ByteTag;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,24 +30,21 @@ public class AntiSolicitorTalismanItem extends Item {
     public static final String ID = "no_mo_wanderer_totem";
     public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
+    // Add constant for the NBT key to avoid magic strings
+    private static final String ENABLED_KEY = "enabled";
+
     public AntiSolicitorTalismanItem() {
         super(new Properties().setId(KEY).stacksTo(1));
     }
 
     @Override
     public @NotNull ItemStack getDefaultInstance() {
-        ItemStack defaultInstance = super.getDefaultInstance();
-        CompoundTag compoundTag = new CompoundTag();
-        compoundTag.put("enabled", ByteTag.valueOf(true));
-        defaultInstance.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
-        return defaultInstance;
+        return getDefaultInstance(true);
     }
 
     public @NotNull ItemStack getDefaultInstance(boolean enabled) {
         ItemStack defaultInstance = super.getDefaultInstance();
-        CompoundTag compoundTag = new CompoundTag();
-        compoundTag.put("enabled", ByteTag.valueOf(enabled));
-        defaultInstance.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
+        setEnabled(defaultInstance, enabled);
         return defaultInstance;
     }
 
@@ -57,14 +52,8 @@ public class AntiSolicitorTalismanItem extends Item {
     public InteractionResult use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         if (player.isShiftKeyDown() && !level.isClientSide()) {
             ItemStack item = player.getItemInHand(hand);
-            CompoundTag compoundTag = item.get(DataComponents.CUSTOM_DATA).copyTag();
-            Tag enabled = compoundTag.get("enabled");
-            if (enabled instanceof ByteTag) {
-                // Toggle the enabled state
-                boolean currentValue = enabled.asBoolean().get();
-                compoundTag.put("enabled", ByteTag.valueOf(!currentValue));
-            }
-            item.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
+            boolean currentEnabled = isEnabled(item);
+            setEnabled(item, !currentEnabled);
             return InteractionResult.PASS;
         }
         return super.use(level, player, hand);
@@ -105,15 +94,31 @@ public class AntiSolicitorTalismanItem extends Item {
         if (!stack.getItem().equals(CommonRegistry.NO_SOLICITING_TALISMAN.get())) {
             return false;
         }
+
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         if (customData == null) {
             return false; // If no custom data, assume disabled
         }
-        Tag enabled = customData.copyTag().get("enabled");// Ensure the tag exists
-        if (enabled instanceof ByteTag) {
-            return enabled.asBoolean().get();
-        }
-        return false;
+
+        CompoundTag tag = customData.copyTag();
+        return tag.getBoolean(ENABLED_KEY).orElse(false);
+    }
+
+    /**
+     * Helper method to set the enabled state of a talisman item
+     */
+    private static void setEnabled(ItemStack stack, boolean enabled) {
+        CompoundTag compoundTag = getOrCreateCompoundTag(stack);
+        compoundTag.putBoolean(ENABLED_KEY, enabled);
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
+    }
+
+    /**
+     * Helper method to get existing compound tag or create a new one
+     */
+    private static CompoundTag getOrCreateCompoundTag(ItemStack stack) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        return customData != null ? customData.copyTag() : new CompoundTag();
     }
 
 }

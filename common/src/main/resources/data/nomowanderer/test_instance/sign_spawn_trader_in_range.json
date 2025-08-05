@@ -1,10 +1,8 @@
 {
   "environment": "nomowanderer:sign",
   "structure": "nomowanderer:trader_platform",
-  "max_ticks": 400,
+  "max_ticks": 20,
   "setup_ticks": 10,
-  "manual_only": true,
-  "max_attempts": 3,
   "required_successes": 1,
   "sky_access": false,
   "type": "minecraft:function",
