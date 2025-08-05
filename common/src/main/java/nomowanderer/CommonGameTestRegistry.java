@@ -13,11 +13,6 @@ public class CommonGameTestRegistry {
     public static final RegistryProvider<Consumer<GameTestHelper>> TEST_FUNCTIONS =
             RegistryProvider.get(Registries.TEST_FUNCTION, NoMoWandererConstants.MODID);
 
-    //================
-    // Setup Functions
-    //================
-
-
     //===============
     // Test Functions
     //===============

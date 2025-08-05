@@ -1,3 +1,4 @@
 {
-  "type": "minecraft:function"
+  "type": "minecraft:function",
+  "setup": "nomowanderer:setup_rug"
 }
