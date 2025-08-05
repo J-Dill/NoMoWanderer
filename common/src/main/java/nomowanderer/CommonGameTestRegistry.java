@@ -7,6 +7,7 @@ import nomowanderer.registry.RegistryProvider;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class CommonGameTestRegistry {
 
     public static final RegistryProvider<Consumer<GameTestHelper>> TEST_FUNCTIONS =
@@ -15,6 +16,7 @@ public class CommonGameTestRegistry {
     //================
     // Setup Functions
     //================
+
 
     //===============
     // Test Functions

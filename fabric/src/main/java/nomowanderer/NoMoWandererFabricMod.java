@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTabs;
-import nomowanderer.commands.SpawnTraderCommand;
+import nomowanderer.commands.NoMoWandererBaseCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 
@@ -25,7 +25,7 @@ public class NoMoWandererFabricMod implements ModInitializer {
 
     private static void registerCommands() {
         CommandRegistrationCallback.EVENT.register((dis, reg, env) -> {
-            dis.register(SpawnTraderCommand.create(dis));
+            dis.register(NoMoWandererBaseCommand.create(dis));
         });
     }
 

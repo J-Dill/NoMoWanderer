@@ -1,6 +1,5 @@
-package nomowanderer.commands;
+package nomowanderer.commands.subcommands;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -19,37 +18,58 @@ import net.minecraft.world.entity.animal.horse.TraderLlama;
 import net.minecraft.world.entity.npc.WanderingTrader;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class SpawnTraderCommand {
+public class SpawnTraderCommand implements SubcommandExecutor {
 
-    public static final String COMMAND_NAME = "tryspawntrader";
-
-    public static LiteralArgumentBuilder<CommandSourceStack> create(CommandDispatcher<CommandSourceStack> dispatcher) {
-        LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal(COMMAND_NAME);
-        LiteralArgumentBuilder<CommandSourceStack> permission =
-                builder.requires((stack) -> stack.hasPermission(Commands.LEVEL_ADMINS));
-        LiteralArgumentBuilder<CommandSourceStack> pos = permission.then(Commands.argument("pos", Vec3Argument.vec3()).executes(SpawnTraderCommand::trySpawnTrader));
-        dispatcher.register(pos);
-        return builder;
+    @Override
+    public LiteralArgumentBuilder<CommandSourceStack> registerArguments(LiteralArgumentBuilder<CommandSourceStack> builder) {
+        return builder
+                .executes(this::execute) // Allow execution without position (use player position)
+                .then(Commands.argument("pos", Vec3Argument.vec3())
+                        .executes(this::execute)); // Allow execution with specified position
     }
 
-    private static int trySpawnTrader(CommandContext<CommandSourceStack> stack) {
+    @Override
+    public int execute(CommandContext<CommandSourceStack> context) {
+        int result = trySpawnTrader(context);
+        if (result == 0) {
+            return 1; // Command succeeded
+        } else {
+            context.getSource().sendFailure(Component.literal("Failed to spawn wandering trader"));
+            return 0; // Command failed
+        }
+    }
+
+    private static int trySpawnTrader(CommandContext<CommandSourceStack> context) {
+        Vec3 spawnPos;
+
+        // Check if position argument was provided
+        try {
+            spawnPos = Vec3Argument.getVec3(context, "pos");
+        } catch (IllegalArgumentException e) {
+            // No position argument, use command source position
+            spawnPos = context.getSource().getPosition();
+        }
+
         WanderingTrader wanderingtrader = EntityType.WANDERING_TRADER.spawn(
-                stack.getSource().getLevel(),
-                BlockPos.containing(stack.getSource().getPosition()),
+                context.getSource().getLevel(),
+                BlockPos.containing(spawnPos),
                 EntitySpawnReason.EVENT
         );
+
         if (wanderingtrader != null) {
             for(int j = 0; j < 2; ++j) {
-                tryToSpawnLlamaFor(stack.getSource().getLevel(), wanderingtrader, 4);
+                tryToSpawnLlamaFor(context.getSource().getLevel(), wanderingtrader, 4);
             }
             wanderingtrader.setDespawnDelay(48000);
         }
+
         try {
-            ServerPlayer serverPlayer = stack.getSource().getPlayerOrException();
+            ServerPlayer serverPlayer = context.getSource().getPlayerOrException();
             String message = wanderingtrader != null ? "Spawned Trader at " + wanderingtrader.position() : "Trader spawn blocked.";
             serverPlayer.sendSystemMessage(Component.literal(message));
         } catch (CommandSyntaxException e) {
@@ -87,5 +107,4 @@ public class SpawnTraderCommand {
 
         return blockpos;
     }
-
 }

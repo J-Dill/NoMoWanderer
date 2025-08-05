@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import nomowanderer.client.ClientSetup;
-import nomowanderer.commands.SpawnTraderCommand;
+import nomowanderer.commands.NoMoWandererBaseCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 
@@ -63,7 +63,7 @@ public class NoMoWandererForgeMod {
     }
 
     public void registerCommands(RegisterCommandsEvent event) {
-        SpawnTraderCommand.create(event.getDispatcher());
+        NoMoWandererBaseCommand.create(event.getDispatcher());
     }
 
 }

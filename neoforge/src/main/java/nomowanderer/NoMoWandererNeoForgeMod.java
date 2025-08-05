@@ -13,9 +13,9 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import nomowanderer.client.ClientSetup;
+import nomowanderer.commands.NoMoWandererBaseCommand;
 import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.AntiSolicitorTalismanItem;
-import nomowanderer.commands.SpawnTraderCommand;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -77,7 +77,7 @@ public class NoMoWandererNeoForgeMod {
     }
 
     public void registerCommands(RegisterCommandsEvent event) {
-        SpawnTraderCommand.create(event.getDispatcher());
+        NoMoWandererBaseCommand.create(event.getDispatcher());
     }
 
 }
