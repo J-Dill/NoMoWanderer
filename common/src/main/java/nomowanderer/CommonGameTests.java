@@ -1,11 +1,8 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.*;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.TraderLlama;
@@ -16,51 +13,12 @@ import net.minecraft.world.level.GameType;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-
-public class NoMoWandererGameTestsBase {
-
-    public static final String BATCH_PREFIX = "nomowanderergametests.";
-    public static final String BATCH_SIGN = "nomowanderer.sign";
-    public static final String BATCH_TALISMAN = "nomowanderer.talisman";
-    public static final String BATCH_SPAWN_CAP = "nomowanderer.spawncap";
-    public static final String BATCH_RUG = "nomowanderer.rug";
+public class CommonGameTests {
 
     public static final BlockPos RUG_POS = new BlockPos(0, 2, 47);
     public static final BlockPos SIGN_RELATIVE_IN = new BlockPos(1, 2, 46);
     public static final BlockPos SIGN_RELATIVE_OUT = new BlockPos(46, 2, 1);
     public static final BlockPos TALISMAN_PLAYER_SPAWN = new BlockPos(1, 2, 46);
-
-    public static final String TEMPLATE_TRADER_PLATFORM = "nomowanderer:trader_platform";
-    public static final String TEMPLATE_TRADER_PLATFORM_TALISMAN = "nomowanderer:trader_platform_talisman";
-    public static final String TEMPLATE_TRADER_PLATFORM_RUG = "nomowanderer:trader_platform_rug";
-
-    public static void beforeSign(ServerLevel level) {
-        updateSpawnWatchRanges();
-        setSpawnCapConfig(1);
-    }
-
-    public static void beforeTalisman(ServerLevel level) {
-        updateSpawnWatchRanges();
-        setSpawnCapConfig(1);
-        List<ServerPlayer> mockPlayers = level.getPlayers((player) -> player.getGameProfile().getName().equals("test-mock-player"));
-        mockPlayers.forEach((player) -> level.removePlayerImmediately(player, Entity.RemovalReason.DISCARDED));
-    }
-
-    public static void beforeSpawnCap(ServerLevel level) {
-        updateSpawnWatchRanges();
-        setSpawnCapConfig(1);
-    }
-
-    public static void updateSpawnWatchRanges() {
-        List<SpectreConfigSpec.IntValue> values = Arrays.asList(Config.SIGN_WATCH_RADIUS, Config.SPAWN_CAP_WATCH_RADIUS, Config.TALISMAN_WATCH_RADIUS, Config.RUG_WATCH_RADIUS);
-        for (SpectreConfigSpec.IntValue value : values) {
-            if (value.get() > 1) {
-                value.set(1);
-                value.save();
-            }
-        }
-    }
 
     public static void spawnTraderInRange(GameTestHelper helper) {
         trySpawnTrader(helper, SIGN_RELATIVE_IN);

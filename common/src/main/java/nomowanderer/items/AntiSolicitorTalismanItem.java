@@ -29,7 +29,7 @@ public class AntiSolicitorTalismanItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
     public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
-
+    
     // Add constant for the NBT key to avoid magic strings
     private static final String ENABLED_KEY = "enabled";
 
@@ -94,16 +94,16 @@ public class AntiSolicitorTalismanItem extends Item {
         if (!stack.getItem().equals(CommonRegistry.NO_SOLICITING_TALISMAN.get())) {
             return false;
         }
-
+        
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         if (customData == null) {
             return false; // If no custom data, assume disabled
         }
-
+        
         CompoundTag tag = customData.copyTag();
         return tag.getBoolean(ENABLED_KEY).orElse(false);
     }
-
+    
     /**
      * Helper method to set the enabled state of a talisman item
      */
@@ -112,7 +112,7 @@ public class AntiSolicitorTalismanItem extends Item {
         compoundTag.putBoolean(ENABLED_KEY, enabled);
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(compoundTag));
     }
-
+    
     /**
      * Helper method to get existing compound tag or create a new one
      */

@@ -1,0 +1,11 @@
+{
+  "environment": "nomowanderer:curio",
+  "structure": "nomowanderer:trader_platform_talisman",
+  "max_ticks": 20,
+  "setup_ticks": 10,
+  "required_successes": 1,
+  "sky_access": false,
+  "type": "minecraft:function",
+  "function": "nomowanderer:curio_spawn_trader_curio_in_barely"
+}
+

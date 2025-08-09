@@ -24,7 +24,7 @@
       "nomowanderer.ConfigInitializer"
     ],
     "fabric-gametest": [
-      "nomowanderer.NoMoWandererGameTestsBase"
+      "nomowanderer.CommonGameTests"
     ]
   },
   "depends": {
