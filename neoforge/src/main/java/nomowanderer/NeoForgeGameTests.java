@@ -6,8 +6,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import nomowanderer.items.AntiSolicitorTalismanItem;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+//import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
 
 import java.util.Optional;
 
@@ -59,9 +59,9 @@ public class NeoForgeGameTests extends CommonGameTests {
         fakePlayer.teleportTo(playerPos.getX(), playerPos.getY(), playerPos.getZ());
 
         // Add the talisman curio to the fake player's inventory
-        AntiSolicitorTalismanItem item = (AntiSolicitorTalismanItem) CommonRegistry.NO_SOLICITING_TALISMAN.get();
-        Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(fakePlayer);
-        inventory.ifPresent((inv) -> inv.setEquippedCurio("necklace", 0, item.getDefaultInstance(enabled)));
+//        AntiSolicitorTalismanItem item = (AntiSolicitorTalismanItem) CommonRegistry.NO_SOLICITING_TALISMAN.get();
+//        Optional<ICuriosItemHandler> inventory = CuriosApi.getCuriosInventory(fakePlayer);
+//        inventory.ifPresent((inv) -> inv.setEquippedCurio("necklace", 0, item.getDefaultInstance(enabled)));
 
         return fakePlayer;
     }

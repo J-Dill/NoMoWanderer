@@ -19,7 +19,7 @@ public class ForgeRegistryProvider implements RegistryFactory {
             throw new NullPointerException("Cannot find Mod container for mod: " + modId);
         if (containerOpt.get() instanceof FMLModContainer fmlModContainer) {
             final var register = DeferredRegister.create(resourceKey, modId);
-            register.register(fmlModContainer.getEventBus());
+            register.register(fmlModContainer.getModBusGroup());
             return new Provider<>(register);
         } else {
             throw new ClassCastException("The container for mod [" + modId + "] is not a FML one!");

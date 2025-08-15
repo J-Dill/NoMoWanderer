@@ -1,12 +1,12 @@
 package nomowanderer;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import nomowanderer.client.NoSolicitingSignBlockEntityRenderer;
 
 public class NoMoWandererFabricClientMod implements ClientModInitializer {
@@ -18,7 +18,7 @@ public class NoMoWandererFabricClientMod implements ClientModInitializer {
         BlockEntityRenderers.register(CommonRegistry.NO_SOLICITING_SIGN_BE.get(),
                 NoSolicitingSignBlockEntityRenderer::new);
 
-        BlockRenderLayerMap.INSTANCE.putBlock(CommonRegistry.TRADER_RUG_BLOCK.get(), RenderType.translucent());
+        BlockRenderLayerMap.putBlock(CommonRegistry.TRADER_RUG_BLOCK.get(), ChunkSectionLayer.TRANSLUCENT);
     }
 
     public static void registerModels() {

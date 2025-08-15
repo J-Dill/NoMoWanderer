@@ -18,7 +18,7 @@ import nomowanderer.compat.ExternalMods;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
-import top.theillusivec4.curios.api.CuriosApi;
+//import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
 
@@ -64,9 +64,10 @@ public class NoMoWandererNeoForgeMod {
             return false;
         }
 
-        return CuriosApi.getCuriosInventory(player)
-                .map(inventory -> inventory.findFirstCurio(AntiSolicitorTalismanItem::isEnabled).isPresent())
-                .orElse(false);
+        return false;
+//        return CuriosApi.getCuriosInventory(player)
+//                .map(inventory -> inventory.findFirstCurio(AntiSolicitorTalismanItem::isEnabled).isPresent())
+//                .orElse(false);
     }
 
     public void registerTabs(BuildCreativeModeTabContentsEvent event) {
