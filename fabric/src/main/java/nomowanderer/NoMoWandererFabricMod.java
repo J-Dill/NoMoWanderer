@@ -17,6 +17,7 @@ public class NoMoWandererFabricMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        FabricConfigInitializer.initializeConfig();
         NoMoWandererCommonMod.init();
         CommandRegistrationCallback.EVENT.register((dis, reg, env) -> {
             dis.register(SpawnTraderCommand.create(dis));

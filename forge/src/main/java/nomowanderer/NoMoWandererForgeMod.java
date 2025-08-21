@@ -31,8 +31,8 @@ public class NoMoWandererForgeMod {
     public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     public NoMoWandererForgeMod() {
+        NoMoWandererCommonMod.initConfig(net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR.get());
         NoMoWandererCommonMod.init();
-        NoMoWandererCommonMod.initConfig();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientSetup::init);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

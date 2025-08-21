@@ -29,8 +29,8 @@ public class NoMoWandererNeoForgeMod {
     public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     public NoMoWandererNeoForgeMod(IEventBus modEventBus) {
+        NoMoWandererCommonMod.initConfig(net.neoforged.fml.loading.FMLPaths.CONFIGDIR.get());
         NoMoWandererCommonMod.init();
-        NoMoWandererCommonMod.initConfig();
         if (FMLEnvironment.dist == Dist.CLIENT) {
             ClientSetup.init(modEventBus);
         }

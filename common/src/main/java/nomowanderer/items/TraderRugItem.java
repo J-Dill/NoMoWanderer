@@ -26,7 +26,7 @@ public class TraderRugItem extends BlockItem {
         if (Screen.hasShiftDown()) {
             toolTips.add(
                     Component.literal("Directs Wandering Traders to spawn on this block within ").withStyle(ChatFormatting.GREEN)
-                            .append(Component.literal(Config.RUG_WATCH_RADIUS.get().toString()).withStyle(ChatFormatting.BLUE))
+                            .append(Component.literal(String.valueOf(Config.RUG_WATCH_RADIUS)).withStyle(ChatFormatting.BLUE))
                             .append(Component.literal(" chunks of the rug.").withStyle(ChatFormatting.GREEN))
             );
         } else {

@@ -1,6 +1,5 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.*;
 import net.minecraft.server.level.ServerLevel;
@@ -190,10 +189,7 @@ public class NoMoWandererGameTests {
     }
 
     public static void setSpawnCapConfig(int cap) {
-        if (Config.ENTITY_SPAWN_CAP.get() != cap) {
-            Config.ENTITY_SPAWN_CAP.set(cap);
-            Config.ENTITY_SPAWN_CAP.save();
-        }
+        Config.ENTITY_SPAWN_CAP = cap;
     }
 
     public static WanderingTrader trySpawnTrader(GameTestHelper helper, BlockPos pos) {

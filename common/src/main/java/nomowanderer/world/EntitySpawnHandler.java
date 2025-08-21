@@ -1,6 +1,5 @@
 package nomowanderer.world;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +35,7 @@ public class EntitySpawnHandler {
     }
 
     private static boolean isWatchedEntity(Entity entity) {
-        List<? extends String> watchedEntities = Config.ENTITY_WATCH_LIST.get();
+        List<String> watchedEntities = Config.ENTITY_WATCH_LIST;
         String registryName = getRegistryName(entity);
         return watchedEntities.contains(registryName);
     }
@@ -52,7 +51,7 @@ public class EntitySpawnHandler {
      */
     private static SpawnHandlerResult checkSpawn(Entity entity, ServerLevel level, Optional<Predicate<Player>> invCheck) {
         if (isWatchedEntity(entity)) {
-            if (Config.DISABLE_ENTITY_SPAWNS.get() || canFindCancelEntity(entity, level, invCheck)) {
+            if (Config.DISABLE_ENTITY_SPAWNS || canFindCancelEntity(entity, level, invCheck)) {
                 return SpawnHandlerResult.CANCELLED;
             }
             return checkBlockEntities(entity, level);
@@ -93,7 +92,7 @@ public class EntitySpawnHandler {
                 String registryName = getRegistryName(ent);
                 int count = entityCount.get(registryName) != null ? entityCount.get(registryName) : 0;
                 entityCount.put(registryName, count + 1);
-                Integer spawnCap = Config.ENTITY_SPAWN_CAP.get();
+                Integer spawnCap = Config.ENTITY_SPAWN_CAP;
                 if (spawnCap != 0 && registryName.equals(getRegistryName(entity)) && entityCount.get(registryName) >= spawnCap && !entity.getUUID().equals(ent.getUUID())) {
                      return true;
                 }
@@ -132,9 +131,9 @@ public class EntitySpawnHandler {
      */
     private static SpawnHandlerResult checkBlockEntities(Entity entity, ServerLevel level) {
         ChunkAccess eventChunk = getChunk(level, entity.getOnPos());
-        ArrayList<ChunkAccess> largestChunks = getChunksInRadius(level, eventChunk.getPos(), Math.max(Config.RUG_WATCH_RADIUS.get(), Config.SIGN_WATCH_RADIUS.get()));
-        ArrayList<ChunkAccess> rugChunks = getChunksInRadius(level, eventChunk.getPos(), Config.RUG_WATCH_RADIUS.get());
-        ArrayList<ChunkAccess> signChunks = getChunksInRadius(level, eventChunk.getPos(), Config.SIGN_WATCH_RADIUS.get());
+        ArrayList<ChunkAccess> largestChunks = getChunksInRadius(level, eventChunk.getPos(), Math.max(Config.RUG_WATCH_RADIUS, Config.SIGN_WATCH_RADIUS));
+        ArrayList<ChunkAccess> rugChunks = getChunksInRadius(level, eventChunk.getPos(), Config.RUG_WATCH_RADIUS);
+        ArrayList<ChunkAccess> signChunks = getChunksInRadius(level, eventChunk.getPos(), Config.SIGN_WATCH_RADIUS);
         return lookForBEInChunks(entity, level, largestChunks, rugChunks, signChunks);
     }
 
