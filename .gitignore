@@ -23,5 +23,8 @@ run
 runs
 logs
 
+# Java class files
+*.class
+
 # Files from Forge MDK
 forge*changelog.txt
