@@ -27,14 +27,20 @@ public class ConfigLoader {
     
     private static Path getConfigDirectory() {
         // Try to determine the config directory based on the platform
-        String userHome = System.getProperty("user.home");
         String configDirProperty = System.getProperty("configDir");
         
         if (configDirProperty != null) {
             return Paths.get(configDirProperty);
         }
         
+        // For development environment, try to use a relative config directory
+        Path currentDir = Paths.get("").toAbsolutePath();
+        if (currentDir.endsWith("run")) {
+            return currentDir.resolve("config");
+        }
+        
         // Default minecraft config locations
+        String userHome = System.getProperty("user.home");
         String os = System.getProperty("os.name").toLowerCase();
         if (os.contains("win")) {
             return Paths.get(userHome, "AppData", "Roaming", ".minecraft", "config");

@@ -18,6 +18,7 @@ public class NoMoWandererFabricMod implements ModInitializer {
     @Override
     public void onInitialize() {
         NoMoWandererCommonMod.init();
+        NoMoWandererCommonMod.initConfig();
         registerCommands();
         registerEntitySpawnWatching();
         registerCreativeTabs();

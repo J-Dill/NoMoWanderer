@@ -20,9 +20,6 @@
     "client": [
       "nomowanderer.NoMoWandererFabricClientMod"
     ],
-    "spectrelib-config": [
-      "nomowanderer.ConfigInitializer"
-    ],
     "fabric-gametest": [
       "nomowanderer.CommonGameTests"
     ]

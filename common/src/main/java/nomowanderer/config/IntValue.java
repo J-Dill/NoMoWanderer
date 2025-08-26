@@ -23,11 +23,6 @@ public class IntValue extends ConfigValue<Integer> {
     }
 
     @Override
-    public void save() {
-        // Implementation will be handled by ConfigManager
-    }
-
-    @Override
     public boolean isValid(Object value) {
         if (!(value instanceof Integer)) {
             return false;

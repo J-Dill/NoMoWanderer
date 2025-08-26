@@ -21,6 +21,12 @@ public class ConfigManager {
         this.configName = configName;
         this.spec = spec;
         this.configPath = configDir.resolve(configName + "-server.toml");
+        
+        // Set this manager on all config values
+        for (ConfigValue<?> value : spec.getValues().values()) {
+            value.setManager(this);
+        }
+        
         loadConfig();
     }
 

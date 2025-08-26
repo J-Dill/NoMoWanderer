@@ -25,11 +25,6 @@ public class StringListValue extends ConfigValue<List<? extends String>> {
     }
 
     @Override
-    public void save() {
-        // Implementation will be handled by ConfigManager
-    }
-
-    @Override
     public boolean isValid(Object value) {
         if (!(value instanceof List)) {
             return false;

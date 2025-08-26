@@ -10,11 +10,6 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     @Override
-    public void save() {
-        // Implementation will be handled by ConfigManager
-    }
-
-    @Override
     public boolean isValid(Object value) {
         return value instanceof Boolean;
     }
