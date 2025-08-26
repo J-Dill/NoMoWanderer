@@ -85,19 +85,14 @@ dependencies {
 
     compileOnly project(':common')
 
-    implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "${version_spectrelib}"
-    jarJar (group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-forge', version: "[0.16.1,2.0)") {
-        jarJar.pin(it, "${version_spectrelib}")
-    }
-
     // Check future Forge MDK to see if we can remove this
     implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 }
 
 repositories {
     maven {
-        name = 'Illusive Soulworks'
-        url = 'https://maven.theillusivec4.top/'
+        name = 'Forge'
+        url = 'https://maven.minecraftforge.net/'
     }
 }
 

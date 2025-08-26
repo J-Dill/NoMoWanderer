@@ -1,23 +1,23 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.resources.ResourceLocation;
+import nomowanderer.config.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class Config {
 
-    private static final SpectreConfigSpec.Builder SERVER_BUILDER = new SpectreConfigSpec.Builder();
-    public static final SpectreConfigSpec SERVER_CONFIG;
+    private static final ConfigSpec.Builder SERVER_BUILDER = new ConfigSpec.Builder();
+    public static final ConfigSpec SERVER_CONFIG;
 
-    public static SpectreConfigSpec.BooleanValue DISABLE_ENTITY_SPAWNS;
-    public static SpectreConfigSpec.ConfigValue<List<? extends String>> ENTITY_WATCH_LIST;
-    public static SpectreConfigSpec.IntValue RUG_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue SIGN_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue SPAWN_CAP_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue TALISMAN_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue ENTITY_SPAWN_CAP;
+    public static BooleanValue DISABLE_ENTITY_SPAWNS;
+    public static ConfigValue<List<? extends String>> ENTITY_WATCH_LIST;
+    public static IntValue RUG_WATCH_RADIUS;
+    public static IntValue SIGN_WATCH_RADIUS;
+    public static IntValue SPAWN_CAP_WATCH_RADIUS;
+    public static IntValue TALISMAN_WATCH_RADIUS;
+    public static IntValue ENTITY_SPAWN_CAP;
 
     static {
         generalConfig();

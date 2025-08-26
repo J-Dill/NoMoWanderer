@@ -27,9 +27,6 @@ dependencies {
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
 
     implementation project(":common")
-
-    modImplementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-fabric', version: "${version_spectrelib}"
-    include group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-fabric', version: "${version_spectrelib}"
 }
 
 loom {

@@ -26,8 +26,6 @@ runs {
 
 dependencies {
     implementation "net.neoforged:neoforge:${version_neoforge}"
-    implementation group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${version_spectrelib}"
-    jarJar group: 'com.illusivesoulworks.spectrelib', name: 'spectrelib-neoforge', version: "${version_spectrelib}"
     compileOnly project(':common')
 
     // Curios

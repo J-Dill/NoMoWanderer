@@ -1,10 +1,10 @@
 package nomowanderer.commands.subcommands;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
 import nomowanderer.Config;
+import nomowanderer.config.IntValue;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +22,9 @@ public interface SubcommandExecutor {
     }
 
     static void updateSpawnWatchRanges() {
-        List<SpectreConfigSpec.IntValue> values = Arrays.asList(Config.SIGN_WATCH_RADIUS, Config.SPAWN_CAP_WATCH_RADIUS,
+        List<IntValue> values = Arrays.asList(Config.SIGN_WATCH_RADIUS, Config.SPAWN_CAP_WATCH_RADIUS,
                 Config.TALISMAN_WATCH_RADIUS, Config.RUG_WATCH_RADIUS);
-        for (SpectreConfigSpec.IntValue value : values) {
+        for (IntValue value : values) {
             if (value.get() > 1) {
                 value.set(1);
                 value.save();

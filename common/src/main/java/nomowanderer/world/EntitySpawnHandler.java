@@ -1,6 +1,5 @@
 package nomowanderer.world;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -123,7 +122,7 @@ public class EntitySpawnHandler {
         );
     }
 
-    private static int getCheckDist(SpectreConfigSpec.IntValue radius) {
+    private static int getCheckDist(nomowanderer.config.IntValue radius) {
         return (radius.get() * 16) + 1;
     }
 

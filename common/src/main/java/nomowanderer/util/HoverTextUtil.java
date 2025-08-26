@@ -1,14 +1,14 @@
 package nomowanderer.util;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import nomowanderer.config.IntValue;
 
 import java.util.function.Consumer;
 
 public class HoverTextUtil {
 
-    public static void addCommonText(Consumer<Component> toolTips, SpectreConfigSpec.IntValue config) {
+    public static void addCommonText(Consumer<Component> toolTips, IntValue config) {
         int chunks = config.get();
         toolTips.accept(
                 Component.literal("Prevents Wandering Trader spawns within ").withStyle(ChatFormatting.GREEN)
@@ -17,7 +17,7 @@ public class HoverTextUtil {
         );
         toolTips.accept(
                 Component.literal("Other entities can be blocked via ").withStyle(ChatFormatting.GRAY)
-                        .append(Component.literal("nomowanderer-common.toml.").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC))
+                        .append(Component.literal("nomowanderer-server.toml.").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC))
         );
     }
 

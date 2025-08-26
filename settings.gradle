@@ -17,10 +17,6 @@ pluginManagement {
             name = 'Sponge Snapshots'
             url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
-        maven {
-            name = 'Illusive Soulworks'
-            url = 'https://maven.theillusivec4.top/'
-        }
     }
 }
 
