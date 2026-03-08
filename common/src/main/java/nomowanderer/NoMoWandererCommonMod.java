@@ -1,7 +1,6 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfig;
-import com.illusivesoulworks.spectrelib.config.SpectreConfigLoader;
+import nomowanderer.config.ConfigManagerHolder;
 
 public class NoMoWandererCommonMod {
 
@@ -11,8 +10,7 @@ public class NoMoWandererCommonMod {
     }
 
     public static void initConfig() {
-        SpectreConfigLoader.add(SpectreConfig.Type.SERVER, Config.SERVER_CONFIG,
-                NoMoWandererConstants.MODID);
+        ConfigManagerHolder.getInstance().registerConfig(Config.SERVER_CONFIG, NoMoWandererConstants.MODID);
     }
 
 }

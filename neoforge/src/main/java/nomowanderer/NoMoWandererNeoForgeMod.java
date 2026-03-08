@@ -15,6 +15,8 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import nomowanderer.client.ClientSetup;
 import nomowanderer.commands.NoMoWandererBaseCommand;
 import nomowanderer.compat.ExternalMods;
+import nomowanderer.config.ConfigManagerHolder;
+import nomowanderer.config.NeoForgeConfigManager;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
@@ -28,6 +30,7 @@ public class NoMoWandererNeoForgeMod {
     public static final boolean CURIOS = ExternalMods.CURIOS.isLoaded();
 
     public NoMoWandererNeoForgeMod(IEventBus modEventBus) {
+        ConfigManagerHolder.setInstance(new NeoForgeConfigManager());
         NoMoWandererCommonMod.init();
         NoMoWandererCommonMod.initConfig();
 

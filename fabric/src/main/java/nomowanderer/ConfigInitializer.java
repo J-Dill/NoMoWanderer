@@ -1,11 +1,14 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigInitializer;
+import net.fabricmc.api.ModInitializer;
+import nomowanderer.config.ConfigManagerHolder;
+import nomowanderer.config.FabricConfigManager;
 
-public class ConfigInitializer implements SpectreConfigInitializer {
+public class ConfigInitializer implements ModInitializer {
 
     @Override
-    public void onInitializeConfig() {
+    public void onInitialize() {
+        ConfigManagerHolder.setInstance(new FabricConfigManager());
         NoMoWandererCommonMod.initConfig();
     }
 

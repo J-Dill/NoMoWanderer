@@ -141,7 +141,6 @@ public class CommonGameTests {
     public static void setSpawnCapConfig(int cap) {
         if (Config.ENTITY_SPAWN_CAP.get() != cap) {
             Config.ENTITY_SPAWN_CAP.set(cap);
-            Config.ENTITY_SPAWN_CAP.save();
         }
     }
 

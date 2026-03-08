@@ -12,6 +12,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import nomowanderer.client.ClientSetup;
 import nomowanderer.commands.NoMoWandererBaseCommand;
+import nomowanderer.config.ConfigManagerHolder;
+import nomowanderer.config.ForgeConfigManager;
 import nomowanderer.world.EntitySpawnHandler;
 import nomowanderer.world.SpawnHandlerResult;
 
@@ -23,6 +25,7 @@ import java.util.Optional;
 public class NoMoWandererForgeMod {
 
     public NoMoWandererForgeMod(FMLJavaModLoadingContext context) {
+        ConfigManagerHolder.setInstance(new ForgeConfigManager());
         NoMoWandererCommonMod.init();
         NoMoWandererCommonMod.initConfig();
         if (FMLEnvironment.dist.isClient()) {

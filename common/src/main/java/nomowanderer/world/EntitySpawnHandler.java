@@ -1,6 +1,5 @@
 package nomowanderer.world;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +18,7 @@ import nomowanderer.exception.UnloadedChunkException;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 import nomowanderer.tileentity.TraderRugBlockEntity;
+import nomowanderer.config.ConfigValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -123,7 +123,7 @@ public class EntitySpawnHandler {
         );
     }
 
-    private static int getCheckDist(SpectreConfigSpec.IntValue radius) {
+    private static int getCheckDist(ConfigValue<Integer> radius) {
         return (radius.get() * 16) + 1;
     }
 

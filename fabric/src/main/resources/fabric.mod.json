@@ -15,13 +15,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "nomowanderer.NoMoWandererFabricMod"
+      "nomowanderer.NoMoWandererFabricMod",
+      "nomowanderer.ConfigInitializer"
     ],
     "client": [
       "nomowanderer.NoMoWandererFabricClientMod"
-    ],
-    "spectrelib-config": [
-      "nomowanderer.ConfigInitializer"
     ],
     "fabric-gametest": [
       "nomowanderer.CommonGameTests"

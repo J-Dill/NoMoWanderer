@@ -1,6 +1,9 @@
 package nomowanderer;
 
-import com.illusivesoulworks.spectrelib.config.SpectreConfigSpec;
+import nomowanderer.config.ConfigBuilder;
+import nomowanderer.config.ConfigSpec;
+import nomowanderer.config.ConfigValue;
+import nomowanderer.config.impl.SimpleConfigBuilder;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
@@ -8,16 +11,16 @@ import java.util.List;
 
 public class Config {
 
-    private static final SpectreConfigSpec.Builder SERVER_BUILDER = new SpectreConfigSpec.Builder();
-    public static final SpectreConfigSpec SERVER_CONFIG;
+    private static final ConfigBuilder SERVER_BUILDER = new SimpleConfigBuilder("nomowanderer", ConfigSpec.ConfigType.SERVER);
+    public static final ConfigSpec SERVER_CONFIG;
 
-    public static SpectreConfigSpec.BooleanValue DISABLE_ENTITY_SPAWNS;
-    public static SpectreConfigSpec.ConfigValue<List<? extends String>> ENTITY_WATCH_LIST;
-    public static SpectreConfigSpec.IntValue RUG_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue SIGN_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue SPAWN_CAP_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue TALISMAN_WATCH_RADIUS;
-    public static SpectreConfigSpec.IntValue ENTITY_SPAWN_CAP;
+    public static ConfigValue<Boolean> DISABLE_ENTITY_SPAWNS;
+    public static ConfigValue<List<String>> ENTITY_WATCH_LIST;
+    public static ConfigValue<Integer> RUG_WATCH_RADIUS;
+    public static ConfigValue<Integer> SIGN_WATCH_RADIUS;
+    public static ConfigValue<Integer> SPAWN_CAP_WATCH_RADIUS;
+    public static ConfigValue<Integer> TALISMAN_WATCH_RADIUS;
+    public static ConfigValue<Integer> ENTITY_SPAWN_CAP;
 
     static {
         generalConfig();
@@ -74,7 +77,6 @@ public class Config {
                 .define("disableSpawns", false);
 
         ENTITY_WATCH_LIST = SERVER_BUILDER
-            .comment("A list of 'modid:entityName' entries used for the various functions of this mod.")
             .defineList("entityWatchList",
                 Arrays.asList("minecraft:wandering_trader", "minecraft:trader_llama", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
                 it instanceof String && (ResourceLocation.tryBySeparator((String) it, ':') != null)
