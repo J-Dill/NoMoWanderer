@@ -44,9 +44,9 @@ public class NoMoWandererForgeMod {
                     event.getEntity(),
                     level,
                     Optional.empty());
-            return !SpawnHandlerResult.CANCELLED.equals(result);
+            return SpawnHandlerResult.CANCELLED.equals(result);
         }
-        return true;
+        return false;
     }
 
     @SubscribeEvent
