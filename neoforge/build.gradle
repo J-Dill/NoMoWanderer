@@ -55,3 +55,12 @@ tasks.jarJar.configure {
 tasks.withType(ProcessResources).matching(notNeoTask).configureEach {
     from project(":common").sourceSets.main.resources
 }
+
+tasks.register('copyTestWorld', Copy) {
+    from rootProject.file("common/test_world_template")
+    into "runs/client/saves/test_world"
+    onlyIf { rootProject.file("common/test_world_template").exists() }
+    doFirst {
+        delete "runs/client/saves/test_world"
+    }
+}

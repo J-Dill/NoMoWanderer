@@ -74,5 +74,12 @@ subprojects {
         exclude('data/nomowanderer/structures/trader_platform.nbt')
         exclude('data/nomowanderer/structures/trader_platform_rug.nbt')
         exclude('data/nomowanderer/structures/trader_platform_talisman.nbt')
+        exclude('test_world_template/**')
     }
+}
+
+tasks.register('copyTestWorld') {
+    dependsOn ':neoforge:copyTestWorld', ':forge:copyTestWorld', ':fabric:copyTestWorld'
+    group = 'build'
+    description = 'Copy the test world template to all platform run directories'
 }

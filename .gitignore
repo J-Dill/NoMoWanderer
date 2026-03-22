@@ -25,3 +25,6 @@ logs
 
 # Files from Forge MDK
 forge*changelog.txt
+
+# Test world template - exclude entire directory
+common/test_world_template/

@@ -53,3 +53,12 @@ processResources {
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
+
+tasks.register('copyTestWorld', Copy) {
+    from rootProject.file("common/test_world_template")
+    into "run/saves/test_world"
+    onlyIf { rootProject.file("common/test_world_template").exists() }
+    doFirst {
+        delete "run/saves/test_world"
+    }
+}

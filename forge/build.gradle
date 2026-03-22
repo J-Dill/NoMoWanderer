@@ -120,3 +120,12 @@ sourceSets.each {
     it.output.resourcesDir = dir
     it.java.destinationDirectory = dir
 }
+
+task copyTestWorld(type: Copy) {
+    from rootProject.file("common/test_world_template")
+    into "run/saves/test_world"
+    onlyIf { rootProject.file("common/test_world_template").exists() }
+    doFirst {
+        delete "run/saves/test_world"
+    }
+}

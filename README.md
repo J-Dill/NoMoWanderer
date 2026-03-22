@@ -35,3 +35,28 @@ are in this list by default.
 `radius` The effective range of this mod's items/blocks. Default 8.
 
 `disableSpawns` true to disable all spawn of configured entities in _entityWatchList_. Default false.
+
+## Development
+
+### Test World Setup
+
+To facilitate manual testing of crafting recipes, rendering, and server functionality across all supported platforms (NeoForge, Forge, Fabric), you can set up a shared test world template.
+
+#### Setup
+1. Create a Minecraft world with your desired test setup (pre-placed No Soliciting Signs, Trader Rugs, crafting stations, etc.).
+2. Copy the world save folder to `common/test_world_template/` in your local project directory.
+3. Run the following command to copy the template to all platform run directories:
+   ```
+   .\gradlew copyTestWorld
+   ```
+4. Launch the client or server for your desired platform and load the `test_world` save.
+
+#### What it should include
+- Pre-placed No Soliciting Signs, Trader Rugs, and other mod blocks for spawn testing.
+- Crafting stations set up for recipe verification.
+- Configured areas to test spawn prevention and redirection.
+
+#### Notes
+- The template is not committed to the repository for privacy reasons (to avoid including personal player data).
+- The Gradle task ensures a fresh copy each time, overriding any existing test world.
+- You can modify the template locally as needed for your testing scenarios.
