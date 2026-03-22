@@ -31,7 +31,6 @@ subprojects {
     }
 
     jar {
-        archiveClassifier.set("plain")
         from(rootProject.file("LICENSE"))
         manifest {
             attributes([
