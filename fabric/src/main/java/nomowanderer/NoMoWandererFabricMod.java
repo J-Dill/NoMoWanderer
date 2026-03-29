@@ -48,8 +48,5 @@ public class NoMoWandererFabricMod implements ModInitializer {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
             entries.accept(CommonRegistry.NO_SOLICITING_TALISMAN.get().getDefaultInstance());
         });
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
-            entries.accept(CommonRegistry.TRADER_CLOTH_PIECE_ITEM.get());
-        });
     }
 }

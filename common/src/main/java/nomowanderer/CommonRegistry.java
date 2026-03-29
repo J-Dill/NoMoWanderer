@@ -9,7 +9,6 @@ import nomowanderer.blocks.NoSolicitingSignWall;
 import nomowanderer.blocks.TraderRugBlock;
 import nomowanderer.items.AntiSolicitorTalismanItem;
 import nomowanderer.items.NoSolicitingSignItem;
-import nomowanderer.items.TraderClothPieceItem;
 import nomowanderer.items.TraderRugItem;
 import nomowanderer.registry.RegistryObject;
 import nomowanderer.registry.RegistryProvider;
@@ -45,7 +44,6 @@ public class CommonRegistry {
     public static final RegistryObject<Item> NO_SOLICITING_SIGN_ITEM = ITEMS.register(NoSolicitingSignItem.ID, NoSolicitingSignItem::new);
     public static final RegistryObject<Item> NO_SOLICITING_TALISMAN = ITEMS.register(AntiSolicitorTalismanItem.ID, AntiSolicitorTalismanItem::new);
     public static final RegistryObject<Item> TRADER_RUG_ITEM = ITEMS.register(TraderRugBlock.ID, TraderRugItem::new);
-    public static final RegistryObject<Item> TRADER_CLOTH_PIECE_ITEM = ITEMS.register(TraderClothPieceItem.ID, TraderClothPieceItem::new);
 
     static {
         NO_SOLICITING_SIGN_BE = BLOCK_ENTITIES.register(NoSolicitingSignBlockEntity.ID,

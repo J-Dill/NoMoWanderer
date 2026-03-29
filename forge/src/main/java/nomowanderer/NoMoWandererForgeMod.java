@@ -60,8 +60,6 @@ public class NoMoWandererForgeMod {
             event.accept(CommonRegistry.TRADER_RUG_ITEM.get());
         } else if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
             event.accept(CommonRegistry.NO_SOLICITING_TALISMAN.get().getDefaultInstance());
-        } else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-            event.accept(CommonRegistry.TRADER_CLOTH_PIECE_ITEM.get());
         }
     }
 
