@@ -22,7 +22,7 @@ public class NoSolicitingSignStand extends StandingSignBlock implements EntityBl
     public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public NoSolicitingSignStand() {
-        super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F));
+        super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollision().sound(SoundType.WOOD).strength(1.0F));
     }
 
     @Override

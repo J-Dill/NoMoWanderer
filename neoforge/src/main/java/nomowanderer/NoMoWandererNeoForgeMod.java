@@ -38,7 +38,7 @@ public class NoMoWandererNeoForgeMod {
             NeoForgeGameTestRegistry.init();
         }
 
-        if (FMLEnvironment.dist == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             ClientSetup.init(modEventBus);
         }
 

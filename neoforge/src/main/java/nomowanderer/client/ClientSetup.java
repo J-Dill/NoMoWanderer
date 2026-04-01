@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import nomowanderer.CommonRegistry;
+import nomowanderer.client.renderer.blockentity.NoSolicitingSignBlockEntityRenderer;
 
 public class ClientSetup {
 

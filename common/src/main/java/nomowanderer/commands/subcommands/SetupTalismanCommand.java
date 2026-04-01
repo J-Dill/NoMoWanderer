@@ -15,7 +15,7 @@ public class SetupTalismanCommand implements SubcommandExecutor {
         SubcommandExecutor.setSpawnCapConfig(1);
 
         ServerLevel level = context.getSource().getLevel();
-        List<ServerPlayer> mockPlayers = level.getPlayers((player) -> player.getGameProfile().getName().equals("test-mock-player"));
+        List<ServerPlayer> mockPlayers = level.getPlayers((player) -> player.getGameProfile().name().equals("test-mock-player"));
         mockPlayers.forEach((player) -> level.removePlayerImmediately(player, Entity.RemovalReason.DISCARDED));
         return 1;
     }

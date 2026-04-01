@@ -1,5 +1,6 @@
 package nomowanderer.items;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -33,7 +34,7 @@ public class NoSolicitingSignItem extends StandingAndWallBlockItem {
     public void appendHoverText(ItemStack stack, TooltipContext context,
                                 TooltipDisplay tooltipDisplay,
                                 Consumer<Component> toolTips, TooltipFlag flag) {
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.SIGN_WATCH_RADIUS);
         } else {
             HoverTextUtil.addHoldShiftText(toolTips);

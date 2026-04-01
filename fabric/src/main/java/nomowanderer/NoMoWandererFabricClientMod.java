@@ -7,7 +7,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
-import nomowanderer.client.NoSolicitingSignBlockEntityRenderer;
+import nomowanderer.client.renderer.blockentity.NoSolicitingSignBlockEntityRenderer;
 
 public class NoMoWandererFabricClientMod implements ClientModInitializer {
 

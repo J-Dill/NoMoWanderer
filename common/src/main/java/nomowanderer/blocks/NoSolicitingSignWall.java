@@ -21,7 +21,7 @@ public class NoSolicitingSignWall extends WallSignBlock {
     public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public NoSolicitingSignWall() {
-        super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollission().sound(SoundType.WOOD).strength(1.0F));
+        super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollision().sound(SoundType.WOOD).strength(1.0F));
     }
 
     @Override

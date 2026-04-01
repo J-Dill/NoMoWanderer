@@ -1,6 +1,7 @@
 package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -63,7 +64,7 @@ public class AntiSolicitorTalismanItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
                                 Consumer<Component> toolTips, TooltipFlag flag) {
         addEnabledTooltip(stack, toolTips);
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             HoverTextUtil.addCommonText(toolTips, Config.TALISMAN_WATCH_RADIUS);
             String totemMessage = "Can be anywhere in your inventory.";
             toolTips.accept(

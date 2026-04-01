@@ -1,6 +1,7 @@
 package nomowanderer.items;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -31,7 +32,7 @@ public class TraderRugItem extends BlockItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay,
                                 Consumer<Component> toolTips, TooltipFlag flag) {
-        if (Screen.hasShiftDown()) {
+        if (Minecraft.getInstance().hasShiftDown()) {
             toolTips.accept(
                     Component.literal("Directs Wandering Traders to spawn on this block within ").withStyle(ChatFormatting.GREEN)
                             .append(Component.literal(Config.RUG_WATCH_RADIUS.get().toString()).withStyle(ChatFormatting.BLUE))

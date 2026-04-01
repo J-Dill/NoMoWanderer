@@ -38,7 +38,7 @@ public class TraderRugBlock extends HorizontalDirectionalBlock implements Entity
     public static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public TraderRugBlock() {
-        super(Properties.of().setId(KEY).mapColor(MapColor.WOOL).instabreak().noCollission());
+        super(Properties.of().setId(KEY).mapColor(MapColor.WOOL).instabreak().noCollision());
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 
