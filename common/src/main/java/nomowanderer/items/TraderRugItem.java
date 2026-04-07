@@ -6,7 +6,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 
 public class TraderRugItem extends BlockItem {
 
-    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, TraderRugBlock.ID));
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, TraderRugBlock.ID));
 
     public TraderRugItem() {
         super(CommonRegistry.TRADER_RUG_BLOCK.get(), new Properties().setId(KEY));

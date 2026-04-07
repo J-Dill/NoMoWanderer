@@ -12,17 +12,18 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.client.resources.model.MaterialSet;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
@@ -39,12 +40,12 @@ import java.util.Objects;
 
 public class NoSolicitingSignBlockEntityRenderer implements
     BlockEntityRenderer<NoSolicitingSignBlockEntity, NoSolicitingSignRenderState> {
-    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(
+    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(
             NoMoWandererConstants.MODID, "no_soliciting_sign"), "main");
-    public static final ModelLayerLocation MODEL_LAYER_WALL = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(
+    public static final ModelLayerLocation MODEL_LAYER_WALL = new ModelLayerLocation(Identifier.fromNamespaceAndPath(
             NoMoWandererConstants.MODID, "no_soliciting_sign_wall"), "main");
 
-    private static final ResourceLocation SIGN_EMERALD_TEXTURE = ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
+    private static final Identifier SIGN_EMERALD_TEXTURE = Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
 
     private final Map<WoodType, NoSolicitingSignBlockEntityRenderer.Models> signModels;
     private final MaterialSet materials;
@@ -97,7 +98,7 @@ public class NoSolicitingSignBlockEntityRenderer implements
         poseStack.pushPose();
         poseStack.scale(0.6F, -0.6F, -1.0F);
         poseStack.translate(0.0F, -0.072F, 0.02F);
-        RenderType overlayRenderType = RenderType.entityCutoutNoCull(SIGN_EMERALD_TEXTURE);
+        RenderType overlayRenderType = RenderTypes.entityCutoutNoCull(SIGN_EMERALD_TEXTURE);
         submitNodeCollector.submitModel(simple, Unit.INSTANCE, poseStack, overlayRenderType, i, OverlayTexture.NO_OVERLAY, -1, null, 0, crumblingOverlay);
         poseStack.popPose();
     }
@@ -121,7 +122,7 @@ public class NoSolicitingSignBlockEntityRenderer implements
     public static Model createSignModel(EntityModelSet modelSet, WoodType woodType, boolean isStanding) {
         ModelLayerLocation modelLayerLocation = isStanding ? ModelLayers.createStandingSignModelName(woodType) :
                 ModelLayers.createWallSignModelName(woodType);
-        return new Model.Simple(modelSet.bakeLayer(modelLayerLocation), RenderType::entityCutoutNoCull);
+        return new Model.Simple(modelSet.bakeLayer(modelLayerLocation), RenderTypes::entityCutoutNoCull);
     }
 
     record Models(Model standing, Model wall) {}

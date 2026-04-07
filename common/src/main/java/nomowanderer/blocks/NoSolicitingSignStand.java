@@ -2,8 +2,8 @@ package nomowanderer.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -19,7 +19,7 @@ import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 public class NoSolicitingSignStand extends StandingSignBlock implements EntityBlock {
 
     public static final String ID = "no_soliciting_sign";
-    public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
+    public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public NoSolicitingSignStand() {
         super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollision().sound(SoundType.WOOD).strength(1.0F));

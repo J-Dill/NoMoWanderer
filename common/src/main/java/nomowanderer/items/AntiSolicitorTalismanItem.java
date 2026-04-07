@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -29,8 +29,8 @@ import java.util.function.Consumer;
 public class AntiSolicitorTalismanItem extends Item {
 
     public static final String ID = "no_mo_wanderer_totem";
-    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
-    
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
+
     // Add constant for the NBT key to avoid magic strings
     private static final String ENABLED_KEY = "enabled";
 

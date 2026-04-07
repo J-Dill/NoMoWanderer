@@ -4,7 +4,7 @@ import nomowanderer.config.ConfigBuilder;
 import nomowanderer.config.ConfigSpec;
 import nomowanderer.config.ConfigValue;
 import nomowanderer.config.impl.SimpleConfigBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,7 +79,7 @@ public class Config {
         ENTITY_WATCH_LIST = SERVER_BUILDER
             .defineList("entityWatchList",
                 Arrays.asList("minecraft:wandering_trader", "minecraft:trader_llama", "rats:plague_doctor", "supplementaries:red_merchant"), it ->
-                it instanceof String && (ResourceLocation.tryBySeparator((String) it, ':') != null)
+                it instanceof String && (Identifier.tryBySeparator((String) it, ':') != null)
             );
         SERVER_BUILDER.pop();
     }

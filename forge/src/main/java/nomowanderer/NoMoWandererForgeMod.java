@@ -33,8 +33,7 @@ public class NoMoWandererForgeMod {
         }
 
         BusGroup.DEFAULT.register(MethodHandles.lookup(), this);
-        BusGroup modBusGroup = context.getModBusGroup();
-        BuildCreativeModeTabContentsEvent.getBus(modBusGroup).addListener(this::registerTabs);
+        BuildCreativeModeTabContentsEvent.BUS.addListener(this::registerTabs);
     }
 
     @SubscribeEvent

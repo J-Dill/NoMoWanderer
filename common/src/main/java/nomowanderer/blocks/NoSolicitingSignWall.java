@@ -3,7 +3,7 @@ package nomowanderer.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallSignBlock;
@@ -18,7 +18,7 @@ import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
 public class NoSolicitingSignWall extends WallSignBlock {
 
     public static final String ID = "no_soliciting_sign_wall";
-    public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
+    public static final ResourceKey<Block> KEY = ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public NoSolicitingSignWall() {
         super(WoodType.OAK, Properties.of().setId(KEY).mapColor(MapColor.WOOD).noCollision().sound(SoundType.WOOD).strength(1.0F));

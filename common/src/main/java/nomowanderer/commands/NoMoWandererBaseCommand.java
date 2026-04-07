@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.permissions.Permissions;
 import nomowanderer.commands.subcommands.SubcommandExecutor;
 
 public class NoMoWandererBaseCommand {
@@ -13,7 +14,7 @@ public class NoMoWandererBaseCommand {
     public static LiteralArgumentBuilder<CommandSourceStack> create(CommandDispatcher<CommandSourceStack> dispatcher) {
         LiteralArgumentBuilder<CommandSourceStack> builder = Commands.literal(COMMAND_NAME);
         LiteralArgumentBuilder<CommandSourceStack> permission =
-                builder.requires((stack) -> stack.hasPermission(Commands.LEVEL_GAMEMASTERS));
+                builder.requires((stack) -> stack.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER));
 
         // Register each subcommand as a literal command with its own arguments
         for (NoMoWandererSubcommand subcommand : NoMoWandererSubcommand.values()) {

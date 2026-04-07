@@ -3,21 +3,22 @@ package nomowanderer.registry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import nomowanderer.registry.services.RegistryFactory;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
 public class FabricRegistryProvider implements RegistryFactory {
 
   @Override
-  public <T> RegistryProvider<T> register(ResourceKey<? extends Registry<T>> resourceKey,
+  public <T> RegistryProvider<T> register(ResourceKey<? extends @NotNull Registry<@NotNull T>> resourceKey,
                                           String modId) {
     return new Provider<>(modId, resourceKey);
   }
 
   @Override
-  public <T> RegistryProvider<T> register(Registry<T> registry, String modId) {
+  public <T> RegistryProvider<T> register(Registry<@NotNull T> registry, String modId) {
     return new Provider<>(modId, registry);
   }
 
@@ -29,26 +30,26 @@ public class FabricRegistryProvider implements RegistryFactory {
     private Provider(String modId, ResourceKey<? extends Registry<T>> key) {
       this.modId = modId;
 
-      final var reg = BuiltInRegistries.REGISTRY.get(key.location());
+      final var reg = BuiltInRegistries.REGISTRY.get(key.identifier());
       if (reg.isEmpty()) {
-        throw new RuntimeException("The Registry with name " + key.location() + " was not found!");
+        throw new RuntimeException("The Registry with name " + key.registry() + " was not found!");
       }
-      registry = (Registry<T>) reg.get().value();;
+      registry = (Registry<@NotNull T>) reg.get().value();;
     }
 
-    private Provider(String modId, Registry<T> registry) {
+    private Provider(String modId, Registry<@NotNull T> registry) {
       this.modId = modId;
       this.registry = registry;
     }
 
     @Override
     public <I extends T> RegistryObject<I> register(String name, Supplier<? extends I> supplier) {
-      final var rl = ResourceLocation.fromNamespaceAndPath(modId, name);
+      final var rl = Identifier.fromNamespaceAndPath(modId, name);
       final var obj = Registry.register(registry, rl, supplier.get());
         return new RegistryObject<>() {
 
             @Override
-            public ResourceLocation getId() {
+            public Identifier getId() {
                 return rl;
             }
 

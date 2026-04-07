@@ -2,7 +2,7 @@ package nomowanderer.registry;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.registries.DeferredRegister;
@@ -34,7 +34,7 @@ public class ForgeRegistryProvider implements RegistryFactory {
             return new RegistryObject<>() {
 
                 @Override
-                public ResourceLocation getId() {
+                public Identifier getId() {
                     return obj.getId();
                 }
 

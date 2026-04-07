@@ -1,14 +1,12 @@
 package nomowanderer.commands;
 
 import nomowanderer.commands.subcommands.SubcommandExecutor;
-import nomowanderer.commands.subcommands.SpawnTraderCommand;
 import nomowanderer.commands.subcommands.SetupSignCommand;
 import nomowanderer.commands.subcommands.SetupTalismanCommand;
 import nomowanderer.commands.subcommands.SetupSpawncapCommand;
 import nomowanderer.commands.subcommands.SetupRugCommand;
 
 public enum NoMoWandererSubcommand {
-    SPAWN_TRADER("spawn_trader", SpawnTraderCommand.class),
     SETUP_SIGN("setup_sign", SetupSignCommand.class),
     SETUP_TALISMAN("setup_talisman", SetupTalismanCommand.class),
     SETUP_SPAWNCAP("setup_spawncap", SetupSpawncapCommand.class),

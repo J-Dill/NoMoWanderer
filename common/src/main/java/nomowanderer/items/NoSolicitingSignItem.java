@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public class NoSolicitingSignItem extends StandingAndWallBlockItem {
 
     public static final String ID = "no_soliciting_sign";
-    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
+    public static final ResourceKey<Item> KEY = ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, ID));
 
     public NoSolicitingSignItem() {
         super(CommonRegistry.NO_SOLICITING_SIGN_STAND.get(), CommonRegistry.NO_SOLICITING_SIGN_WALL.get(),
