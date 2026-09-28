@@ -19,10 +19,8 @@ on:
           - 'publish-curseforge'
           - 'publish-modrinth'
           - 'publish-curseforge-neoforge'
-          - 'publish-curseforge-forge'
           - 'publish-curseforge-fabric'
           - 'publish-modrinth-neoforge'
-          - 'publish-modrinth-forge'
           - 'publish-modrinth-fabric'
       version_override:
         description: 'Override version (optional, leave empty to use gradle.properties)'
@@ -119,13 +117,6 @@ jobs:
         with:
           arguments: build
 
-      - name: "📦 Upload Forge JAR"
-        uses: actions/upload-artifact@v4
-        with:
-          name: jar-forge
-          path: |
-            ./forge/build/libs/*.jar
-
       - name: "📦 Upload NeoForge JAR"
         uses: actions/upload-artifact@v4
         with:
@@ -173,7 +164,6 @@ jobs:
           github-token: ${{ secrets.TOKEN }}
 
           files: |
-            ./build/jar-forge/*.jar
             ./build/jar-neoforge/*.jar
             ./build/jar-fabric/*.jar
 
@@ -183,7 +173,6 @@ jobs:
 
           loaders: |
             fabric
-            forge
             neoforge
           java: |
             Java 21
@@ -232,27 +221,6 @@ jobs:
 
           loaders: |
             neoforge
-          java: |
-            Java 21
-            21
-
-      - name: "🔥 Publish Forge to CurseForge"
-        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-curseforge' || inputs.job_to_run == 'publish-curseforge-forge' || github.event_name == 'push'
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          curseforge-id: 354428
-          curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
-
-          files: |
-            ./build/jar-forge/*.jar
-
-          name: ""
-          version: ${{ needs.version-check.outputs.new-tag }}
-          version-type: release
-          changelog: ${{ needs.release-github.outputs.changelog }}
-
-          loaders: |
-            forge
           java: |
             Java 21
             21
@@ -314,28 +282,6 @@ jobs:
 
           loaders: |
             neoforge
-          java: |
-            Java 21
-            21
-
-      - name: "💎 Publish Forge to Modrinth"
-        if: inputs.job_to_run == 'all' || inputs.job_to_run == 'publish-modrinth' || inputs.job_to_run == 'publish-modrinth-forge' || github.event_name == 'push'
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          modrinth-id: BAGslLB8
-          modrinth-featured: true
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          files: |
-            ./build/jar-forge/*.jar
-
-          name: "NoMoWanderer - Forge - ${{ needs.version-check.outputs.new-tag }}"
-          version: ${{ needs.version-check.outputs.new-tag }}
-          version-type: release
-          changelog: ${{ needs.release-github.outputs.changelog }}
-
-          loaders: |
-            forge
           java: |
             Java 21
             21

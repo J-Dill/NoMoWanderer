@@ -1,7 +1,7 @@
 {
 	"parent": "block/thin_block",
 	"ambientocclusion": false,
-	"render_type": "cutout",
+	"render_type": "minecraft:translucent",
 	"textures": {
 		"0": "nomowanderer:block/trader_rug",
 		"particle": "nomowanderer:block/trader_rug"

@@ -40,7 +40,7 @@ are in this list by default.
 
 ### Test World Setup
 
-To facilitate manual testing of crafting recipes, rendering, and server functionality across all supported platforms (NeoForge, Forge, Fabric), you can set up a shared test world template.
+To facilitate manual testing of crafting recipes, rendering, and server functionality across all supported platforms (NeoForge, Fabric), you can set up a shared test world template.
 
 #### Setup
 1. Create a Minecraft world with your desired test setup (pre-placed No Soliciting Signs, Trader Rugs, crafting stations, etc.).

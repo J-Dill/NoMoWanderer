@@ -197,11 +197,11 @@ public class EntitySpawnHandler {
             Remember:   North = -Z
                         East  = +X
          */
-        int curX = chunkPos.x - radius;
-        int curZ = chunkPos.z - radius;
+        int curX = chunkPos.x() - radius;
+        int curZ = chunkPos.z() - radius;
         int startX = curX;
-        int endX = chunkPos.x + radius;
-        int endZ = chunkPos.z + radius;
+        int endX = chunkPos.x() + radius;
+        int endZ = chunkPos.z() + radius;
         ArrayList<ChunkAccess> chunks = new ArrayList<>();
         for(; curZ <= endZ; curZ++) {
             for(; curX <= endX; curX++) {

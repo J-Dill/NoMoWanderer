@@ -1,7 +1,6 @@
 package nomowanderer.client;
 
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import nomowanderer.CommonRegistry;
@@ -20,7 +19,7 @@ public class ClientSetup {
 
     public static void registerModels(EntityRenderersEvent.RegisterLayerDefinitions definitions) {
         LayerDefinition standingSignDef = NoSolicitingSignBlockEntityRenderer.createSignLayer(true);
-        LayerDefinition wallSignDef = SignRenderer.createSignLayer(false);
+        LayerDefinition wallSignDef = NoSolicitingSignBlockEntityRenderer.createSignLayer(false);
         definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER, () -> standingSignDef);
         definitions.registerLayerDefinition(NoSolicitingSignBlockEntityRenderer.MODEL_LAYER_WALL, () -> wallSignDef);
     }

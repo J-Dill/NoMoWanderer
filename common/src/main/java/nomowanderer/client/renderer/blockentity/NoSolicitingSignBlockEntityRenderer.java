@@ -17,18 +17,20 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Unit;
 import net.minecraft.world.level.block.SignBlock;
 import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.phys.Vec3;
 import nomowanderer.NoMoWandererConstants;
 import nomowanderer.client.renderer.blockentity.state.NoSolicitingSignRenderState;
 import nomowanderer.tileentity.NoSolicitingSignBlockEntity;
@@ -36,29 +38,30 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.Objects;
 
-public class NoSolicitingSignBlockEntityRenderer implements
-    BlockEntityRenderer<NoSolicitingSignBlockEntity, NoSolicitingSignRenderState> {
-    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(Identifier.fromNamespaceAndPath(
-            NoMoWandererConstants.MODID, "no_soliciting_sign"), "main");
-    public static final ModelLayerLocation MODEL_LAYER_WALL = new ModelLayerLocation(Identifier.fromNamespaceAndPath(
-            NoMoWandererConstants.MODID, "no_soliciting_sign_wall"), "main");
+public class NoSolicitingSignBlockEntityRenderer implements BlockEntityRenderer<NoSolicitingSignBlockEntity, NoSolicitingSignRenderState> {
+    public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(
+            Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "no_soliciting_sign"), "main");
+    public static final ModelLayerLocation MODEL_LAYER_WALL = new ModelLayerLocation(
+            Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "no_soliciting_sign_wall"), "main");
 
-    private static final Identifier SIGN_EMERALD_TEXTURE = Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
+    private static final SpriteId OVERLAY_SPRITE = new SpriteId(
+            Sheets.SIGN_SHEET,
+            Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "entity/signs/no_soliciting_sign_overlay")
+    );
 
-    private final Map<WoodType, NoSolicitingSignBlockEntityRenderer.Models> signModels;
-    private final MaterialSet materials;
+    private final Map<WoodType, Models> signModels;
+    private final SpriteGetter sprites;
 
     public NoSolicitingSignBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        this.signModels = ImmutableMap.of(
-            WoodType.OAK,
-            new NoSolicitingSignBlockEntityRenderer.Models(
-                createSignModel(context.entityModelSet(), WoodType.OAK, true),
-                createSignModel(context.entityModelSet(), WoodType.OAK, false)
-            )
-        );
-        this.materials = context.materials();
+        this.signModels = WoodType.values().collect(ImmutableMap.toImmutableMap(
+                type -> type,
+                type -> new Models(
+                        createSignModel(context.entityModelSet(), type, true),
+                        createSignModel(context.entityModelSet(), type, false)
+                )
+        ));
+        this.sprites = context.sprites();
     }
 
     @Override
@@ -67,39 +70,92 @@ public class NoSolicitingSignBlockEntityRenderer implements
     }
 
     @Override
-    public void submit(NoSolicitingSignRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
-        BlockState blockstate = renderState.blockState;
-        SignBlock signblock = (SignBlock)blockstate.getBlock();
-        WoodType woodtype = SignBlock.getWoodType(signblock);
-        NoSolicitingSignBlockEntityRenderer.Models signrenderer$models = this.signModels.get(woodtype);
-        Model model = blockstate.getBlock() instanceof StandingSignBlock ? signrenderer$models.standing() : signrenderer$models.wall();
-        this.submitSignWithText(renderState, poseStack, blockstate, signblock, woodtype, model, renderState.breakProgress, nodeCollector);
+    public void extractRenderState(
+            NoSolicitingSignBlockEntity blockEntity,
+            NoSolicitingSignRenderState state,
+            float partialTicks,
+            Vec3 cameraPosition,
+            ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
+    ) {
+        BlockEntityRenderer.super.extractRenderState(blockEntity, state, partialTicks, cameraPosition, breakProgress);
+
+        // Read the actual block state here from the BlockEntity
+        BlockState blockState = blockEntity.getBlockState();
+        state.isStanding = blockState.getBlock() instanceof StandingSignBlock;
+        state.woodType = (blockState.getBlock() instanceof SignBlock signBlock)
+                ? SignBlock.getWoodType(signBlock)
+                : WoodType.OAK;
+
+        if (state.isStanding && blockState.hasProperty(StandingSignBlock.ROTATION)) {
+            state.rotationDegrees = RotationSegment.convertToDegrees(blockState.getValue(StandingSignBlock.ROTATION));
+        } else if (blockState.hasProperty(WallSignBlock.FACING)) {
+            state.rotationDegrees = blockState.getValue(WallSignBlock.FACING).toYRot();
+        } else {
+            state.rotationDegrees = 0.0F;
+        }
     }
 
-    private void submitSignWithText(NoSolicitingSignRenderState signRenderState, PoseStack poseStack, BlockState blockState, SignBlock signBlock, WoodType woodType, Model simple, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, SubmitNodeCollector submitNodeCollector) {
+    @Override
+    public void submit(
+            NoSolicitingSignRenderState renderState,
+            PoseStack poseStack,
+            SubmitNodeCollector nodeCollector,
+            CameraRenderState cameraRenderState
+    ) {
+        Models models = this.signModels.getOrDefault(renderState.woodType, this.signModels.get(WoodType.OAK));
+        Model.Simple model = renderState.isStanding ? models.standing() : models.wall();
+
         poseStack.pushPose();
-        this.translateSign(poseStack, -signBlock.getYRotationDegrees(blockState), blockState);
-        this.submitSign(poseStack, signRenderState.lightCoords, woodType, simple, crumblingOverlay, submitNodeCollector);
+        this.applySignTransform(poseStack, renderState.isStanding, renderState.rotationDegrees);
+        this.submitSign(poseStack, renderState.lightCoords, renderState.woodType, model, renderState.breakProgress, nodeCollector);
         poseStack.popPose();
     }
 
-    protected void submitSign(PoseStack poseStack, int i, WoodType woodType, Model simple, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay, SubmitNodeCollector submitNodeCollector) {
-        // Render sign base.
+    protected void submitSign(
+            PoseStack poseStack,
+            int lightCoords,
+            WoodType woodType,
+            Model.Simple model,
+            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay,
+            SubmitNodeCollector nodeCollector
+    ) {
+        // Sign Base
         poseStack.pushPose();
-        float f = this.getSignModelRenderScale();
-        poseStack.scale(f, -f, -f);
-        Material material = this.getSignMaterial(woodType);
-        Objects.requireNonNull(simple);
-        RenderType renderType = material.renderType(simple::renderType);
-        submitNodeCollector.submitModel(simple, Unit.INSTANCE, poseStack, renderType, i, OverlayTexture.NO_OVERLAY, -1, this.materials.get(material), 0, crumblingOverlay);
+        float scale = this.getSignModelRenderScale();
+        poseStack.scale(scale, -scale, -scale);
+        SpriteId baseSprite = Sheets.getSignSprite(woodType);
+
+        nodeCollector.submitModel(
+                model,
+                Unit.INSTANCE,
+                poseStack,
+                lightCoords,
+                OverlayTexture.NO_OVERLAY,
+                -1,
+                baseSprite,
+                this.sprites,
+                0,
+                crumblingOverlay
+        );
         poseStack.popPose();
 
-        // Render emerald overlay over the sign face.
+        // Emerald Overlay
         poseStack.pushPose();
         poseStack.scale(0.6F, -0.6F, -1.0F);
         poseStack.translate(0.0F, -0.072F, 0.02F);
-        RenderType overlayRenderType = RenderTypes.entityCutoutNoCull(SIGN_EMERALD_TEXTURE);
-        submitNodeCollector.submitModel(simple, Unit.INSTANCE, poseStack, overlayRenderType, i, OverlayTexture.NO_OVERLAY, -1, null, 0, crumblingOverlay);
+
+        nodeCollector.submitModel(
+                model,
+                Unit.INSTANCE,
+                poseStack,
+                lightCoords,
+                OverlayTexture.NO_OVERLAY,
+                -1,
+                OVERLAY_SPRITE,
+                this.sprites,
+                0,
+                crumblingOverlay
+        );
         poseStack.popPose();
     }
 
@@ -107,35 +163,31 @@ public class NoSolicitingSignBlockEntityRenderer implements
         return 0.6666667F;
     }
 
-    void translateSign(PoseStack poseStack, float rotationDegrees, BlockState blockState) {
-        poseStack.translate(0.5F, 0.75F * this.getSignModelRenderScale(), 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotationDegrees));
-        if (!(blockState.getBlock() instanceof StandingSignBlock)) {
+    private void applySignTransform(PoseStack poseStack, boolean isStanding, float rotationDegrees) {
+        poseStack.translate(0.5F, 0.5F, 0.5F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(-rotationDegrees));
+
+        if (!isStanding) {
             poseStack.translate(0.0F, -0.3125F, -0.4375F);
         }
     }
 
-    Material getSignMaterial(WoodType woodType) {
-        return Sheets.getSignMaterial(woodType);
+    public static Model.Simple createSignModel(EntityModelSet modelSet, WoodType woodType, boolean isStanding) {
+        ModelLayerLocation layer = isStanding
+                ? ModelLayers.createStandingSignModelName(woodType)
+                : ModelLayers.createWallSignModelName(woodType);
+        return new Model.Simple(modelSet.bakeLayer(layer), RenderTypes::entityCutout);
     }
-
-    public static Model createSignModel(EntityModelSet modelSet, WoodType woodType, boolean isStanding) {
-        ModelLayerLocation modelLayerLocation = isStanding ? ModelLayers.createStandingSignModelName(woodType) :
-                ModelLayers.createWallSignModelName(woodType);
-        return new Model.Simple(modelSet.bakeLayer(modelLayerLocation), RenderTypes::entityCutoutNoCull);
-    }
-
-    record Models(Model standing, Model wall) {}
 
     public static LayerDefinition createSignLayer(boolean isStanding) {
-        MeshDefinition meshdefinition = new MeshDefinition();
-        PartDefinition partdefinition = meshdefinition.getRoot();
-        partdefinition.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 0).addBox(-12.0F, -14.0F, -1.0F, 24.0F, 12.0F, 2.0F), PartPose.ZERO);
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+        root.addOrReplaceChild("sign", CubeListBuilder.create().texOffs(0, 0).addBox(-12.0F, -14.0F, -1.0F, 24.0F, 12.0F, 2.0F), PartPose.ZERO);
         if (isStanding) {
-            partdefinition.addOrReplaceChild("stick", CubeListBuilder.create().texOffs(0, 14).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 14.0F, 2.0F), PartPose.ZERO);
+            root.addOrReplaceChild("stick", CubeListBuilder.create().texOffs(0, 14).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 14.0F, 2.0F), PartPose.ZERO);
         }
-
-        return LayerDefinition.create(meshdefinition, 64, 32);
+        return LayerDefinition.create(mesh, 64, 32);
     }
 
+    record Models(Model.Simple standing, Model.Simple wall) {}
 }

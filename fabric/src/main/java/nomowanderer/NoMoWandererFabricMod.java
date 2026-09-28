@@ -3,8 +3,8 @@ package nomowanderer;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTabs;
 import nomowanderer.commands.NoMoWandererBaseCommand;
@@ -41,11 +41,11 @@ public class NoMoWandererFabricMod implements ModInitializer {
     }
 
     private static void registerCreativeTabs() {
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(entries -> {
             entries.accept(CommonRegistry.NO_SOLICITING_SIGN_ITEM.get());
             entries.accept(CommonRegistry.TRADER_RUG_ITEM.get());
         });
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
             entries.accept(CommonRegistry.NO_SOLICITING_TALISMAN.get().getDefaultInstance());
         });
     }

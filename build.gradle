@@ -1,6 +1,6 @@
 plugins {
     id 'idea'
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.7"
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.4.1"
 }
 
 version = "${version_mc}_${mod_version}"
@@ -11,15 +11,13 @@ subprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+            languageVersion = JavaLanguageVersion.of(25)
         }
     }
 
     processResources {
         var replaceProperties = [
                 minecraft_version: version_mc, minecraft_version_range: version_range_mc,
-                forge_version: version_forge, forge_version_range: version_range_forge,
-                version_range_forge: version_range_forge,
                 mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
                 mod_authors: mod_authors, mod_description: mod_description, mod_issues: mod_issues, mod_url: mod_url,
                 neoforge_version: version_neoforge, neoforge_version_range: version_neoforge_range
@@ -78,7 +76,7 @@ subprojects {
 }
 
 tasks.register('copyTestWorld') {
-    dependsOn ':neoforge:copyTestWorld', ':forge:copyTestWorld', ':fabric:copyTestWorld'
+    dependsOn ':neoforge:copyTestWorld', ':fabric:copyTestWorld'
     group = 'build'
     description = 'Copy the test world template to all platform run directories'
 }
