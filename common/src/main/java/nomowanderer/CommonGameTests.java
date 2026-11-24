@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.equine.TraderLlama;
 import net.minecraft.world.entity.npc.wanderingtrader.WanderingTrader;
 import net.minecraft.world.entity.player.Player;
@@ -22,64 +22,64 @@ public class CommonGameTests {
 
     public static void spawnTraderInRange(GameTestHelper helper) {
         trySpawnTrader(helper, SIGN_RELATIVE_IN);
-        helper.succeedWhenEntityNotPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_IN);
+        helper.succeedWhenEntityNotPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_IN);
     }
 
     public static void spawnTraderOutOfRange(GameTestHelper helper) {
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
     public static void spawnTraderTalismanIn(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, true);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER);
         helper.succeed();
     }
 
     public static void spawnTraderTalismanInBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalisman(helper, true);
         trySpawnTraderBarelyIn(helper, getFlipRelativePos(helper, player));
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER);
         helper.succeed();
     }
 
     public static void spawnTraderTalismanInDisabled(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, false);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN);
     }
 
     public static void spawnTraderTalismanOut(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, true);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
     public static void spawnTraderTalismanOutDisabled(GameTestHelper helper) {
         spawnPlayerWithTalisman(helper, false);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
     public static void spawnTraderTalismanOutBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalisman(helper, true);
         BlockPos barelyOut = trySpawnTraderBarelyOut(helper, getFlipRelativePos(helper, player));
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, barelyOut);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, barelyOut);
     }
 
     public static void spawnTraderCapOutBarely(GameTestHelper helper) {
         setSpawnCapConfig(1);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
         BlockPos traderPos = trySpawnTraderBarelyOut(helper, TALISMAN_PLAYER_SPAWN);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, traderPos);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, traderPos);
     }
 
     public static void spawnTraderCapInBarely(GameTestHelper helper) {
         setSpawnCapConfig(1);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
         BlockPos barelyIn = trySpawnTraderBarelyIn(helper, TALISMAN_PLAYER_SPAWN);
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER, barelyIn);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER, barelyIn);
         helper.succeed();
     }
 
@@ -87,7 +87,7 @@ public class CommonGameTests {
         setSpawnCapConfig(12);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
         BlockPos barelyIn = trySpawnTraderBarelyInMultiple(helper, TALISMAN_PLAYER_SPAWN, 100);
-        helper.assertEntitiesPresent(EntityType.WANDERING_TRADER, barelyIn, 11, 2);
+        helper.assertEntitiesPresent(EntityTypes.WANDERING_TRADER, barelyIn, 11, 2);
         helper.succeed();
     }
 
@@ -96,8 +96,8 @@ public class CommonGameTests {
         WanderingTrader trader = trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
         tryToSpawnLlamaFor(helper, trader);
         tryToSpawnLlamaFor(helper, trader);
-        helper.assertEntitiesPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
-        helper.assertEntitiesPresent(EntityType.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.assertEntitiesPresent(EntityTypes.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.assertEntitiesPresent(EntityTypes.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 1, 2);
         helper.succeed();
     }
 
@@ -107,19 +107,19 @@ public class CommonGameTests {
         tryToSpawnLlamaFor(helper, trader);
         tryToSpawnLlamaFor(helper, trader);
         tryToSpawnLlamaFor(helper, trader);
-        helper.assertEntitiesPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
-        helper.assertEntitiesPresent(EntityType.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 3, 0);
+        helper.assertEntitiesPresent(EntityTypes.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN, 1, 2);
+        helper.assertEntitiesPresent(EntityTypes.TRADER_LLAMA, TALISMAN_PLAYER_SPAWN, 3, 0);
         helper.succeed();
     }
 
     public static void spawnTraderRugOut(GameTestHelper helper) {
         BlockPos blockPos = trySpawnTraderBarelyOut(helper, RUG_POS);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, blockPos);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, blockPos);
     }
 
     public static void spawnTraderRugIn(GameTestHelper helper) {
         BlockPos blockPos = trySpawnTraderBarelyIn(helper, RUG_POS);
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER, blockPos);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER, blockPos);
         helper.succeed();
     }
 
@@ -150,7 +150,7 @@ public class CommonGameTests {
 
     public static WanderingTrader trySpawnTrader(GameTestHelper helper, BlockPos pos, boolean absolute) {
         ServerLevel level = helper.getLevel();
-        WanderingTrader trader = EntityType.WANDERING_TRADER.spawn(level, null, null,
+        WanderingTrader trader = EntityTypes.WANDERING_TRADER.spawn(level, null, null,
                 absolute ? helper.absolutePos(pos) : pos, EntitySpawnReason.EVENT, true, false
         );
         if (trader != null) {
@@ -199,7 +199,7 @@ public class CommonGameTests {
 
     public static void tryToSpawnLlamaFor(GameTestHelper helper, WanderingTrader trader) {
         ServerLevel serverLevel = helper.getLevel();
-        TraderLlama traderllama = EntityType.TRADER_LLAMA.spawn(serverLevel, trader.blockPosition(), EntitySpawnReason.EVENT);
+        TraderLlama traderllama = EntityTypes.TRADER_LLAMA.spawn(serverLevel, trader.blockPosition(), EntitySpawnReason.EVENT);
         assert traderllama != null;
         traderllama.removeFreeWill();
     }

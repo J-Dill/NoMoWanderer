@@ -2,7 +2,7 @@ package nomowanderer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import nomowanderer.items.AntiSolicitorTalismanItem;
@@ -16,39 +16,39 @@ public class NeoForgeGameTests extends CommonGameTests {
     public static void spawnTraderCurioIn(GameTestHelper helper) {
         spawnPlayerWithTalismanCurio(helper, true);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER);
         helper.succeed();
     }
 
     public static void spawnTraderCurioInBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalismanCurio(helper, true);
         trySpawnTraderBarelyIn(helper, getFlipRelativePos(helper, player));
-        helper.assertEntityNotPresent(EntityType.WANDERING_TRADER);
+        helper.assertEntityNotPresent(EntityTypes.WANDERING_TRADER);
         helper.succeed();
     }
 
     public static void spawnTraderCurioInDisabled(GameTestHelper helper) {
         spawnPlayerWithTalismanCurio(helper, false);
         trySpawnTrader(helper, TALISMAN_PLAYER_SPAWN);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, TALISMAN_PLAYER_SPAWN);
     }
 
     public static void spawnTraderCurioOut(GameTestHelper helper) {
         spawnPlayerWithTalismanCurio(helper, true);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
     public static void spawnTraderCurioOutDisabled(GameTestHelper helper) {
         spawnPlayerWithTalismanCurio(helper, false);
         trySpawnTrader(helper, SIGN_RELATIVE_OUT);
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, SIGN_RELATIVE_OUT);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, SIGN_RELATIVE_OUT);
     }
 
     public static void spawnTraderCurioOutBarely(GameTestHelper helper) {
         Player player = spawnPlayerWithTalismanCurio(helper, true);
         BlockPos barelyOut = trySpawnTraderBarelyOut(helper, getFlipRelativePos(helper, player));
-        helper.succeedWhenEntityPresent(EntityType.WANDERING_TRADER, barelyOut);
+        helper.succeedWhenEntityPresent(EntityTypes.WANDERING_TRADER, barelyOut);
     }
 
     public static Player spawnPlayerWithTalismanCurio(GameTestHelper helper, boolean enabled) {
