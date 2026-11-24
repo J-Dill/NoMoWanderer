@@ -45,10 +45,8 @@ public class NoSolicitingSignBlockEntityRenderer implements BlockEntityRenderer<
     public static final ModelLayerLocation MODEL_LAYER_WALL = new ModelLayerLocation(
             Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "no_soliciting_sign_wall"), "main");
 
-    private static final SpriteId OVERLAY_SPRITE = new SpriteId(
-            Sheets.SIGN_SHEET,
-            Identifier.fromNamespaceAndPath(NoMoWandererConstants.MODID, "entity/signs/no_soliciting_sign_overlay")
-    );
+    private static final Identifier SIGN_EMERALD_TEXTURE = Identifier.fromNamespaceAndPath(
+            NoMoWandererConstants.MODID, "textures/block/no_soliciting_sign_overlay.png");
 
     private final Map<WoodType, Models> signModels;
     private final SpriteGetter sprites;
@@ -148,13 +146,11 @@ public class NoSolicitingSignBlockEntityRenderer implements BlockEntityRenderer<
                 model,
                 Unit.INSTANCE,
                 poseStack,
+                RenderTypes.entityCutout(SIGN_EMERALD_TEXTURE),
                 lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                -1,
-                OVERLAY_SPRITE,
-                this.sprites,
                 0,
-                crumblingOverlay
+                null
         );
         poseStack.popPose();
     }
