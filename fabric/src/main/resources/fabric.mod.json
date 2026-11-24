@@ -20,15 +20,12 @@
     ],
     "client": [
       "nomowanderer.NoMoWandererFabricClientMod"
-    ],
-    "fabric-gametest": [
-      "nomowanderer.CommonGameTests"
     ]
   },
   "depends": {
-    "fabricloader": ">=0.15.3",
+    "fabricloader": ">=0.18.4",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version}",
-    "java": ">=17"
+    "minecraft": "~${minecraft_version_major}",
+    "java": ">=25"
   }
 }

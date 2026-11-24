@@ -17,12 +17,12 @@ subprojects {
 
     processResources {
         var replaceProperties = [
-                minecraft_version: version_mc, minecraft_version_range: version_range_mc,
+                minecraft_version: version_mc, minecraft_version_major: version_mc_major, minecraft_version_range: version_range_mc,
                 mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
                 mod_authors: mod_authors, mod_description: mod_description, mod_issues: mod_issues, mod_url: mod_url,
                 neoforge_version: version_neoforge, neoforge_version_range: version_neoforge_range
         ]
-        filesMatching(['META-INF/mods.toml', 'META-INF/neoforge.mods.toml', 'pack.mcmeta', 'fabric.mod.json']) {
+        filesMatching(['META-INF/neoforge.mods.toml', 'pack.mcmeta', 'fabric.mod.json']) {
             expand replaceProperties
         }
         inputs.properties replaceProperties
@@ -68,9 +68,9 @@ subprojects {
 
     tasks.withType(Jar).configureEach {
         duplicatesStrategy = DuplicatesStrategy.INCLUDE
-        exclude('data/nomowanderer/structures/trader_platform.nbt')
-        exclude('data/nomowanderer/structures/trader_platform_rug.nbt')
-        exclude('data/nomowanderer/structures/trader_platform_talisman.nbt')
+        exclude('data/nomowanderer/structure/trader_platform.nbt')
+        exclude('data/nomowanderer/structure/trader_platform_rug.nbt')
+        exclude('data/nomowanderer/structure/trader_platform_talisman.nbt')
         exclude('test_world_template/**')
     }
 }
