@@ -1,6 +1,5 @@
 package nomowanderer.blocks;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -73,10 +72,5 @@ public class TraderRugBlock extends HorizontalDirectionalBlock implements Entity
 
     public boolean canSurvive(BlockState blockState, LevelReader reader, BlockPos blockPos) {
         return !reader.isEmptyBlock(blockPos.below());
-    }
-
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return null;
     }
 }

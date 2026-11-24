@@ -102,15 +102,14 @@ public class NoSolicitingSignBlockEntityRenderer implements BlockEntityRenderer<
                 RenderTypes.entityCutout(SIGN_EMERALD_TEXTURE),
                 lightCoords,
                 OverlayTexture.NO_OVERLAY,
-                0,
-                null
+                0
         );
         poseStack.popPose();
     }
 
     private void applySignTransform(PoseStack poseStack, boolean isStanding, float rotationDegrees) {
         poseStack.translate(0.5F, 0.5F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotationDegrees));
+        poseStack.rotateDegrees(Axis.YP, -rotationDegrees);
 
         if (!isStanding) {
             poseStack.translate(0.0F, -0.3125F, -0.4375F);
